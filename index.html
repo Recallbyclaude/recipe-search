@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Search — Paul's Kitchen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Bungee:wght@400;700&family=Helvetica+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,46 +13,47 @@
         }
 
         :root {
-            --bg-dark: #0a0a0a;
-            --bg-secondary: #1a1a1a;
-            --bg-tertiary: #252525;
-            --text-primary: #f5f5f5;
-            --text-secondary: #b0b0b0;
-            --accent-warm: #d4a574;
-            --accent-cold: #6b9bd1;
-            --border: #333333;
-            --highlight: #e8e8e8;
+            --black: #000000;
+            --white: #ffffff;
+            --text: #ffffff;
+            --border-color: #ffffff;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--black);
+            color: var(--text);
+            line-height: 1.5;
             overflow-x: hidden;
         }
 
         /* Header */
         header {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border-bottom: 1px solid var(--border);
-            padding: 2.5rem 2rem;
+            background-color: var(--black);
+            border-bottom: 1px solid var(--border-color);
+            padding: 3rem 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         header h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            letter-spacing: -0.5px;
+            font-family: 'Bungee', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+            text-transform: none;
+            line-height: 1;
         }
 
         header p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            color: var(--text);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 400;
         }
 
         /* Main Container */
@@ -65,119 +67,131 @@
         .controls {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 2rem;
             margin-bottom: 3rem;
         }
 
         .search-box {
             display: flex;
             align-items: center;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
             padding: 0.75rem 1.2rem;
             gap: 0.8rem;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .search-box:focus-within {
-            border-color: var(--accent-warm);
-            box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.1);
+            border-color: var(--border-color);
+            box-shadow: 0 0 0 1px var(--border-color);
         }
 
         .search-box input {
             flex: 1;
             background: none;
             border: none;
-            color: var(--text-primary);
-            font-size: 1rem;
+            color: var(--text);
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.85rem;
             outline: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .search-box input::placeholder {
-            color: var(--text-secondary);
+            color: var(--text);
+            opacity: 0.5;
         }
 
         .search-box svg {
-            width: 18px;
-            height: 18px;
-            stroke: var(--text-secondary);
+            width: 14px;
+            height: 14px;
+            stroke: var(--text);
         }
 
         /* Filter Buttons */
         .filter-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
         .filter-label {
-            font-size: 0.85rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text);
+            font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            font-weight: 600;
         }
 
         .filter-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.6rem;
+            gap: 0.5rem;
         }
 
         .filter-btn {
-            padding: 0.5rem 1rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            color: var(--text);
+            border-radius: 0;
             cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 400;
+            transition: all 0.15s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             white-space: nowrap;
         }
 
         .filter-btn:hover {
-            border-color: var(--accent-warm);
-            color: var(--text-primary);
+            background: var(--text);
+            color: var(--black);
         }
 
         .filter-btn.active {
-            background: var(--accent-warm);
-            color: var(--bg-dark);
-            border-color: var(--accent-warm);
+            background: var(--text);
+            color: var(--black);
+            border-color: var(--text);
         }
 
         /* Results Count */
         .results-header {
             margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .results-count {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            color: var(--text);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         /* Recipe Grid */
         .recipes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.8rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 3rem;
         }
 
         /* Recipe Card */
         .recipe-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -187,7 +201,7 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(8px);
             }
             to {
                 opacity: 1;
@@ -196,78 +210,89 @@
         }
 
         .recipe-card:hover {
-            border-color: var(--accent-warm);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(212, 165, 116, 0.15);
+            border-color: var(--border-color);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
         }
 
         .recipe-header {
-            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border);
+            background: var(--black);
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .recipe-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .recipe-meta {
             display: flex;
             gap: 1rem;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.65rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .recipe-meta span {
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 0.4rem;
         }
 
         .recipe-body {
-            padding: 1.5rem;
+            padding: 1.2rem;
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .recipe-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .tag {
-            background: var(--bg-tertiary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
+            background: var(--black);
+            padding: 0.2rem 0.6rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.6rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 400;
         }
 
         .tag.mood {
-            border-color: var(--accent-cold);
-            color: var(--accent-cold);
+            border-color: var(--border-color);
         }
 
         .tag.cuisine {
-            border-color: var(--accent-warm);
-            color: var(--accent-warm);
+            border-color: var(--border-color);
         }
 
         .ingredients-preview {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text);
+            line-height: 1.4;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .ingredients-preview strong {
-            color: var(--text-primary);
+            color: var(--text);
+            font-weight: 700;
         }
 
         /* Modal */
@@ -278,28 +303,29 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 1000;
             padding: 2rem;
             overflow-y: auto;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.2s ease;
         }
 
         .modal.active {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
+            padding-top: 4rem;
         }
 
         .modal-content {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            max-width: 700px;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            max-width: 600px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
-            padding: 2.5rem;
+            padding: 2rem;
             position: relative;
             animation: slideUp 0.3s ease;
         }
@@ -319,57 +345,66 @@
             position: absolute;
             top: 1.5rem;
             right: 1.5rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            width: 36px;
-            height: 36px;
-            border-radius: 6px;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            width: 28px;
+            height: 28px;
+            border-radius: 0;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-secondary);
-            transition: all 0.2s ease;
+            color: var(--text);
+            transition: all 0.15s ease;
+            font-size: 1.2rem;
+            font-family: 'Helvetica Neue', sans-serif;
         }
 
         .modal-close:hover {
-            border-color: var(--accent-warm);
-            color: var(--accent-warm);
+            background: var(--text);
+            color: var(--black);
         }
 
         .modal h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
 
         .modal-tags {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.4rem;
             margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
 
         .modal-section {
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .modal-section h3 {
-            font-size: 0.95rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
+            letter-spacing: 2px;
+            color: var(--text);
             margin-bottom: 0.8rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .ingredients-list {
             list-style: none;
-            color: var(--text-secondary);
+            color: var(--text);
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8rem;
         }
 
         .ingredients-list li {
             padding: 0.4rem 0;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .ingredients-list li:last-child {
@@ -379,15 +414,17 @@
         .instructions-list {
             counter-reset: step-counter;
             list-style: none;
+            font-family: 'Helvetica Neue', sans-serif;
         }
 
         .instructions-list li {
             counter-increment: step-counter;
-            margin-bottom: 1rem;
-            padding-left: 2rem;
+            margin-bottom: 0.8rem;
+            padding-left: 1.8rem;
             position: relative;
-            color: var(--text-secondary);
-            line-height: 1.8;
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 0.8rem;
         }
 
         .instructions-list li::before {
@@ -395,29 +432,215 @@
             position: absolute;
             left: 0;
             top: 0;
-            background: var(--accent-warm);
-            color: var(--bg-dark);
-            width: 1.5rem;
-            height: 1.5rem;
-            border-radius: 50%;
+            background: var(--text);
+            color: var(--black);
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-weight: 700;
+            font-size: 0.7rem;
+            border: 1px solid var(--text);
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-secondary);
+        .add-recipe-btn {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.4rem 0.8rem;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-weight: 400;
+        }
+
+        .add-recipe-btn:hover {
+            background: var(--text);
+            color: var(--black);
+        }
+
+        /* Form Modal */
+        .form-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1001;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .form-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 2rem;
+        }
+
+        .form-content {
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            max-width: 600px;
+            width: 100%;
+            padding: 2rem;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        .form-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            width: 28px;
+            height: 28px;
+            border-radius: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transition: all 0.15s ease;
+            font-size: 1.2rem;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .form-close:hover {
+            background: var(--text);
+            color: var(--black);
+        }
+
+        .form-content h2 {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            padding: 0.6rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text);
+            transition: all 0.15s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            box-shadow: 0 0 0 1px var(--border-color);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text);
+            opacity: 0.5;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .form-btn {
+            flex: 1;
+            padding: 0.6rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-weight: 700;
+        }
+
+        .form-btn.submit {
+            background: var(--text);
+            color: var(--black);
+            border-color: var(--text);
+        }
+
+        .form-btn.submit:hover {
+            background: var(--black);
+            color: var(--text);
+        }
+
+        .form-btn.cancel {
+            background: var(--black);
+            color: var(--text);
+            border-color: var(--border-color);
+        }
+
+        .form-btn.cancel:hover {
+            background: var(--text);
+            color: var(--black);
         }
 
         .empty-state h3 {
-            font-size: 1.3rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 1rem;
             margin-bottom: 0.5rem;
-            color: var(--text-primary);
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Responsive */
@@ -431,19 +654,20 @@
             }
 
             header h1 {
-                font-size: 1.4rem;
+                font-size: 1.8rem;
             }
 
             .modal-content {
                 padding: 1.5rem;
+                border-radius: 0;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>🍳 Recipe Search</h1>
-        <p>Find the perfect recipe by mood, cuisine, or ingredients</p>
+        <h1>Recall Recipes</h1>
+        <p>SEARCH BY MOOD, CUISINE, OR INGREDIENTS</p>
     </header>
 
     <div class="container">
@@ -474,6 +698,7 @@
 
         <div class="results-header">
             <span class="results-count">Showing <strong id="resultCount">0</strong> recipes</span>
+            <button id="addRecipeBtn" class="add-recipe-btn">+ ADD RECIPE</button>
         </div>
 
         <div class="recipes-grid" id="recipesGrid"></div>
@@ -481,6 +706,61 @@
         <div class="empty-state" id="emptyState" style="display: none;">
             <h3>No recipes found</h3>
             <p>Try adjusting your search or filters</p>
+        </div>
+    </div>
+
+    <!-- Add Recipe Modal -->
+    <div class="form-modal" id="addRecipeModal">
+        <div class="form-content">
+            <button class="form-close" onclick="closeAddRecipeForm()">&times;</button>
+            <h2>Add New Recipe</h2>
+            <form id="recipeForm">
+                <div class="form-group">
+                    <label>Recipe Title</label>
+                    <input type="text" id="formTitle" placeholder="e.g., Tempura Udon" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Servings</label>
+                        <input type="text" id="formServings" placeholder="e.g., 4" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="text" id="formTime" placeholder="e.g., 45 mins" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Moods (comma-separated)</label>
+                    <input type="text" id="formMood" placeholder="e.g., comfort, quick, elegant" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Cuisine (comma-separated)</label>
+                    <input type="text" id="formCuisine" placeholder="e.g., Japanese, Italian" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Dietary/Style (comma-separated)</label>
+                    <input type="text" id="formDietary" placeholder="e.g., vegan, seafood">
+                </div>
+
+                <div class="form-group">
+                    <label>Ingredients (comma-separated)</label>
+                    <textarea id="formIngredients" placeholder="e.g., olive oil, garlic, tomatoes..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Instructions (one per line)</label>
+                    <textarea id="formInstructions" placeholder="1. Step one&#10;2. Step two..." required></textarea>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" class="form-btn cancel" onclick="closeAddRecipeForm()">Cancel</button>
+                    <button type="submit" class="form-btn submit">Add Recipe</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1424,6 +1704,52 @@
         document.getElementById('searchInput').addEventListener('input', (e) => {
             searchTerm = e.target.value.toLowerCase();
             updateDisplay();
+        });
+
+        // Add recipe button
+        document.getElementById('addRecipeBtn').addEventListener('click', () => {
+            document.getElementById('addRecipeModal').classList.add('active');
+        });
+
+        function closeAddRecipeForm() {
+            document.getElementById('addRecipeModal').classList.remove('active');
+            document.getElementById('recipeForm').reset();
+        }
+
+        // Handle recipe form submission
+        document.getElementById('recipeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const newRecipe = {
+                id: recipes.length + 1,
+                title: document.getElementById('formTitle').value,
+                mood: document.getElementById('formMood').value.split(',').map(m => m.trim()),
+                cuisine: document.getElementById('formCuisine').value.split(',').map(c => c.trim()),
+                dietary: document.getElementById('formDietary').value.split(',').map(d => d.trim()).filter(d => d),
+                ingredients: document.getElementById('formIngredients').value,
+                servings: document.getElementById('formServings').value,
+                time: document.getElementById('formTime').value,
+                instructions: document.getElementById('formInstructions').value.split('\n').map(i => i.trim()).filter(i => i)
+            };
+
+            recipes.push(newRecipe);
+
+            // Update filter options
+            if (newRecipe.mood) newRecipe.mood.forEach(m => moods.add(m));
+            if (newRecipe.cuisine) newRecipe.cuisine.forEach(c => cuisines.add(c));
+            if (newRecipe.dietary) newRecipe.dietary.forEach(d => { if (d) dietaries.add(d); });
+
+            // Re-render filters and recipes
+            document.getElementById('moodFilters').innerHTML = '';
+            document.getElementById('cuisineFilters').innerHTML = '';
+            document.getElementById('dietaryFilters').innerHTML = '';
+            renderFilters();
+            updateDisplay();
+
+            closeAddRecipeForm();
+
+            // Visual feedback
+            alert('Recipe added! 🎉');
         });
 
         // Close modal on outside click
