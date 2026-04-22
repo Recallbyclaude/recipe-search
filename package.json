@@ -1,0 +1,10 @@
+{
+  "name": "recipe-search",
+  "version": "1.0.0",
+  "description": "Interactive recipe search by mood, cuisine, and ingredients",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "start": "echo 'Static site'"
+  }
+}
