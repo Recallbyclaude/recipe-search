@@ -201,94 +201,133 @@ nav {
   padding-bottom: 0.9rem;
 }
 
-/* ── RECIPE GRID ── */
+/* ── RECIPE LIST (title-led) ── */
 .recipe-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border);
-  padding: 1px 0 4rem;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3.5rem;
+  padding: 0.2rem 0 4rem;
 }
 
 .recipe-card {
-  background: var(--bg);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  padding: 1.3rem 0 1.35rem;
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  transition: box-shadow 0.15s;
-  overflow: hidden;
 }
 
-.recipe-card:hover { background: #EFEFEF; }
-
-.recipe-card-img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  background: var(--sage-lt);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
+.recipe-card-num {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--muted);
+  min-width: 1.7rem;
+  padding-top: 0.42rem;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
 }
 
-.recipe-card-img img { width:100%; height:100%; object-fit:cover; }
-
-.recipe-card-img-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.55rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #BBBBBB;
-  font-weight: 400;
-}
-
-.recipe-card-body {
-  padding: 1rem 1.2rem 1.2rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+.recipe-card-body { flex: 1; min-width: 0; }
 
 .recipe-card-name {
-  font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 1rem;
-  font-weight: 300;
-  letter-spacing: 0.3px;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-  flex: 1;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+}
+
+.recipe-card:hover .recipe-card-name {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
 }
 
 .recipe-card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-bottom: 0.5rem;
-}
-
-.recipe-tag {
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #fff;
-  background: var(--sage);
-  padding: 0.15rem 0.5rem;
-  border-radius: 2px;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--sage);
+  letter-spacing: 0.3px;
+  margin-bottom: 0.2rem;
 }
 
 .recipe-card-meta {
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  font-size: 0.74rem;
+  font-weight: 300;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+}
+
+.recipe-card-thumb {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--sage-lt);
+  margin-top: 0.25rem;
+}
+
+.recipe-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ── FEATURED (weather) ── */
+.featured {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2.4rem 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.featured-body { flex: 1; min-width: 0; }
+.featured-context {
+  font-size: 0.68rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--muted);
+  margin-bottom: 0.9rem;
 }
+.featured-context .wx { color: var(--sage); }
+.featured-title {
+  font-size: 3.3rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  cursor: pointer;
+}
+.featured-title:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 8px; }
+.featured-sub { margin-top: 0.8rem; font-size: 0.85rem; font-weight: 300; color: var(--muted); }
+.featured-next {
+  margin-top: 1.1rem;
+  background: none; border: none; padding: 0;
+  font-family: inherit; font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--sage); cursor: pointer;
+}
+.featured-next:hover { text-decoration: underline; text-underline-offset: 4px; }
+.featured-thumb { width: 130px; height: 130px; flex-shrink: 0; overflow: hidden; cursor: pointer; }
+.featured-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* modal photo + extras */
+.modal-photo {
+  float: right;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin: 1.4rem 0 1rem 1.5rem;
+}
+.modal-source { font-size: 0.75rem; margin-top: 1.4rem; }
+.modal-source a { color: var(--sage); }
+.modal-actions { margin-top: 1.6rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+
+/* add-recipe extras */
+.autofill-row { display: flex; align-items: center; gap: 1rem; margin-top: 0.8rem; }
+.autofill-row .form-btn { flex: 0 0 auto; padding: 0.55rem 1.2rem; }
+.autofill-row .form-btn:disabled { opacity: 0.5; cursor: wait; }
+.autofill-status { font-size: 0.75rem; color: var(--muted); }
+.photo-pick { display: flex; align-items: center; gap: 0.6rem; }
+.photo-pick-thumb { width: 56px; height: 56px; overflow: hidden; background: var(--sage-lt); }
+.photo-pick-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ── CONTRIBUTOR ROWS ── */
 .contributor-row {
@@ -640,7 +679,12 @@ nav {
 .form-btn.cancel:hover { background: var(--text); color: #fff; border-color: var(--text); }
 
 @media (max-width: 900px) {
-  .recipe-grid { grid-template-columns: repeat(2, 1fr); }
+  .recipe-grid { grid-template-columns: 1fr; }
+  .recipe-card-name { font-size: 1.25rem; }
+  .recipe-card-num { display: none; }
+  .featured-title { font-size: 2.2rem; }
+  .featured-thumb { width: 80px; height: 80px; }
+  .modal-photo { width: 110px; height: 110px; }
 }
 @media (max-width: 600px) {
   header h1 { font-size: 2.6rem; }
@@ -696,6 +740,9 @@ nav {
       <div class="pills" id="dietaryFilters"></div>
     </div>
   </div>
+
+  <!-- FEATURED: a recipe for today's weather -->
+  <div class="featured" id="featured" style="display:none"></div>
 
   <!-- RESULTS COUNT -->
   <div class="results-bar">
@@ -756,22 +803,18 @@ nav {
     <!-- STEP 1: Paste source -->
     <div id="addStep1">
       <div class="add-tabs">
-        <button class="add-tab active" onclick="setAddMode('link',this)">🔗 Paste Link</button>
-        <button class="add-tab" onclick="setAddMode('text',this)">📝 Paste Text</button>
-        <button class="add-tab" onclick="setAddMode('photo',this)">📷 Add Photo</button>
+        <button type="button" class="add-tab active" onclick="setAddMode('link',this)">Paste Link</button>
+        <button type="button" class="add-tab" onclick="setAddMode('text',this)">Paste Text</button>
       </div>
       <div id="addInputLink">
-        <textarea class="add-paste-area" id="formSourceLink" placeholder="Paste a recipe URL here…&#10;e.g. https://www.seriouseats.com/…" rows="3"></textarea>
+        <textarea class="add-paste-area" id="formSourceLink" placeholder="Paste a recipe URL here…&#10;e.g. https://www.seriouseats.com/…" rows="2"></textarea>
       </div>
       <div id="addInputText" style="display:none">
-        <textarea class="add-paste-area" id="formSourceText" placeholder="Paste the full recipe text here — ingredients, steps, whatever you have. You can tidy it up after." rows="6"></textarea>
+        <textarea class="add-paste-area" id="formSourceText" placeholder="Paste the full recipe text here — ingredients, steps, whatever you have." rows="6"></textarea>
       </div>
-      <div id="addInputPhoto" style="display:none">
-        <div style="border:1.5px dashed #ccc;padding:1.5rem;text-align:center;background:#f9fdf9;cursor:pointer;" onclick="document.getElementById('formPhotoFile').click()">
-          <div style="font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Click to choose photo</div>
-          <div id="photoLabel" style="font-size:0.75rem;color:#bbb;">No photo selected</div>
-          <input type="file" id="formPhotoFile" accept="image/*" style="display:none" onchange="handlePhotoSelect(this)">
-        </div>
+      <div class="autofill-row">
+        <button type="button" class="form-btn submit" id="autofillBtn" onclick="autofill()">Auto-fill</button>
+        <span class="autofill-status" id="autofillStatus">Fills in the form below. Or just type it in yourself.</span>
       </div>
     </div>
 
@@ -786,7 +829,7 @@ nav {
           </div>
           <div class="form-group">
             <label>Contributor</label>
-            <select id="formContributor" style="width:100%;background:#fff;border:1px solid #ddd;padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;color:#000;outline:none;"></select>
+            <select id="formContributor" style="width:100%;background:var(--bg);border:1px solid #E0E0E0;padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;color:var(--text);outline:none;"></select>
           </div>
         </div>
         <div class="form-row">
@@ -817,6 +860,15 @@ nav {
           <div class="form-group">
             <label>Servings</label>
             <input type="text" id="formServings" placeholder="e.g., 4">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Photo (optional)</label>
+          <div class="photo-pick">
+            <div class="photo-pick-thumb" id="photoPreview" style="display:none"></div>
+            <button type="button" class="c-btn" onclick="document.getElementById('formPhotoFile').click()">Choose photo</button>
+            <button type="button" class="c-btn" id="photoClear" onclick="clearPhoto()" style="display:none">Remove</button>
+            <input type="file" id="formPhotoFile" accept="image/*" style="display:none" onchange="handlePhotoSelect(this)">
           </div>
         </div>
         <div class="form-group">
@@ -884,6 +936,24 @@ const recipes = [
 // ── CONTRIBUTORS ────────────────────────────────────────────────────
 let contributors = ["Paul Barbera","Queenie Chan","Chris Tag","Jenny NG","Sam Surkosky"];
 
+// ── SAVED IN THIS BROWSER (localStorage) ─────────────────────────────
+const LS_RECIPES  = 'recall.userRecipes.v1';
+const LS_CONTRIBS = 'recall.contributors.v1';
+function lsGet(k, fallback) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { console.warn('Could not save', e); return false; } }
+function saveUserRecipes() { return lsSet(LS_RECIPES, recipes.filter(r => r.userAdded)); }
+function saveContributors() { lsSet(LS_CONTRIBS, contributors); }
+(function loadSaved() {
+  const saved = lsGet(LS_RECIPES, []);
+  if (Array.isArray(saved)) saved.forEach(r => {
+    if (r && r.title && !recipes.some(x => x.id === r.id)) recipes.push(Object.assign({}, r, { userAdded: true }));
+  });
+  const c = lsGet(LS_CONTRIBS, null);
+  if (Array.isArray(c) && c.length) contributors = c;
+})();
+function nextId() { return recipes.reduce((m, r) => Math.max(m, r.id || 0), 0) + 1; }
+function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
 // ── STATE ───────────────────────────────────────────────────────────
 const activeFilters = { contributor:[], from:[], cuisine:[], mood:[], dietary:[] };
 let searchTerm = '';
@@ -911,7 +981,7 @@ function allValues(field) {
 
 function filtered() {
   return recipes.filter(r => {
-    const sOk = !searchTerm || r.title.toLowerCase().includes(searchTerm) || r.ingredients.toLowerCase().includes(searchTerm);
+    const sOk = !searchTerm || r.title.toLowerCase().includes(searchTerm) || String(r.ingredients||'').toLowerCase().includes(searchTerm);
     const coOk = !activeFilters.contributor.length || activeFilters.contributor.includes(r.contributor);
     const fOk  = !activeFilters.from.length        || activeFilters.from.includes(r.from);
     const cOk  = !activeFilters.cuisine.length     || activeFilters.cuisine.some(c => (r.cuisine||[]).includes(c));
@@ -961,6 +1031,7 @@ function toggleFilter(field, val) {
 
 // ── RENDER ───────────────────────────────────────────────────────────
 function render() {
+  renderFeatured();
   const rows = filtered();
   const total = recipes.length;
   document.getElementById('resultsCount').textContent =
@@ -975,20 +1046,101 @@ function render() {
   document.getElementById('emptyState').style.display = 'none';
 
   const list = document.getElementById('recipeList');
-  list.innerHTML = rows.map(r => {
-    const tags = [...(r.mood||[]), ...(r.cuisine||[])].filter(Boolean).slice(0,3);
-    const imgHtml = r.photo
-      ? `<img src="${r.photo}" alt="${r.title}">`
-      : `<div class="recipe-card-img-placeholder">No image yet</div>`;
+  list.innerHTML = rows.map((r, i) => {
+    const tags = [...(r.cuisine||[]), ...(r.mood||[])].filter(Boolean).slice(0,4);
+    const meta = [r.time, r.servings ? `Serves ${r.servings}` : '', r.from ? `From ${r.from}` : ''].filter(Boolean);
+    const num  = String(i + 1).padStart(2, '0');
     return `<div class="recipe-card" onclick="openModal(${r.id})">
-      <div class="recipe-card-img">${imgHtml}</div>
+      <div class="recipe-card-num">${num}</div>
       <div class="recipe-card-body">
-        <div class="recipe-card-name">${r.title}</div>
-        <div class="recipe-card-tags">${tags.map(t=>`<span class="recipe-tag">${t}</span>`).join('')}</div>
-        <div class="recipe-card-meta">${[r.time, r.servings ? `Serves ${r.servings}` : ''].filter(Boolean).join(' · ')}</div>
+        <div class="recipe-card-name">${esc(r.title)}</div>
+        ${tags.length ? `<div class="recipe-card-tags">${tags.map(esc).join(' · ')}</div>` : ''}
+        ${meta.length ? `<div class="recipe-card-meta">${meta.map(esc).join(' · ')}</div>` : ''}
       </div>
+      ${r.photo ? `<div class="recipe-card-thumb"><img src="${esc(r.photo)}" alt="" loading="lazy"></div>` : ''}
     </div>`;
   }).join('');
+}
+
+// ── FEATURED: recipe for today's weather ─────────────────────────────
+const WEATHER_PICKS = {
+  warming: { label: 'Something warming', moods: ['warming', 'comfort', 'slow', 'healing'] },
+  fresh:   { label: 'Something fresh',   moods: ['fresh', 'light', 'summer'] },
+  easy:    { label: 'Something easy',    moods: ['quick', 'easy', 'seasonal', 'elegant'] }
+};
+let weatherNow = null;
+let featuredOffset = 0;
+
+function wxLabel(code) {
+  if (code === 0) return 'Clear';
+  if (code <= 2) return 'Partly cloudy';
+  if (code === 3) return 'Overcast';
+  if (code === 45 || code === 48) return 'Fog';
+  if (code >= 51 && code <= 57) return 'Drizzle';
+  if ((code >= 61 && code <= 67) || (code >= 80 && code <= 82)) return 'Rain';
+  if ((code >= 71 && code <= 77) || code === 85 || code === 86) return 'Snow';
+  if (code >= 95) return 'Storms';
+  return 'Today';
+}
+
+function weatherKind(w) {
+  if (!w) return 'easy';
+  const wet = w.code >= 51;
+  if (w.tempC >= 24) return 'fresh';
+  if (w.tempC < 13 || wet) return 'warming';
+  return 'easy';
+}
+
+function renderFeatured() {
+  const el = document.getElementById('featured');
+  const anyFilter = searchTerm || Object.values(activeFilters).some(a => a.length);
+  if (anyFilter || !recipes.length) { el.style.display = 'none'; return; }
+
+  const kind = weatherKind(weatherNow);
+  const want = WEATHER_PICKS[kind].moods;
+  let pool = recipes.filter(r => (r.mood || []).some(m => want.includes(m)));
+  if (!pool.length) pool = recipes.slice();
+  const d = new Date();
+  const seed = d.getFullYear() * 400 + d.getMonth() * 32 + d.getDate();
+  const r = pool[(seed + featuredOffset) % pool.length];
+  featuredRecipeId = r.id;
+
+  const ctx = [];
+  if (weatherNow) ctx.push(`<span class="wx">${esc(wxLabel(weatherNow.code))}, ${Math.round(weatherNow.temp)}° in ${esc(weatherNow.city)}</span>`);
+  ctx.push(esc(WEATHER_PICKS[kind].label));
+  if (r.time) ctx.push(esc(r.time));
+  if (r.servings) ctx.push('Serves ' + esc(r.servings));
+
+  el.innerHTML = `
+    <div class="featured-body">
+      <div class="featured-context">${ctx.join(' · ')}</div>
+      <div class="featured-title" onclick="openModal(${r.id})">${esc(r.title)}</div>
+      ${r.from ? `<div class="featured-sub">From ${esc(r.from)}</div>` : ''}
+      <button class="featured-next" onclick="nextFeatured()">Another idea →</button>
+    </div>
+    ${r.photo ? `<div class="featured-thumb" onclick="openModal(${r.id})"><img src="${esc(r.photo)}" alt=""></div>` : ''}`;
+  el.style.display = '';
+}
+
+function nextFeatured() { featuredOffset++; renderFeatured(); }
+
+async function loadWeather() {
+  try {
+    const r = await fetch('/api/weather');
+    if (!r.ok) throw new Error('no api');
+    const w = await r.json();
+    if (w.error || typeof w.tempC !== 'number') throw new Error('bad');
+    weatherNow = w;
+  } catch (e) {
+    // Fallback: ask Open-Meteo directly for New York City
+    try {
+      const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.006&current=temperature_2m,weather_code');
+      const j = await r.json();
+      const c = j.current.temperature_2m;
+      weatherNow = { city: 'New York City', tempC: c, temp: c * 9 / 5 + 32, unit: 'F', code: j.current.weather_code };
+    } catch (e2) { weatherNow = null; }
+  }
+  renderFeatured();
 }
 
 // ── MODAL ────────────────────────────────────────────────────────────
@@ -997,22 +1149,28 @@ function openModal(id) {
   if (!r) return;
   const cuisineStr = (r.cuisine||[]).filter(Boolean).join(' · ');
   const allTags = [...(r.mood||[]), ...(r.cuisine||[]), ...(r.dietary||[])].filter(Boolean);
+  const ingr = Array.isArray(r.ingredients) ? r.ingredients : String(r.ingredients||'').split(',');
+  const steps = Array.isArray(r.instructions) ? r.instructions : String(r.instructions||'').split('\n');
   document.getElementById('modalBody').innerHTML = `
-    ${cuisineStr ? `<div class="modal-cuisine">${cuisineStr}</div>` : ''}
-    <h2>${r.title}</h2>
+    ${r.photo ? `<img class="modal-photo" src="${esc(r.photo)}" alt="">` : ''}
+    ${cuisineStr ? `<div class="modal-cuisine">${esc(cuisineStr)}</div>` : ''}
+    <h2>${esc(r.title)}</h2>
     <div class="modal-meta">
-      <span>${r.time}</span>
-      <span>Serves ${r.servings}</span>
+      ${r.time ? `<span>${esc(r.time)}</span>` : ''}
+      ${r.servings ? `<span>Serves ${esc(r.servings)}</span>` : ''}
+      ${r.from ? `<span>From ${esc(r.from)}</span>` : ''}
     </div>
-    <div class="modal-pills">${allTags.map(t=>`<span class="modal-pill">${t}</span>`).join('')}</div>
-    <div class="modal-section">
+    <div class="modal-pills">${allTags.map(t=>`<span class="modal-pill">${esc(t)}</span>`).join('')}</div>
+    <div class="modal-section" style="clear:both">
       <h3>Ingredients</h3>
-      <ul class="ingredients-list">${r.ingredients.split(',').map(i=>`<li>${i.trim()}</li>`).join('')}</ul>
+      <ul class="ingredients-list">${ingr.map(i=>i.trim()).filter(Boolean).map(i=>`<li>${esc(i)}</li>`).join('')}</ul>
     </div>
     <div class="modal-section">
       <h3>Method</h3>
-      <ol class="instructions-list">${r.instructions.map(s=>`<li>${s}</li>`).join('')}</ol>
+      <ol class="instructions-list">${steps.map(x=>String(x).trim()).filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
     </div>
+    ${r.sourceLink ? `<div class="modal-source">Source: <a href="${esc(r.sourceLink)}" target="_blank" rel="noopener">${esc(r.sourceLink.replace(/^https?:\/\/(www\.)?/,'').split('/')[0])}</a></div>` : ''}
+    ${r.userAdded ? `<div class="modal-actions"><button class="c-btn del" onclick="deleteRecipe(${r.id})">Delete recipe</button></div>` : ''}
   `;
   document.getElementById('recipeModal').classList.add('active');
 }
@@ -1029,19 +1187,82 @@ function setAddMode(mode, btn) {
   addMode = mode;
   document.querySelectorAll('.add-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  document.getElementById('addInputLink').style.display  = mode === 'link'  ? '' : 'none';
-  document.getElementById('addInputText').style.display  = mode === 'text'  ? '' : 'none';
-  document.getElementById('addInputPhoto').style.display = mode === 'photo' ? '' : 'none';
+  document.getElementById('addInputLink').style.display = mode === 'link' ? '' : 'none';
+  document.getElementById('addInputText').style.display = mode === 'text' ? '' : 'none';
 }
 
+// ── PHOTO (shrunk to a small JPEG so it fits in browser storage) ──────
 let pendingPhoto = null;
 function handlePhotoSelect(input) {
   const file = input.files[0];
   if (!file) return;
-  document.getElementById('photoLabel').textContent = file.name;
   const reader = new FileReader();
-  reader.onload = e => { pendingPhoto = e.target.result; };
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const max = 480, k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      setPhoto(c.toDataURL('image/jpeg', 0.78));
+    };
+    img.onerror = () => alert("Couldn't read that image — try a JPG or PNG.");
+    img.src = e.target.result;
+  };
   reader.readAsDataURL(file);
+}
+function setPhoto(src) {
+  pendingPhoto = src || null;
+  const p = document.getElementById('photoPreview');
+  p.innerHTML = src ? `<img src="${esc(src)}" alt="">` : '';
+  p.style.display = src ? '' : 'none';
+  document.getElementById('photoClear').style.display = src ? '' : 'none';
+}
+function clearPhoto() { setPhoto(null); document.getElementById('formPhotoFile').value = ''; }
+
+// ── AUTO-FILL (calls /api/parse on Vercel) ────────────────────────────
+async function autofill() {
+  const btn = document.getElementById('autofillBtn');
+  const status = document.getElementById('autofillStatus');
+  const payload = { known: { cuisine: allValues('cuisine'), mood: allValues('mood'), dietary: allValues('dietary') } };
+  if (addMode === 'link') {
+    const url = document.getElementById('formSourceLink').value.trim();
+    if (!/^https?:\/\//i.test(url)) { status.textContent = 'Paste a full link starting with http.'; return; }
+    payload.url = url;
+  } else {
+    const text = document.getElementById('formSourceText').value.trim();
+    if (text.length < 20) { status.textContent = 'Paste the recipe text first.'; return; }
+    payload.text = text;
+  }
+  btn.disabled = true;
+  status.textContent = 'Reading recipe…';
+  try {
+    const res = await fetch('/api/parse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || ('Auto-fill failed (' + res.status + ')'));
+    fillForm(data.recipe || {});
+    status.textContent = data.note || 'Filled in — check it over, then save.';
+  } catch (err) {
+    status.textContent = err.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+function fillForm(r) {
+  const set = (id, v, sep) => {
+    if (v == null) return;
+    const val = Array.isArray(v) ? v.filter(Boolean).join(sep || ', ') : String(v);
+    if (val.trim()) document.getElementById(id).value = val;
+  };
+  set('formTitle', r.title);
+  set('formCuisine', r.cuisine);
+  set('formMood', r.mood);
+  set('formDietary', r.dietary);
+  set('formTime', r.time);
+  set('formServings', r.servings);
+  set('formIngredients', r.ingredients);
+  set('formInstructions', r.instructions, '\n');
+  if (r.photo && !pendingPhoto) setPhoto(r.photo);
 }
 
 // ── ADD RECIPE MODAL ──────────────────────────────────────────────────
@@ -1054,34 +1275,47 @@ function closeForm() {
   document.getElementById('recipeForm').reset();
   document.getElementById('formSourceLink').value = '';
   document.getElementById('formSourceText').value = '';
-  document.getElementById('photoLabel').textContent = 'No photo selected';
-  pendingPhoto = null;
+  document.getElementById('autofillStatus').textContent = 'Fills in the form below. Or just type it in yourself.';
+  clearPhoto();
 }
 
 document.getElementById('recipeForm').addEventListener('submit', e => {
   e.preventDefault();
+  const list = id => document.getElementById(id).value.split(',').map(s => s.trim()).filter(Boolean);
   const sourceLink = document.getElementById('formSourceLink').value.trim();
   const sourceText = document.getElementById('formSourceText').value.trim();
   recipes.push({
-    id:          recipes.length + 1,
-    title:       document.getElementById('formTitle').value,
-    contributor: document.getElementById('formContributor').value || 'Paul Barbera',
-    from:        document.getElementById('formFrom').value.trim(),
-    mood:        document.getElementById('formMood').value.split(',').map(s=>s.trim()).filter(Boolean),
-    cuisine:     document.getElementById('formCuisine').value.split(',').map(s=>s.trim()).filter(Boolean),
-    dietary:     document.getElementById('formDietary').value.split(',').map(s=>s.trim()).filter(Boolean),
-    ingredients: document.getElementById('formIngredients').value,
-    servings:    document.getElementById('formServings').value,
-    time:        document.getElementById('formTime').value,
-    instructions:document.getElementById('formInstructions').value.split('\n').map(s=>s.trim()).filter(Boolean),
-    sourceLink:  sourceLink || null,
-    sourceText:  sourceText || null,
-    photo:       pendingPhoto || null
+    id:           nextId(),
+    title:        document.getElementById('formTitle').value.trim(),
+    contributor:  document.getElementById('formContributor').value || 'Paul Barbera',
+    from:         document.getElementById('formFrom').value.trim(),
+    mood:         list('formMood'),
+    cuisine:      list('formCuisine'),
+    dietary:      list('formDietary'),
+    ingredients:  document.getElementById('formIngredients').value,
+    servings:     document.getElementById('formServings').value.trim(),
+    time:         document.getElementById('formTime').value.trim(),
+    instructions: document.getElementById('formInstructions').value.split('\n').map(s => s.trim()).filter(Boolean),
+    sourceLink:   /^https?:\/\//i.test(sourceLink) ? sourceLink : null,
+    sourceText:   sourceText || null,
+    photo:        pendingPhoto || null,
+    userAdded:    true
   });
+  if (!saveUserRecipes()) alert('Added for now, but your browser storage is full so it won\'t be kept after reload. Try removing the photo.');
   buildFilters();
   render();
   closeForm();
 });
+
+function deleteRecipe(id) {
+  const idx = recipes.findIndex(r => r.id === id && r.userAdded);
+  if (idx < 0 || !confirm(`Delete "${recipes[idx].title}"?`)) return;
+  recipes.splice(idx, 1);
+  saveUserRecipes();
+  closeModal();
+  buildFilters();
+  render();
+}
 
 // ── SEARCH ────────────────────────────────────────────────────────────
 document.getElementById('searchInput').addEventListener('input', e => {
@@ -1102,6 +1336,7 @@ document.getElementById('contributorForm').addEventListener('submit', e => {
   const name = document.getElementById('formContributorName').value.trim();
   if (name && !contributors.includes(name)) {
     contributors.push(name);
+    saveContributors();
     buildFilters();
     renderContributorGrid();
     populateContributorSelect();
@@ -1150,6 +1385,7 @@ function deleteContributor(idx) {
   const name = contributors[idx];
   if (!confirm(`Remove "${name}" as a contributor? Their recipes will stay but won't be linked to them.`)) return;
   contributors.splice(idx, 1);
+  saveContributors();
   buildFilters();
   renderContributorGrid();
   populateContributorSelect();
@@ -1207,6 +1443,7 @@ function resetToFront() {
 populateContributorSelect();
 buildFilters();
 render();
+loadWeather();
 </script>
 </body>
 </html>
