@@ -1,940 +1,1774 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recall Recipes — Paul's Kitchen</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --bg:       #F5F0E6;
-  --text:     #1E0E05;
-  --muted:    #7A6348;
-  --border:   #C8B69A;
-  --border-lt:#E0D5C2;
-  --accent:   #1E0E05;
-  --card-bg:  #F5F0E6;
-  --tag-bg:   #EDE6D6;
-}
-
-body {
-  font-family: 'Montserrat', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  overflow-x: hidden;
-}
-
-/* ── HEADER ── */
-header {
-  background: var(--bg);
-  border-bottom: 2px solid var(--text);
-  padding: 2.5rem 2.5rem 1.5rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-inner {
-  max-width: 1300px;
-  margin: 0 auto;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.header-title h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 3.6rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  line-height: 1;
-  color: var(--text);
-}
-
-.header-title p {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.62rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 0.4rem;
-  font-weight: 500;
-}
-
-.header-meta {
-  text-align: right;
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 500;
-  line-height: 1.8;
-}
-
-/* ── CONTROLS ── */
-.controls-wrap {
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  padding: 1.2rem 2.5rem;
-}
-
-.controls-inner {
-  max-width: 1300px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-.search-row {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  border: 1px solid var(--border);
-  padding: 0.55rem 1rem;
-  background: var(--bg);
-  max-width: 440px;
-}
-
-.search-row svg {
-  width: 13px;
-  height: 13px;
-  stroke: var(--muted);
-  flex-shrink: 0;
-}
-
-.search-row input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text);
-}
-
-.search-row input::placeholder { color: var(--muted); }
-
-.filter-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-}
-
-.filter-label {
-  font-size: 0.58rem;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 600;
-  white-space: nowrap;
-  flex-shrink: 0;
-  padding-right: 0.3rem;
-  border-right: 1px solid var(--border);
-  margin-right: 0.2rem;
-}
-
-.filter-btn {
-  padding: 0.28rem 0.65rem;
-  background: var(--tag-bg);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  border-radius: 2px;
-}
-
-.filter-btn:hover {
-  background: var(--text);
-  color: var(--bg);
-  border-color: var(--text);
-}
-
-.filter-btn.active {
-  background: var(--text);
-  color: var(--bg);
-  border-color: var(--text);
-}
-
-/* ── RESULTS BAR ── */
-.results-bar {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 1rem 2.5rem 0.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.results-count {
-  font-size: 0.62rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.results-count strong { color: var(--text); font-weight: 700; }
-
-.add-btn {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  padding: 0.38rem 0.9rem;
-  background: transparent;
-  border: 1px solid var(--text);
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.add-btn:hover { background: var(--text); color: var(--bg); }
-
-/* ── RECIPE LIST ── */
-.recipe-list {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 2.5rem 4rem;
-}
-
-.recipe-row {
-  display: grid;
-  grid-template-columns: 2.5rem 1fr auto;
-  gap: 1.5rem;
-  padding: 1.4rem 0;
-  border-bottom: 1px solid var(--border-lt);
-  cursor: pointer;
-  transition: background 0.15s ease;
-  align-items: start;
-}
-
-.recipe-row:hover {
-  background: rgba(30,14,5,0.03);
-  margin: 0 -1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.recipe-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  color: var(--border);
-  font-weight: 400;
-  padding-top: 0.1rem;
-  text-align: right;
-}
-
-.recipe-main {}
-
-.recipe-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
-}
-
-.recipe-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-bottom: 0.5rem;
-}
-
-.tag {
-  font-size: 0.55rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 2px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  background: var(--tag-bg);
-}
-
-.tag.mood { border-color: #B8A88A; }
-.tag.cuisine { border-color: var(--text); color: var(--text); background: transparent; }
-
-.recipe-ingredients {
-  font-size: 0.7rem;
-  color: var(--muted);
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.recipe-side {
-  text-align: right;
-  min-width: 120px;
-  padding-top: 0.2rem;
-}
-
-.recipe-cuisine-label {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.85rem;
-  font-style: italic;
-  color: var(--muted);
-  margin-bottom: 0.35rem;
-}
-
-.recipe-time {
-  font-size: 0.6rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.recipe-servings {
-  font-size: 0.58rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 0.2rem;
-}
-
-/* ── EMPTY STATE ── */
-.empty-state {
-  padding: 3rem 0;
-  text-align: center;
-  color: var(--muted);
-}
-
-.empty-state h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin-bottom: 0.5rem;
-}
-
-.empty-state p {
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* ── MODAL OVERLAY ── */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(30,14,5,0.55);
-  z-index: 1000;
-  overflow-y: auto;
-  padding: 2rem;
-}
-
-.modal.active {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 3.5rem;
-}
-
-.modal-box {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  max-width: 640px;
-  width: 100%;
-  max-height: 88vh;
-  overflow-y: auto;
-  padding: 2.5rem;
-  position: relative;
-  animation: slideUp 0.25s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(16px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-.modal-close {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  background: none;
-  border: 1px solid var(--border);
-  width: 28px; height: 28px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  color: var(--muted);
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.modal-close:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
-
-.modal-cuisine {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 0.9rem;
-  color: var(--muted);
-  margin-bottom: 0.4rem;
-  letter-spacing: 0.5px;
-}
-
-.modal h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.1rem;
-  font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 0.8rem;
-}
-
-.modal-meta {
-  display: flex;
-  gap: 1.5rem;
-  font-size: 0.62rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--muted);
-  margin-bottom: 1.2rem;
-  padding-bottom: 1.2rem;
-  border-bottom: 1px solid var(--border-lt);
-}
-
-.modal-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-bottom: 1.5rem;
-}
-
-.modal-section { margin-top: 1.5rem; }
-
-.modal-section h3 {
-  font-size: 0.6rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--muted);
-  margin-bottom: 0.9rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--border-lt);
-}
-
-.ingredients-list {
-  list-style: none;
-  font-size: 0.8rem;
-  color: var(--text);
-  line-height: 1.6;
-}
-
-.ingredients-list li {
-  padding: 0.35rem 0;
-  border-bottom: 1px solid var(--border-lt);
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-}
-
-.ingredients-list li::before {
-  content: '—';
-  color: var(--border);
-  font-size: 0.7rem;
-  flex-shrink: 0;
-}
-
-.instructions-list {
-  list-style: none;
-  counter-reset: step;
-}
-
-.instructions-list li {
-  counter-increment: step;
-  position: relative;
-  padding-left: 2rem;
-  margin-bottom: 0.9rem;
-  font-size: 0.8rem;
-  line-height: 1.65;
-  color: var(--text);
-}
-
-.instructions-list li::before {
-  content: counter(step);
-  position: absolute;
-  left: 0;
-  top: 0.05rem;
-  width: 1.3rem; height: 1.3rem;
-  background: var(--text);
-  color: var(--bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-/* ── FORM MODAL ── */
-.form-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(30,14,5,0.55);
-  z-index: 1001;
-  overflow-y: auto;
-  padding: 2rem;
-}
-
-.form-modal.active {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 2rem;
-}
-
-.form-box {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  max-width: 600px;
-  width: 100%;
-  padding: 2.5rem;
-  position: relative;
-  animation: slideUp 0.25s ease;
-}
-
-.form-close {
-  position: absolute;
-  top: 1.2rem; right: 1.2rem;
-  background: none;
-  border: 1px solid var(--border);
-  width: 28px; height: 28px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  color: var(--muted);
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
-
-.form-close:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
-
-.form-box h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-}
-
-.form-group { margin-bottom: 1.1rem; }
-
-.form-group label {
-  display: block;
-  font-size: 0.58rem;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--muted);
-  margin-bottom: 0.4rem;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  padding: 0.55rem 0.75rem;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.78rem;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.15s;
-}
-
-.form-group input:focus,
-.form-group textarea:focus { border-color: var(--text); }
-
-.form-group input::placeholder,
-.form-group textarea::placeholder { color: var(--border); }
-
-.form-group textarea { resize: vertical; min-height: 80px; }
-
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-.form-btns { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
-
-.form-btn {
-  flex: 1;
-  padding: 0.6rem;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.62rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 700;
-  border: 1px solid var(--border);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.form-btn.submit { background: var(--text); color: var(--bg); border-color: var(--text); }
-.form-btn.submit:hover { background: var(--bg); color: var(--text); }
-.form-btn.cancel { background: var(--bg); color: var(--muted); }
-.form-btn.cancel:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  header { padding: 1.5rem; }
-  .header-title h1 { font-size: 2.4rem; }
-  .header-meta { display: none; }
-  .controls-wrap { padding: 1rem 1.5rem; }
-  .results-bar, .recipe-list { padding-left: 1.5rem; padding-right: 1.5rem; }
-  .recipe-row { grid-template-columns: 2rem 1fr; }
-  .recipe-side { display: none; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.recipe-row { animation: fadeIn 0.3s ease both; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Search — Paul's Kitchen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Bungee:wght@400;700&family=Helvetica+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #ffffff;
+            --white: #000000;
+            --text: #000000;
+            --border-color: #000000;
+            --sage:      #6B8F71;
+            --sage-lt:   #E8F0E9;
+            --sage-dark: #4A6850;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--black);
+            color: var(--text);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--black);
+            border-bottom: 3px solid var(--sage);
+            padding: 3rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-family: 'Bungee', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+            text-transform: none;
+            line-height: 1;
+        }
+
+        header p {
+            font-family: 'Helvetica Neue', sans-serif;
+            color: var(--text);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Search & Filter Section */
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            padding: 0.75rem 1.2rem;
+            gap: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--border-color);
+            box-shadow: 0 0 0 1px var(--border-color);
+        }
+
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text);
+            opacity: 0.5;
+        }
+
+        .search-box svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--text);
+        }
+
+        /* Filter Buttons */
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .filter-label {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text);
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.4rem 0.8rem;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            color: var(--text);
+            border-radius: 0;
+            cursor: pointer;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 400;
+            transition: all 0.15s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            background: var(--sage);
+            color: #ffffff;
+            border-color: var(--sage);
+        }
+
+        .filter-btn.active {
+            background: var(--sage);
+            color: #ffffff;
+            border-color: var(--sage);
+        }
+
+        /* Results Count */
+        .results-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--sage);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .results-count {
+            font-family: 'Helvetica Neue', sans-serif;
+            color: var(--text);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Recipe Grid */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Recipe Card */
+        .recipe-card {
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .recipe-card:hover {
+            border-color: var(--sage);
+            box-shadow: 0 4px 12px rgba(107, 143, 113, 0.15);
+        }
+
+        .recipe-header {
+            background: var(--black);
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recipe-title {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 1rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.65rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .recipe-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .recipe-body {
+            padding: 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .recipe-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tag {
+            background: var(--black);
+            padding: 0.2rem 0.6rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.6rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 400;
+        }
+
+        .tag.mood {
+            border-color: var(--border-color);
+        }
+
+        .tag.cuisine {
+            border-color: var(--border-color);
+        }
+
+        .ingredients-preview {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text);
+            line-height: 1.4;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ingredients-preview strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 4rem;
+        }
+
+        .modal-content {
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            width: 28px;
+            height: 28px;
+            border-radius: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transition: all 0.15s ease;
+            font-size: 1.2rem;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .modal-close:hover {
+            background: var(--sage);
+            color: #ffffff;
+            border-color: var(--sage);
+        }
+
+        .modal h2 {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .modal-tags {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-section {
+            margin-top: 1.5rem;
+        }
+
+        .modal-section h3 {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+
+        .ingredients-list {
+            list-style: none;
+            color: var(--text);
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .ingredients-list li {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+
+        .instructions-list {
+            counter-reset: step-counter;
+            list-style: none;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .instructions-list li {
+            counter-increment: step-counter;
+            margin-bottom: 0.8rem;
+            padding-left: 1.8rem;
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 0.8rem;
+        }
+
+        .instructions-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--sage);
+            color: #ffffff;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            border: 1px solid var(--text);
+        }
+
+        .add-recipe-btn {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.4rem 0.8rem;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-weight: 400;
+        }
+
+        .add-recipe-btn:hover {
+            background: var(--sage);
+            color: #ffffff;
+            border-color: var(--sage);
+        }
+
+        /* Form Modal */
+        .form-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 1001;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .form-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 2rem;
+        }
+
+        .form-content {
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            max-width: 600px;
+            width: 100%;
+            padding: 2rem;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        .form-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            width: 28px;
+            height: 28px;
+            border-radius: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transition: all 0.15s ease;
+            font-size: 1.2rem;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .form-close:hover {
+            background: var(--text);
+            color: var(--black);
+        }
+
+        .form-content h2 {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: var(--black);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            padding: 0.6rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text);
+            transition: all 0.15s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            box-shadow: 0 0 0 1px var(--border-color);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text);
+            opacity: 0.5;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .form-btn {
+            flex: 1;
+            padding: 0.6rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-weight: 700;
+        }
+
+        .form-btn.submit {
+            background: var(--sage);
+            color: #ffffff;
+            border-color: var(--sage);
+        }
+
+        .form-btn.submit:hover {
+            background: var(--sage-dark);
+            color: #ffffff;
+            border-color: var(--sage-dark);
+        }
+
+        .form-btn.cancel {
+            background: var(--black);
+            color: var(--text);
+            border-color: var(--border-color);
+        }
+
+        .form-btn.cancel:hover {
+            background: var(--text);
+            color: var(--black);
+        }
+
+        .empty-state h3 {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+                border-radius: 0;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Recall Recipes</h1>
+        <p>SEARCH BY MOOD, CUISINE, OR INGREDIENTS</p>
+    </header>
 
-<!-- HEADER -->
-<header>
-  <div class="header-inner">
-    <div class="header-title">
-      <h1>Recall Recipes</h1>
-      <p>Search by mood, cuisine or ingredients</p>
-    </div>
-    <div class="header-meta" id="headerMeta">
-      Loading…
-    </div>
-  </div>
-</header>
-
-<!-- CONTROLS -->
-<div class="controls-wrap">
-  <div class="controls-inner">
-    <div class="search-row">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <input type="text" id="searchInput" placeholder="Search recipes, ingredients…">
-    </div>
-    <div class="filter-row">
-      <span class="filter-label">Mood</span>
-      <div id="moodFilters" style="display:contents"></div>
-    </div>
-    <div class="filter-row">
-      <span class="filter-label">Cuisine</span>
-      <div id="cuisineFilters" style="display:contents"></div>
-    </div>
-    <div class="filter-row">
-      <span class="filter-label">Dietary</span>
-      <div id="dietaryFilters" style="display:contents"></div>
-    </div>
-  </div>
-</div>
-
-<!-- RESULTS BAR -->
-<div class="results-bar">
-  <span class="results-count">Showing <strong id="resultCount">0</strong> recipes</span>
-  <button class="add-btn" id="addRecipeBtn">+ Add Recipe</button>
-</div>
-
-<!-- RECIPE LIST -->
-<div class="recipe-list" id="recipeList"></div>
-
-<div class="empty-state" id="emptyState" style="display:none">
-  <h3>No recipes found</h3>
-  <p>Try adjusting your search or filters</p>
-</div>
-
-<!-- RECIPE MODAL -->
-<div class="modal" id="recipeModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <div id="modalBody"></div>
-  </div>
-</div>
-
-<!-- ADD RECIPE MODAL -->
-<div class="form-modal" id="addRecipeModal">
-  <div class="form-box">
-    <button class="form-close" onclick="closeForm()">×</button>
-    <h2>Add New Recipe</h2>
-    <form id="recipeForm">
-      <div class="form-group">
-        <label>Recipe Title</label>
-        <input type="text" id="formTitle" placeholder="e.g., Tempura Udon" required>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Servings</label>
-          <input type="text" id="formServings" placeholder="e.g., 4" required>
+    <div class="container">
+        <div class="controls">
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search recipes, ingredients...">
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">Mood / Occasion</span>
+                <div class="filter-buttons" id="moodFilters"></div>
+            </div>
         </div>
-        <div class="form-group">
-          <label>Time</label>
-          <input type="text" id="formTime" placeholder="e.g., 45 mins" required>
+
+        <div class="controls">
+            <div class="filter-group">
+                <span class="filter-label">Cuisine / Type</span>
+                <div class="filter-buttons" id="cuisineFilters"></div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">Dietary / Style</span>
+                <div class="filter-buttons" id="dietaryFilters"></div>
+            </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Moods (comma-separated)</label>
-        <input type="text" id="formMood" placeholder="e.g., comfort, quick, elegant" required>
-      </div>
-      <div class="form-group">
-        <label>Cuisine (comma-separated)</label>
-        <input type="text" id="formCuisine" placeholder="e.g., Japanese, Italian" required>
-      </div>
-      <div class="form-group">
-        <label>Dietary / Style (comma-separated)</label>
-        <input type="text" id="formDietary" placeholder="e.g., vegan, seafood">
-      </div>
-      <div class="form-group">
-        <label>Ingredients (comma-separated)</label>
-        <textarea id="formIngredients" placeholder="e.g., olive oil, garlic, tomatoes…" required></textarea>
-      </div>
-      <div class="form-group">
-        <label>Instructions (one per line)</label>
-        <textarea id="formInstructions" placeholder="Step one&#10;Step two…" required></textarea>
-      </div>
-      <div class="form-btns">
-        <button type="button" class="form-btn cancel" onclick="closeForm()">Cancel</button>
-        <button type="submit" class="form-btn submit">Add Recipe</button>
-      </div>
-    </form>
-  </div>
-</div>
 
-<script>
-const recipes = [
-  { id:1,  title:"Tempura Udon",                          mood:["comfort","quick"],                    cuisine:["Japanese"],             dietary:["seafood"],               ingredients:"dashima, shiitake mushrooms, udon noodles, prawns, tempura batter, narutomaki, scallions",                                                                              servings:2,        time:"30 mins",    instructions:["Soak dashima and shiitake mushrooms in water overnight.","Add soy sauce, mirin, and sugar, then boil the broth.","Boil udon noodles separately, then add to broth with mushrooms and narutomaki.","Prepare tempura batter with cake flour, baking powder, salt, and ice water.","Deep fry shrimp for a couple minutes until they float.","Serve tempura with udon, topped with sliced scallions."] },
-  { id:2,  title:"Marmalade",                              mood:["preservation","special"],             cuisine:["British"],              dietary:["vegan"],                 ingredients:"Seville oranges (2.2kg), water (2L), sugar (1.5kg)",                                                                                                               servings:"multiple jars", time:"2+ hours", instructions:["Cut Seville oranges into pieces.","Soak in water overnight.","Add sugar.","Cook until setting point is reached."] },
-  { id:3,  title:"Kimchi Gyoza Nabe",                     mood:["spicy","warming","communal"],         cuisine:["Japanese-Korean fusion"],dietary:["vegetarian-adaptable"],  ingredients:"napa cabbage, gyoza, kimchi, shiitake mushrooms, tofu, gochujang, gochugaru, kombu dashi",                                                                          servings:2,        time:"40 mins",    instructions:["Prepare all vegetables and tofu, cutting as specified.","Heat kombu dashi with kimchi, gochujang, gochugaru, sugar, soy sauce, and miso.","Bring to a boil, then reduce to simmer.","Add vegetables in stages based on cooking time.","Add gyoza and tofu, simmer until gyoza float.","Top with sesame oil and serve family-style."] },
-  { id:4,  title:"Easy Chicken Ramen",                    mood:["comfort","warming"],                  cuisine:["Japanese"],             dietary:[""],                       ingredients:"chicken thigh, mirin, soy sauce, garlic, ginger, spring onions, shiitake mushrooms, ramen noodles, eggs",                                                              servings:4,        time:"45 mins",    instructions:["Marinate chicken in mirin, soy sauce, cayenne, garlic for at least 1 hour.","Roast chicken at 425°F for 15 minutes, then glaze and cook 10-15 minutes more.","Simmer stock with garlic, ginger, spring onions, chili, soy sauce, and mirin for 25 minutes.","Cook ramen noodles 1 minute less than package directions.","Strain stock, add mushrooms, simmer 5 minutes.","Make soft-boiled eggs (6-6.5 minutes in boiling water).","Assemble bowls with noodles, stock, chicken, eggs, greens, and toppings."] },
-  { id:5,  title:"Roasted Cauliflower with Spices",        mood:["easy","healthy","side"],              cuisine:["Indian-inspired"],       dietary:["vegan"],                 ingredients:"cauliflower florets, turmeric, cumin, coriander, cumin seeds, green chilli, shallots, garlic, olive oil",                                                          servings:4,        time:"45 mins",    instructions:["Preheat oven to 200°C.","Mix cauliflower with olive oil, spices, and aromatics.","Let stand 30 minutes.","Spread on large roasting pan in single layer.","Roast 30-45 minutes until golden.","Serve with chopped coriander and spring onions."] },
-  { id:6,  title:"Butternut Squash with Feta & Yogurt",   mood:["seasonal","side","vegetarian"],       cuisine:["Mediterranean"],        dietary:["vegetarian"],             ingredients:"butternut squash, olive oil, coriander seeds, smoked salt, red onion, feta cheese, pumpkin seeds, yogurt, fresh herbs",                                            servings:4,        time:"60 mins",    instructions:["Cut butternut in pieces, keeping skin.","Mix with olive oil, salt, pepper, coriander seeds, smoked salt.","Roast at high temperature until brown.","Fry red onion until golden, add to butternut.","Heat at lower temperature for 30+ minutes.","Make yogurt sauce: Greek yogurt, coriander, garlic, mint, onions, salt, pepper, olive oil.","Serve with feta, coriander, and grilled pumpkin seeds."] },
-  { id:7,  title:"Vietnamese Summer Rolls",               mood:["fresh","light","summer"],             cuisine:["Vietnamese"],           dietary:["seafood"],                ingredients:"rice paper, shrimp, rice vermicelli, fresh herbs, vegetables, peanut butter, hoisin, fish sauce, lime",                                                            servings:4,        time:"30 mins",    instructions:["Cook rice vermicelli, cool completely.","Make peanut sauce: peanut butter, hoisin, fish sauce, lime, sugar, garlic, chili.","Dip rice paper in warm water to soften.","Layer: lettuce, herbs, vegetables, shrimp, vermicelli.","Roll tightly, tucking in sides.","Serve with peanut sauce."] },
-  { id:8,  title:"Nuoc Mam Cham (Dipping Sauce)",         mood:["quick","condiment"],                  cuisine:["Vietnamese"],           dietary:["vegan-adaptable"],        ingredients:"water, sugar, lime or lemon juice, fish sauce, garlic, bird's eye chili",                                                                                          servings:"makes sauce", time:"10 mins", instructions:["Combine water and sugar in bowl, use warm water for easier dissolving.","Add lime or lemon juice in increments until it tastes like limeade.","Add fish sauce in increments until strong enough for unseasoned food.","Top with minced garlic and sliced chiles.","Serve with summer rolls or other dishes."] },
-  { id:9,  title:"Roasted Artichokes",                    mood:["elegant","side","appetizer"],         cuisine:["Mediterranean"],        dietary:["vegan"],                  ingredients:"globe artichokes, olive oil, dry white wine, oregano, red chile flakes, garlic, salt, pepper",                                                                    servings:6,        time:"75 mins",    instructions:["Preheat oven to 500°F.","Whisk together oil, wine, oregano, chile flakes, garlic, salt, pepper.","Cut 1 inch off top of each artichoke, gently pull leaves apart.","Stand upright in roasting pan, pour oil mixture over each one.","Cover with foil, bake 45 minutes.","Uncover, baste often, bake 30 minutes more until browned and tender.","Cool 10 minutes before serving with pan juices."] },
-  { id:10, title:"Shiitake & Cremini Mushroom Risotto",   mood:["elegant","comfort","vegetarian"],     cuisine:["Italian"],              dietary:["vegetarian"],             ingredients:"shiitake mushrooms, cremini mushrooms, Arborio rice, dry white wine, vegetable stock, thyme, butter, Parmesan, shallot",                                          servings:6,        time:"60 mins",    instructions:["Heat olive oil, cook shallot 30 seconds, add mushrooms until browned.","Stir in butter and rice until coated, cook until golden.","Pour in white wine, simmer until evaporated while stirring constantly.","Add hot stock 1/3 at a time, stirring constantly, about 7 minutes per addition.","Continue until rice is tender and creamy, about 15-20 minutes total.","Stir in butter, Parmesan, and parsley.","Serve immediately."] },
-  { id:11, title:"Middle Eastern Roast Chicken",          mood:["aromatic","dinner-party","special"],  cuisine:["Middle Eastern"],       dietary:[""],                       ingredients:"chicken marylands, onions, sweet potato, garlic bulb, Greek yogurt, ginger, cumin, coriander, harissa, couscous, apricots, pistachios, lemon",                       servings:4,        time:"60 mins",    instructions:["Preheat oven to 180°C.","Mix ginger, cumin, coriander, olive oil, salt, pepper.","Rub over chicken, onion, sweet potato, garlic.","Roast in lined tray for 40 minutes until golden and cooked.","Combine couscous ingredients: parsley, lemon zest/juice, soaked apricots, pistachios, olive oil.","Mix yogurt with harissa.","Serve chicken and sweet potato with couscous, yogurt sauce, and fresh coriander."] },
-  { id:12, title:"Japanese Green Bean Salad",             mood:["side","healthy","simple"],            cuisine:["Japanese"],             dietary:["vegan"],                  ingredients:"fresh green beans, sesame seeds, soy sauce, sugar, salt",                                                                                                          servings:4,        time:"20 mins",    instructions:["Dry roast sesame seeds in pan for couple minutes, jiggling gently.","Partially grind seeds in mortar and pestle.","Mix ground sesame with soy sauce, sugar, and salt to form paste.","Boil green beans until tender, drain.","Run under cold water to keep green, then toss while warm with dressing."] },
-  { id:13, title:"Curried Cauliflower Steaks & Tzatziki", mood:["healthy","fasting-friendly"],         cuisine:["Mediterranean"],        dietary:["vegetarian"],             ingredients:"cauliflower, olive oil, lemon juice, curry powder, salt, Greek yogurt, sour cream, cucumber, garlic, brown rice",                                                  servings:4,        time:"45 mins",    instructions:["Preheat oven to 450°F, line baking sheet with foil.","Prepare rice according to package directions.","Make tzatziki: whisk yogurt, sour cream, lemon, garlic, salt; fold in cucumber.","Whisk oil, lemon, curry powder, salt for brush mixture.","Cut cauliflower into 1-inch steaks and ¾-inch florets.","Brush with curry mixture, roast 30-35 minutes, turning halfway.","Serve rice topped with cauliflower steak, tzatziki, and cilantro."] },
-  { id:14, title:"Skinny Thai Green Curry",               mood:["spicy","light","quick"],              cuisine:["Thai"],                 dietary:["adaptable"],              ingredients:"chicken, broccoli, Thai curry paste, chicken stock, light coconut milk, snow peas, cornflour, brown rice, lime, coriander",                                          servings:2,        time:"20 mins",    instructions:["Heat pan, spray with oil, fry chicken 5-6 minutes until nearly cooked.","Add broccoli, fry 1 minute, then add curry paste.","Cook 1-2 minutes until fragrant, add stock.","Simmer 2-3 minutes, then add coconut milk and snow peas.","Heat through without boiling.","Optional: thicken with cornflour slurry.","Serve over rice with lime and fresh coriander."] },
-  { id:15, title:"Zucchini Slice",                        mood:["easy","side","quick"],                cuisine:["Australian"],           dietary:[""],                       ingredients:"zucchini, onion, bacon, cheddar cheese, self-rising flour, oil, eggs, salt, pepper",                                                                              servings:"4–6",    time:"45 mins",    instructions:["Grate unpeeled zucchini coarsely.","Finely chop onion and bacon.","Combine zucchini, onion, bacon, cheese, sifted flour, oil, lightly beaten eggs.","Season with salt and pepper.","Pour into well-greased lamington tin.","Bake in moderate oven 30-40 minutes until brown."] },
-  { id:16, title:"Ohitashi (Japanese Spinach Salad)",     mood:["light","simple","vegetarian"],        cuisine:["Japanese"],             dietary:["vegan"],                  ingredients:"spinach leaves, soy sauce, mirin, bonito flakes",                                                                                                                  servings:2,        time:"10 mins",    instructions:["Boil spinach 1 minute in saucepan.","Drain and refresh under cold water.","Squeeze to remove all water.","Place in serving bowl.","Whisk soy sauce and mirin, drizzle over spinach.","Top with bonito flakes and serve."] },
-  { id:17, title:"Tofu Salad with Sesame Dressing",       mood:["light","vegetarian","simple"],        cuisine:["Japanese"],             dietary:["vegan"],                  ingredients:"silken tofu, toasted sesame seeds or tahini, caster sugar, mirin, soy sauce, spring onions",                                                                      servings:2,        time:"10 mins",    instructions:["Cut silken tofu into cubes, place in serving bowl.","Pound sesame seeds to paste in mortar and pestle.","Add sugar, mirin, and soy sauce, stir to combine.","Drizzle dressing over tofu.","Top with finely chopped spring onion and serve."] },
-  { id:18, title:"Stir-Fried Asian Greens",               mood:["side","quick","healthy"],             cuisine:["Asian"],                dietary:["vegan"],                  ingredients:"bok choy, light oil, ginger, mirin, chicken stock, sugar, sesame oil",                                                                                          servings:2,        time:"10 mins",    instructions:["Heat wok over high heat, add oil.","Stir fry ginger until fragrant.","Add bok choy quarters, cook 1-2 minutes.","Add mirin, chicken stock, sugar, season with salt to taste.","Serve drizzled with sesame oil."] },
-  { id:19, title:"Mum's Coleslaw",                        mood:["side","quick","picnic"],              cuisine:[""],                     dietary:["vegan"],                  ingredients:"carrot, onion, red cabbage, olive oil, salt, pepper, lemon juice, mayo",                                                                                          servings:"varies", time:"15 mins",    instructions:["Finely shred carrot, onion, and red cabbage.","Dress with olive oil, salt, pepper, and lemon juice.","Add a little mayo to taste.","Toss and serve."] },
-  { id:20, title:"Gnocchi by Marie Barbera",              mood:["comfort","special"],                  cuisine:["Italian"],              dietary:["vegetarian"],             ingredients:"old red potatoes (2kg), eggs (2), flour, salt, pepper, olive oil",                                                                                                servings:4,        time:"90 mins",    instructions:["Boil or steam potatoes until tender.","Peel off skin while warm.","Mash potatoes.","Add salt to egg, mix with potato and olive oil.","Add flour gradually, kneading on board.","Keep adding flour until no longer sticky.","Roll into ropes and cut into pieces.","Boil until they float, then an additional minute."] },
-  { id:21, title:"Minestrone Soup",                       mood:["comfort","warming"],                  cuisine:["Italian"],              dietary:["adaptable"],              ingredients:"bacon, carrots, onion, chickpeas, peas, kidney beans, butter beans, garlic, stock, chilli",                                                                      servings:"6+",     time:"90 mins",    instructions:["Render bacon with onion in large pot.","Add remaining vegetables and beans.","Cover with stock.","Add chilli and herbs.","Simmer until vegetables are tender.","Season to taste and serve."] },
-  { id:22, title:"Mushroom Risotto",                      mood:["elegant","comfort"],                  cuisine:["Italian"],              dietary:["vegetarian"],             ingredients:"dried porcini mushrooms, wild mushrooms, Arborio rice, vermouth or white wine, onion, celery, chicken stock, butter, Parmesan, fresh herbs, lemon",                servings:6,        time:"60 mins",    instructions:["Warm stock over low heat.","Warm olive oil, cook softened mushrooms, remove and set aside.","Add oil, cook shallots 1 minute.","Add rice, coat with oil, about 2 minutes until pale golden.","Pour in wine, stir until fully absorbed.","Add stock ½ cup at a time, stirring continuously until absorbed.","Continue 15-20 minutes until rice is al dente.","Remove from heat, stir in mushrooms with liquid, butter, chives, Parmesan.","Season and serve."] },
-  { id:23, title:"French-Style Chicken Stew",             mood:["comfort","warming","classic"],        cuisine:["French"],               dietary:[""],                       ingredients:"chicken maryland, red onion, carrots, mushrooms, white wine, garlic, rosemary, potatoes, broccoli",                                                                servings:4,        time:"180 mins",   instructions:["Cook onions in butter/oil until soft.","Brown chicken once, remove.","Add garlic in large pieces.","Add white wine (about 1 cup).","Add carrots and mushrooms.","Cook chicken slow for 2-3 hours.","Add more carrots and broccoli toward the end."] },
-  { id:24, title:"Chicken Soup (Marie's version)",        mood:["healing","comfort","warming"],        cuisine:[""],                     dietary:[""],                       ingredients:"whole chicken or pieces, carrots, leek, celery, salt, pepper",                                                                                                    servings:"4–6",    time:"210 mins",   instructions:["Cook chicken pieces in water for 30 minutes, skim off scum.","Add vegetables whole in large pieces, salt, and pepper.","Cook for 3 hours.","Strain and serve, or serve with meat and vegetables."] },
-  { id:25, title:"Mussels Pasta (Marie Barbera 2016)",    mood:["elegant","special","dinner-party"],   cuisine:["Italian"],              dietary:["seafood"],                ingredients:"mussels (2kg), cream (300g), garlic (4), sugar, dried chilli, brandy, diced tomato/puree, basil, parsley, salt, pepper, olive oil",                              servings:8,        time:"60 mins",    instructions:["Heat olive oil with garlic, tomato, chilli, sugar.","Cook like normal sauce, 15-25 minutes.","Put in mussels with lid closed, simmer until open 10-13 minutes.","Add some mussel liquid to sauce (3-5 tbsp).","Add basil and parsley chopped at end.","Add cream at end.","Discard any mussels that don't open."] },
-  { id:26, title:"Pasta a Vongole",                       mood:["elegant","seafood","dinner-party"],   cuisine:["Italian"],              dietary:["seafood"],                ingredients:"small clams (1kg), fresh flat-leaf parsley, garlic (4 cloves), cherry tomatoes, white wine (250ml), dried spaghetti (400g), sea salt, black pepper, extra virgin olive oil, dried chillies", servings:4, time:"30 mins", instructions:["Boil water for pasta.","Sort clams, discard any not tightly closed.","Finely slice parsley stalks, roughly chop leaves.","Peel and chop garlic, quarter tomatoes.","Add pasta to boiling water with salt, cook until al dente.","Heat large pan, add oil, garlic, parsley stalks, salt, pepper, crumbled chilli, tomatoes.","When garlic starts to color, tip in clams, pour in wine, cover.","After 3-4 minutes, clams open; shuffle pan until all open.","Drain pasta, add to clams with parsley leaves and more olive oil.","Toss 1-2 minutes and serve immediately with bread."] },
-  { id:27, title:"Ragu by Zia Banca",                     mood:["comfort","special","warming"],        cuisine:["Italian"],              dietary:[""],                       ingredients:"red onion (1), mushrooms (oyster/brown/shiitake), carrots (1 pack), celery (small bunch), pork (½ pound), beef (½ pound), Italian crushed tomato (2 cans), bay leaves, salt, pepper, red wine (½ cup), olive oil", servings:"6+", time:"120 mins", instructions:["Add olive oil to large pot with onions until soft and caramelised.","Add pork and beef, stir 5-10 minutes until cooked through.","Add vegetables, stir until soft.","Add salt and pepper.","Add red wine, cook 5-10 minutes.","Add cans of tomatoes.","Stir, add bay leaves.","Simmer until thick and flavors meld."] },
-  { id:28, title:"Best-Ever Sausage Rolls",               mood:["quick","appetizer","party"],          cuisine:["Australian"],           dietary:[""],                       ingredients:"puff pastry (4 sheets), veal mince (500g), sausage mince (500g), brown onion, red onion, carrot, garlic (3 cloves), parsley, tomato sauce, Worcestershire sauce, egg, milk, salt, pepper", servings:"32 pieces", time:"45 mins", instructions:["Preheat oven to 220C/200C fan, line trays with baking paper.","Thaw pastry.","Combine milk and egg.","Mix veal, sausage, onions, carrot, garlic, parsley, sauces; season with salt and pepper.","Cut pastry sheet in half horizontally.","Spoon 1/8 mince mixture down long side.","Brush opposite edge with egg mixture.","Roll up seam side down, brush top with egg mixture.","Cut into 6 pieces.","Bake 25-30 minutes until golden."] },
-  { id:29, title:"Meat Pie (Kingston 2018)",              mood:["comfort","special","warming"],        cuisine:[""],                     dietary:[""],                       ingredients:"potato (1 medium), pork (½ pound), beef (½ pound), garlic, red onion (½ cup), water (¼ cup), mustard powder, dried thyme, ground cloves, salt, pepper, beer, cornflour, olive oil, pie pastry", servings:4, time:"120 mins", instructions:["Peel and cube potato.","Brown pork and beef in oil.","Add onion, garlic, herbs, spices.","Add beer, water, potato.","Simmer until meat is tender and potatoes cooked.","Thicken with cornflour slurry if needed.","Cool completely.","Fill pie shell with shortcrust, top with puff pastry.","Bake at 350F until golden."] },
-  { id:30, title:"Bone Broth",                            mood:["wellness","healing"],                 cuisine:[""],                     dietary:[""],                       ingredients:"bones (2 lbs), chicken feet, water (1 gallon), apple cider vinegar, onion, carrots, celery, parsley, salt, peppercorns, garlic (optional)",                         servings:"multiple uses", time:"1800 mins", instructions:["Roast bones in oven at 350F for 30 minutes if using raw beef bones.","Place bones in large stock pot.","Pour cool filtered water and vinegar, let sit 20-30 minutes.","Add rough chopped onion, carrots, celery, salt, pepper, herbs.","Bring to boil, reduce to simmer.","Remove impurities from surface for first 2 hours, checking every 20 minutes.","Simmer 30-50 hours, adding water if level drops.","During last 30 minutes, add garlic and parsley if using.","Cool slightly, strain through fine metal strainer.","Store in glass jar in fridge up to 5 days, or freeze."] },
-  { id:31, title:"Beef, Mushroom & Guinness Pie",         mood:["comfort","warming","special"],        cuisine:["Irish"],                dietary:[""],                       ingredients:"beef (500g), Guinness (1 tin), red onion (1 large), flour (2 tbsp), butter (2 tbsp), portabello mushrooms (3), carrot (1), rosemary, olive oil, salt, pepper, pastry", servings:6, time:"480 mins", instructions:["Season beef with salt and pepper, sear in olive oil until brown on all sides.","Add carrots and mushrooms, cook until soft.","In another pan, soften onions in butter, add rosemary toward end, mix in flour.","Toss all in slow cooker with Guinness, cook 6-8 hours until meat falls apart with fork.","Season to taste, pull apart meat slightly, reduce Guinness until thicker gravy.","If needed, make beurre manié (butter and flour paste) to thicken.","Cool completely.","Fill pie tins with shortcrust on bottom, top with puff pastry.","Seal and freeze.","To reheat, bake 45 minutes at high heat until sauce bubbles and pastry golden."] },
-  { id:32, title:"Whole Roasted Cauliflower Sesame Ginger", mood:["elegant","side","vegetarian"],      cuisine:["Asian-fusion"],         dietary:["vegan"],                  ingredients:"large cauliflower head, sesame oil, grape seed oil, brown miso paste, Chinese chili garlic sauce, ginger, green onions, sesame seeds, sea salt",                     servings:4,        time:"55 mins",    instructions:["Preheat oven to 425F.","Cut leaves and stem off cauliflower so it sits flat.","Mix sesame oil, grape seed oil, miso paste, chili garlic sauce, ginger.","Rub mixture all over cauliflower with hands.","Roast 44-50 minutes until soft and brown.","Remove from oven, season with sea salt.","Sprinkle green onions and toasted sesame seeds over before serving."] },
-  { id:33, title:"Caramelized Soy Chicken with Ramen",    mood:["comfort","warming","dinner"],         cuisine:["Japanese"],             dietary:[""],                       ingredients:"chicken thigh (4 pieces), mirin, soy sauce, cayenne pepper, garlic, chicken stock, ginger, spring onions, shiitake mushrooms, ramen noodles, eggs",                  servings:4,        time:"45 mins",    instructions:["Mix mirin, dark soy sauce, light soy sauce, cayenne, garlic.","Marinate chicken at least 1 hour.","Preheat oven to 425F, line baking sheet.","Place chicken skin side down, roast 15 minutes.","Mix brown sugar and dark soy sauce for glaze.","Flip chicken, spoon glaze, cook 10-15 minutes more.","Cool and slice.","In pot, heat stock, ginger, garlic, spring onions, chili, soy sauce, mirin.","Simmer 25 minutes on medium heat.","Boil ramen noodles separately, cook 1 minute less than package directions.","Strain stock, add mushrooms, simmer 5 minutes.","Soft boil eggs 6-6.5 minutes.","Assemble bowls with noodles, stock, chicken, eggs, greens, toppings."] },
-  { id:34, title:"Sri Lankan Chicken Curry",              mood:["spicy","aromatic","warming"],         cuisine:["Sri Lankan"],           dietary:[""],                       ingredients:"coconut oil, onion, garlic (4 cloves), ginger (1 inch), curry leaves or bay leaves, Sri Lankan curry powder, cinnamon stick, salt, cayenne pepper, paprika, chicken (2 lbs), serrano peppers, roma tomatoes (3), brown sugar, apple cider vinegar, coconut milk, water, soy sauce, miso", servings:6, time:"55 mins", instructions:["Heat coconut oil, add onion, garlic, ginger, cook until soft.","Add curry powder, chili powder, paprika, cinnamon, curry leaves, mix.","Cook few minutes until fragrant.","Add chicken, peppers, salt, tomatoes, sugar; cook 10 minutes on medium-high.","Add coconut milk, water, vinegar, bring to boil.","Lower heat, simmer covered 15-20 minutes.","Season with salt to taste.","Optional: uncover and simmer 10+ minutes more if you want thicker gravy.","Serve with rice or roti."] },
-  { id:35, title:"Lamb Stew",                             mood:["comfort","warming","hearty"],         cuisine:[""],                     dietary:[""],                       ingredients:"boneless leg of lamb (2 lbs), sea salt, black pepper, all-purpose flour, yellow onion, garlic (4 cloves), red wine (1.5 cups), baby Bella mushrooms (1 lb), beef broth (2 cups), Worcestershire sauce, bay leaves, fresh rosemary, red potatoes, carrots, celery, frozen sweet peas, parsley", servings:6, time:"480 mins", instructions:["Toss lamb meat with salt, pepper, flour.","Heat skillet, add oil, brown lamb on each side 3-5 minutes; work in batches.","Transfer all ingredients to slow cooker except peas.","Cover and cook LOW 7-8 hours or HIGH 3-4 hours.","Add peas during last hour of cooking.","Garnish with fresh parsley and rosemary, serve warm."] },
-  { id:36, title:"Moroccan Roasted Vegetable Couscous",   mood:["seasonal","aromatic","special"],      cuisine:["Moroccan"],             dietary:["vegan"],                  ingredients:"pumpkin, zucchini, corn, red onion, garlic, potato, eggplant, carrots, fennel, paprika, butter, parsley, lemon, honey, mint, couscous, cumin, Greek yogurt, chillies, olive oil, salt, pepper", servings:6, time:"90 mins", instructions:["Toss vegetables in olive oil, salt, pepper, paprika, cumin seeds, squeeze of lemon.","Spread over oven tray in single layer (don't overload).","Roast at 200C until cooked and slightly crispy, turning halfway.","Prepare couscous per packet, add chicken stock and olive oil to liquid.","When softened, mix through unsalted butter.","Make yogurt sauce: Greek yogurt, honey, cumin, lemon, finely chopped chilli, mint, parsley.","Cool vegetables slightly, mix gently into couscous.","Place on serving platter, spoon yogurt mixture over top."] },
-  { id:37, title:"Toor Dhal (Lentil Soup)",               mood:["comfort","wellness","warming"],       cuisine:["Indian"],               dietary:["vegan"],                  ingredients:"toor dhal or red lentils (1 cup), water (4+ cups), turmeric powder (½ tsp), onion (½), tomato (1+), mild chilli, carrot, oil (2 tbsp), cumin seeds (½ tsp), mustard seeds (½ tsp), fenugreek seed (½ tsp), curry leaves (10), garlic (4 pieces), coriander leaves, salt", servings:4, time:"75 mins", instructions:["Wash lentils.","Boil with water and turmeric until soft.","Add half onion chopped, tomato, chilli, carrot finely sliced.","In separate pan, heat oil, add onion and seeds (cumin, mustard, fenugreek).","Add curry leaves and chopped garlic, fry until brown.","Pour this tempering into soup.","Simmer 10+ minutes more.","Top with coriander leaves and serve with rice."] },
-  { id:38, title:"Broccoli Pasta (Marie Barbera)",        mood:["quick","simple","dinner"],            cuisine:["Italian"],              dietary:["vegetarian-adaptable"],   ingredients:"broccoli, garlic, anchovies, fresh chilli or chilli flakes, pasta (fusilli), salt, pepper, olive oil",                                                               servings:4,        time:"20 mins",    instructions:["Cook pasta according to package directions.","Heat olive oil in pan.","Add fresh chilli or flakes, garlic, and anchovies.","Fry until fragrant, mashing anchovies.","Add broccoli (raw or lightly cooked).","Toss with drained pasta.","Season with salt and pepper, serve immediately."] },
-  { id:39, title:"Miso-Marinated Salmon",                 mood:["elegant","healthy","quick"],          cuisine:["Japanese"],             dietary:["seafood"],                ingredients:"salmon fillets, white miso paste, mirin, soy sauce, ginger, sake (optional)",                                                                                      servings:2,        time:"180 mins",   instructions:["Mix miso paste, mirin, soy sauce, ginger, sake.","Coat salmon fillets in marinade.","Marinate 2-24 hours in refrigerator.","Preheat oven to 400F.","Place salmon on parchment paper or in baking dish.","Bake 12-15 minutes depending on thickness until cooked through.","Serve with steamed vegetables and rice."] },
-  { id:40, title:"Caramelized Soy Chicken (Ramen Bowl)",  mood:["comfort","warming","dinner"],         cuisine:["Japanese"],             dietary:[""],                       ingredients:"chicken thigh, mirin, soy sauce, cayenne, garlic, chicken stock, ginger, spring onions, shiitake mushrooms, ramen noodles, eggs",                                   servings:4,        time:"45 mins",    instructions:["Marinate chicken in mirin, soy sauce, cayenne, garlic for at least 1 hour.","Roast chicken at 425°F for 15 minutes, glaze, cook 10-15 minutes more.","Simmer stock with garlic, ginger, spring onions, chili, soy sauce, mirin for 25 minutes.","Cook ramen noodles separately, 1 minute less than directions.","Strain stock, add mushrooms, simmer 5 minutes.","Soft boil eggs 6-6.5 minutes.","Assemble bowls with noodles, stock, chicken, eggs, greens, and toppings."] }
-];
+        <div class="results-header">
+            <span class="results-count">Showing <strong id="resultCount">0</strong> recipes</span>
+            <button id="addRecipeBtn" class="add-recipe-btn">+ ADD RECIPE</button>
+        </div>
 
-// ── STATE ──────────────────────────────────────────────────
-const moods = new Set(), cuisines = new Set(), dietaries = new Set();
-recipes.forEach(r => {
-  r.mood.forEach(m => m && moods.add(m));
-  r.cuisine.forEach(c => c && cuisines.add(c));
-  r.dietary.forEach(d => d && dietaries.add(d));
-});
+        <div class="recipes-grid" id="recipesGrid"></div>
 
-let activeFilters = { mood:[], cuisine:[], dietary:[] };
-let searchTerm = '';
-
-// ── RENDER FILTERS ─────────────────────────────────────────
-function renderFilters() {
-  const render = (set, containerId, category) => {
-    const el = document.getElementById(containerId);
-    Array.from(set).sort().forEach(val => {
-      const btn = document.createElement('button');
-      btn.className = 'filter-btn';
-      btn.textContent = val;
-      btn.dataset.val = val;
-      btn.onclick = () => toggleFilter(category, val);
-      el.appendChild(btn);
-    });
-  };
-  render(moods,     'moodFilters',     'mood');
-  render(cuisines,  'cuisineFilters',  'cuisine');
-  render(dietaries, 'dietaryFilters',  'dietary');
-}
-
-function toggleFilter(cat, val) {
-  const idx = activeFilters[cat].indexOf(val);
-  if (idx > -1) activeFilters[cat].splice(idx, 1);
-  else activeFilters[cat].push(val);
-  document.querySelectorAll('.filter-btn').forEach(b => {
-    b.classList.toggle('active',
-      activeFilters.mood.includes(b.dataset.val) ||
-      activeFilters.cuisine.includes(b.dataset.val) ||
-      activeFilters.dietary.includes(b.dataset.val)
-    );
-  });
-  render();
-}
-
-// ── FILTER LOGIC ───────────────────────────────────────────
-function filtered() {
-  return recipes.filter(r => {
-    const mOk = !activeFilters.mood.length    || activeFilters.mood.some(m => r.mood.includes(m));
-    const cOk = !activeFilters.cuisine.length || activeFilters.cuisine.some(c => r.cuisine.includes(c));
-    const dOk = !activeFilters.dietary.length || activeFilters.dietary.some(d => r.dietary.includes(d));
-    const sOk = !searchTerm || r.title.toLowerCase().includes(searchTerm) || r.ingredients.toLowerCase().includes(searchTerm);
-    return mOk && cOk && dOk && sOk;
-  });
-}
-
-// ── RENDER LIST ────────────────────────────────────────────
-function render() {
-  const list  = document.getElementById('recipeList');
-  const empty = document.getElementById('emptyState');
-  const rows  = filtered();
-
-  document.getElementById('resultCount').textContent = rows.length;
-
-  // Update header meta
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
-  document.getElementById('headerMeta').innerHTML =
-    `Paul Barbera — Sydney, Australia<br>${dateStr}<br>${rows.length} recipes`;
-
-  if (!rows.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
-  empty.style.display = 'none';
-
-  list.innerHTML = rows.map((r, i) => {
-    const moodTags    = r.mood.filter(Boolean).map(m => `<span class="tag mood">${m}</span>`).join('');
-    const cuisineTags = r.cuisine.filter(Boolean).map(c => `<span class="tag cuisine">${c}</span>`).join('');
-    const ingPrev     = r.ingredients.split(',').slice(0,4).join(', ').trim();
-    const ingMore     = r.ingredients.split(',').length > 4 ? '…' : '';
-    const cuisineLabel = r.cuisine.filter(Boolean).join(', ') || '';
-    return `
-    <div class="recipe-row" style="animation-delay:${i*0.025}s" onclick="openModal(${r.id})">
-      <div class="recipe-num">${String(r.id).padStart(2,'0')}</div>
-      <div class="recipe-main">
-        <div class="recipe-title">${r.title}</div>
-        <div class="recipe-tags">${moodTags}${cuisineTags}</div>
-        <div class="recipe-ingredients">${ingPrev}${ingMore}</div>
-      </div>
-      <div class="recipe-side">
-        ${cuisineLabel ? `<div class="recipe-cuisine-label">${cuisineLabel}</div>` : ''}
-        <div class="recipe-time">${r.time}</div>
-        <div class="recipe-servings">Serves ${r.servings}</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ── MODAL ──────────────────────────────────────────────────
-function openModal(id) {
-  const r = recipes.find(x => x.id === id);
-  if (!r) return;
-  const allTags = [
-    ...r.mood.filter(Boolean).map(m => `<span class="tag mood">${m}</span>`),
-    ...r.cuisine.filter(Boolean).map(c => `<span class="tag cuisine">${c}</span>`),
-    ...r.dietary.filter(Boolean).map(d => `<span class="tag">${d}</span>`)
-  ].join('');
-  document.getElementById('modalBody').innerHTML = `
-    ${r.cuisine.filter(Boolean).length ? `<div class="modal-cuisine">${r.cuisine.filter(Boolean).join(' · ')}</div>` : ''}
-    <h2>${r.title}</h2>
-    <div class="modal-meta">
-      <span>${r.time}</span>
-      <span>Serves ${r.servings}</span>
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <h3>No recipes found</h3>
+            <p>Try adjusting your search or filters</p>
+        </div>
     </div>
-    <div class="modal-tags">${allTags}</div>
-    <div class="modal-section">
-      <h3>Ingredients</h3>
-      <ul class="ingredients-list">${r.ingredients.split(',').map(i => `<li>${i.trim()}</li>`).join('')}</ul>
+
+    <!-- Add Recipe Modal -->
+    <div class="form-modal" id="addRecipeModal">
+        <div class="form-content">
+            <button class="form-close" onclick="closeAddRecipeForm()">&times;</button>
+            <h2>Add New Recipe</h2>
+            <form id="recipeForm">
+                <div class="form-group">
+                    <label>Recipe Title</label>
+                    <input type="text" id="formTitle" placeholder="e.g., Tempura Udon" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Servings</label>
+                        <input type="text" id="formServings" placeholder="e.g., 4" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="text" id="formTime" placeholder="e.g., 45 mins" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Moods (comma-separated)</label>
+                    <input type="text" id="formMood" placeholder="e.g., comfort, quick, elegant" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Cuisine (comma-separated)</label>
+                    <input type="text" id="formCuisine" placeholder="e.g., Japanese, Italian" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Dietary/Style (comma-separated)</label>
+                    <input type="text" id="formDietary" placeholder="e.g., vegan, seafood">
+                </div>
+
+                <div class="form-group">
+                    <label>Ingredients (comma-separated)</label>
+                    <textarea id="formIngredients" placeholder="e.g., olive oil, garlic, tomatoes..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Instructions (one per line)</label>
+                    <textarea id="formInstructions" placeholder="1. Step one&#10;2. Step two..." required></textarea>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" class="form-btn cancel" onclick="closeAddRecipeForm()">Cancel</button>
+                    <button type="submit" class="form-btn submit">Add Recipe</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="modal-section">
-      <h3>Method</h3>
-      <ol class="instructions-list">${r.instructions.map(s => `<li>${s}</li>`).join('')}</ol>
+
+    <!-- Recipe Modal -->
+    <div class="modal" id="recipeModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
     </div>
-  `;
-  document.getElementById('recipeModal').classList.add('active');
-}
 
-function closeModal() { document.getElementById('recipeModal').classList.remove('active'); }
+    <script>
+        const recipes = [
+            {
+                id: 1,
+                title: "Tempura Udon",
+                mood: ["comfort", "quick"],
+                cuisine: ["Japanese"],
+                dietary: ["seafood"],
+                ingredients: "dashima, shiitake mushrooms, udon noodles, prawns, tempura batter, narutomaki, scallions",
+                servings: 2,
+                time: "30 mins",
+                instructions: [
+                    "Soak dashima and shiitake mushrooms in water overnight.",
+                    "Add soy sauce, mirin, and sugar, then boil the broth.",
+                    "Boil udon noodles separately, then add to broth with mushrooms and narutomaki.",
+                    "Prepare tempura batter with cake flour, baking powder, salt, and ice water.",
+                    "Deep fry shrimp for a couple minutes until they float.",
+                    "Serve tempura with udon, topped with sliced scallions."
+                ]
+            },
+            {
+                id: 2,
+                title: "Marmalade",
+                mood: ["preservation", "special"],
+                cuisine: ["British"],
+                dietary: ["vegan"],
+                ingredients: "Seville oranges (2.2kg), water (2L), sugar (1.5kg)",
+                servings: "multiple jars",
+                time: "2+ hours",
+                instructions: [
+                    "Cut Seville oranges into pieces.",
+                    "Soak in water overnight.",
+                    "Add sugar.",
+                    "Cook until setting point is reached."
+                ]
+            },
+            {
+                id: 3,
+                title: "Kimchi Gyoza Nabe",
+                mood: ["spicy", "warming", "communal"],
+                cuisine: ["Japanese-Korean fusion"],
+                dietary: ["vegetarian-adaptable"],
+                ingredients: "napa cabbage, gyoza, kimchi, shiitake mushrooms, tofu, gochujang, gochugaru, kombu dashi",
+                servings: 2,
+                time: "40 mins",
+                instructions: [
+                    "Prepare all vegetables and tofu, cutting as specified.",
+                    "Heat kombu dashi with kimchi, gochujang, gochugaru, sugar, soy sauce, and miso.",
+                    "Bring to a boil, then reduce to simmer.",
+                    "Add vegetables in stages based on cooking time.",
+                    "Add gyoza and tofu, simmer until gyoza float.",
+                    "Top with sesame oil and serve family-style."
+                ]
+            },
+            {
+                id: 4,
+                title: "Easy Chicken Ramen",
+                mood: ["comfort", "warming"],
+                cuisine: ["Japanese"],
+                dietary: [""],
+                ingredients: "chicken thigh, mirin, soy sauce, garlic, ginger, spring onions, shiitake mushrooms, ramen noodles, eggs",
+                servings: 4,
+                time: "45 mins",
+                instructions: [
+                    "Marinate chicken in mirin, soy sauce, cayenne, garlic for at least 1 hour.",
+                    "Roast chicken at 425°F for 15 minutes, then glaze and cook 10-15 minutes more.",
+                    "Simmer stock with garlic, ginger, spring onions, chili, soy sauce, and mirin for 25 minutes.",
+                    "Cook ramen noodles 1 minute less than package directions.",
+                    "Strain stock, add mushrooms, simmer 5 minutes.",
+                    "Make soft-boiled eggs (6-6.5 minutes in boiling water).",
+                    "Assemble bowls with noodles, stock, chicken, eggs, greens, and toppings."
+                ]
+            },
+            {
+                id: 5,
+                title: "Roasted Cauliflower with Spices",
+                mood: ["easy", "healthy", "side"],
+                cuisine: ["Indian-inspired"],
+                dietary: ["vegan"],
+                ingredients: "cauliflower florets, turmeric, cumin, coriander, cumin seeds, green chilli, shallots, garlic, olive oil",
+                servings: 4,
+                time: "45 mins",
+                instructions: [
+                    "Preheat oven to 200°C.",
+                    "Mix cauliflower with olive oil, spices, and aromatics.",
+                    "Let stand 30 minutes.",
+                    "Spread on large roasting pan in single layer.",
+                    "Roast 30-45 minutes until golden.",
+                    "Serve with chopped coriander and spring onions."
+                ]
+            },
+            {
+                id: 6,
+                title: "Butternut Squash with Feta & Yogurt",
+                mood: ["seasonal", "side", "vegetarian"],
+                cuisine: ["Mediterranean"],
+                dietary: ["vegetarian"],
+                ingredients: "butternut squash, olive oil, coriander seeds, smoked salt, red onion, feta cheese, pumpkin seeds, yogurt, fresh herbs",
+                servings: 4,
+                time: "60 mins",
+                instructions: [
+                    "Cut butternut in pieces, keeping skin.",
+                    "Mix with olive oil, salt, pepper, coriander seeds, smoked salt.",
+                    "Roast at high temperature until brown.",
+                    "Fry red onion until golden, add to butternut.",
+                    "Heat at lower temperature for 30+ minutes.",
+                    "Make yogurt sauce: Greek yogurt, coriander, garlic, mint, onions, salt, pepper, olive oil.",
+                    "Serve with feta, coriander, and grilled pumpkin seeds."
+                ]
+            },
+            {
+                id: 7,
+                title: "Vietnamese Summer Rolls with Peanut Sauce",
+                mood: ["fresh", "light", "summer"],
+                cuisine: ["Vietnamese"],
+                dietary: ["seafood"],
+                ingredients: "rice paper, shrimp, rice vermicelli, fresh herbs, vegetables, peanut butter, hoisin, fish sauce, lime",
+                servings: 4,
+                time: "30 mins",
+                instructions: [
+                    "Cook rice vermicelli, cool completely.",
+                    "Make peanut sauce: peanut butter, hoisin, fish sauce, lime, sugar, garlic, chili.",
+                    "Dip rice paper in warm water to soften.",
+                    "Layer: lettuce, herbs, vegetables, shrimp, vermicelli.",
+                    "Roll tightly, tucking in sides.",
+                    "Serve with peanut sauce."
+                ]
+            },
+            {
+                id: 8,
+                title: "Nuoc Mam Cham (Vietnamese Dipping Sauce)",
+                mood: ["quick", "condiment"],
+                cuisine: ["Vietnamese"],
+                dietary: ["vegan-adaptable"],
+                ingredients: "water, sugar, lime or lemon juice, fish sauce, garlic, bird's eye chili",
+                servings: "makes sauce",
+                time: "10 mins",
+                instructions: [
+                    "Combine water and sugar in bowl, use warm water for easier dissolving.",
+                    "Add lime or lemon juice in increments until it tastes like limeade.",
+                    "Add fish sauce in increments until strong enough for unseasoned food.",
+                    "Top with minced garlic and sliced chiles.",
+                    "Serve with summer rolls or other dishes."
+                ]
+            },
+            {
+                id: 9,
+                title: "Roasted Artichokes",
+                mood: ["elegant", "side", "appetizer"],
+                cuisine: ["Mediterranean"],
+                dietary: ["vegan"],
+                ingredients: "globe artichokes, olive oil, dry white wine, oregano, red chile flakes, garlic, salt, pepper",
+                servings: 6,
+                time: "75 mins",
+                instructions: [
+                    "Preheat oven to 500°F.",
+                    "Whisk together oil, wine, oregano, chile flakes, garlic, salt, pepper.",
+                    "Cut 1 inch off top of each artichoke, gently pull leaves apart.",
+                    "Stand upright in roasting pan, pour oil mixture over each one.",
+                    "Cover with foil, bake 45 minutes.",
+                    "Uncover, baste often, bake 30 minutes more until browned and tender.",
+                    "Cool 10 minutes before serving with pan juices."
+                ]
+            },
+            {
+                id: 10,
+                title: "Shiitake & Cremini Mushroom Risotto",
+                mood: ["elegant", "comfort", "vegetarian"],
+                cuisine: ["Italian"],
+                dietary: ["vegetarian"],
+                ingredients: "shiitake mushrooms, cremini mushrooms, Arborio rice, dry white wine, vegetable stock, thyme, butter, Parmesan, shallot",
+                servings: 6,
+                time: "60 mins",
+                instructions: [
+                    "Heat olive oil, cook shallot 30 seconds, add mushrooms until browned.",
+                    "Stir in butter and rice until coated, cook until golden.",
+                    "Pour in white wine, simmer until evaporated while stirring constantly.",
+                    "Add hot stock 1/3 at a time, stirring constantly, about 7 minutes per addition.",
+                    "Continue until rice is tender and creamy, about 15-20 minutes total.",
+                    "Stir in butter, Parmesan, and parsley.",
+                    "Serve immediately."
+                ]
+            },
+            {
+                id: 11,
+                title: "Middle Eastern Roast Chicken with Couscous",
+                mood: ["aromatic", "dinner-party", "special"],
+                cuisine: ["Middle Eastern"],
+                dietary: [""],
+                ingredients: "chicken marylands, onions, sweet potato, garlic bulb, Greek yogurt, ginger, cumin, coriander, harissa, couscous, apricots, pistachios, lemon",
+                servings: 4,
+                time: "60 mins",
+                instructions: [
+                    "Preheat oven to 180°C.",
+                    "Mix ginger, cumin, coriander, olive oil, salt, pepper.",
+                    "Rub over chicken, onion, sweet potato, garlic.",
+                    "Roast in lined tray for 40 minutes until golden and cooked.",
+                    "Combine couscous ingredients: parsley, lemon zest/juice, soaked apricots, pistachios, olive oil.",
+                    "Mix yogurt with harissa.",
+                    "Serve chicken and sweet potato with couscous, yogurt sauce, and fresh coriander."
+                ]
+            },
+            {
+                id: 12,
+                title: "Japanese Green Bean Salad",
+                mood: ["side", "healthy", "simple"],
+                cuisine: ["Japanese"],
+                dietary: ["vegan"],
+                ingredients: "fresh green beans, sesame seeds, soy sauce, sugar, salt",
+                servings: 4,
+                time: "20 mins",
+                instructions: [
+                    "Dry roast sesame seeds in pan for couple minutes, jiggling gently.",
+                    "Partially grind seeds in mortar and pestle.",
+                    "Mix ground sesame with soy sauce, sugar, and salt to form paste.",
+                    "Boil green beans until tender, drain.",
+                    "Run under cold water to keep green, then toss while warm with dressing."
+                ]
+            },
+            {
+                id: 13,
+                title: "Curried Cauliflower Steaks with Tzatziki",
+                mood: ["healthy", "fasting-friendly"],
+                cuisine: ["Mediterranean"],
+                dietary: ["vegetarian"],
+                ingredients: "cauliflower, olive oil, lemon juice, curry powder, salt, Greek yogurt, sour cream, cucumber, garlic, brown rice",
+                servings: 4,
+                time: "45 mins",
+                instructions: [
+                    "Preheat oven to 450°F, line baking sheet with foil.",
+                    "Prepare rice according to package directions.",
+                    "Make tzatziki: whisk yogurt, sour cream, lemon, garlic, salt; fold in cucumber.",
+                    "Whisk oil, lemon, curry powder, salt for brush mixture.",
+                    "Cut cauliflower into 1-inch steaks and ¾-inch florets.",
+                    "Brush with curry mixture, roast 30-35 minutes, turning halfway.",
+                    "Serve rice topped with cauliflower steak, tzatziki, and cilantro."
+                ]
+            },
+            {
+                id: 14,
+                title: "Skinny Thai Green Curry",
+                mood: ["spicy", "light", "quick"],
+                cuisine: ["Thai"],
+                dietary: ["adaptable"],
+                ingredients: "chicken, broccoli, Thai curry paste, chicken stock, light coconut milk, snow peas, cornflour, brown rice, lime, coriander",
+                servings: 2,
+                time: "20 mins",
+                instructions: [
+                    "Heat pan, spray with oil, fry chicken 5-6 minutes until nearly cooked.",
+                    "Add broccoli, fry 1 minute, then add curry paste.",
+                    "Cook 1-2 minutes until fragrant, add stock.",
+                    "Simmer 2-3 minutes, then add coconut milk and snow peas.",
+                    "Heat through without boiling.",
+                    "Optional: thicken with cornflour slurry.",
+                    "Serve over rice with lime and fresh coriander."
+                ]
+            },
+            {
+                id: 15,
+                title: "Zucchini Slice",
+                mood: ["easy", "side", "quick"],
+                cuisine: ["Australian"],
+                dietary: [""],
+                ingredients: "zucchini, onion, bacon, cheddar cheese, self-rising flour, oil, eggs, salt, pepper",
+                servings: "4-6",
+                time: "45 mins",
+                instructions: [
+                    "Grate unpeeled zucchini coarsely.",
+                    "Finely chop onion and bacon.",
+                    "Combine zucchini, onion, bacon, cheese, sifted flour, oil, lightly beaten eggs.",
+                    "Season with salt and pepper.",
+                    "Pour into well-greased lamington tin.",
+                    "Bake in moderate oven 30-40 minutes until brown."
+                ]
+            },
+            {
+                id: 16,
+                title: "Ohitashi (Japanese Spinach Salad)",
+                mood: ["light", "simple", "vegetarian"],
+                cuisine: ["Japanese"],
+                dietary: ["vegan"],
+                ingredients: "spinach leaves, soy sauce, mirin, bonito flakes",
+                servings: 2,
+                time: "10 mins",
+                instructions: [
+                    "Boil spinach 1 minute in saucepan.",
+                    "Drain and refresh under cold water.",
+                    "Squeeze to remove all water.",
+                    "Place in serving bowl.",
+                    "Whisk soy sauce and mirin, drizzle over spinach.",
+                    "Top with bonito flakes and serve."
+                ]
+            },
+            {
+                id: 17,
+                title: "Tofu Salad with Sesame Dressing",
+                mood: ["light", "vegetarian", "simple"],
+                cuisine: ["Japanese"],
+                dietary: ["vegan"],
+                ingredients: "silken tofu, toasted sesame seeds or tahini, caster sugar, mirin, soy sauce, spring onions",
+                servings: 2,
+                time: "10 mins",
+                instructions: [
+                    "Cut silken tofu into cubes, place in serving bowl.",
+                    "Pound sesame seeds to paste in mortar and pestle.",
+                    "Add sugar, mirin, and soy sauce, stir to combine.",
+                    "Drizzle dressing over tofu.",
+                    "Top with finely chopped spring onion and serve."
+                ]
+            },
+            {
+                id: 18,
+                title: "Stir-Fried Asian Greens",
+                mood: ["side", "quick", "healthy"],
+                cuisine: ["Asian"],
+                dietary: ["vegan"],
+                ingredients: "bok choy, light oil, ginger, mirin, chicken stock, sugar, sesame oil",
+                servings: 2,
+                time: "10 mins",
+                instructions: [
+                    "Heat wok over high heat, add oil.",
+                    "Stir fry ginger until fragrant.",
+                    "Add bok choy quarters, cook 1-2 minutes.",
+                    "Add mirin, chicken stock, sugar, season with salt to taste.",
+                    "Serve drizzled with sesame oil."
+                ]
+            },
+            {
+                id: 19,
+                title: "Mum's Coleslaw",
+                mood: ["side", "quick", "picnic"],
+                cuisine: [""],
+                dietary: ["vegan"],
+                ingredients: "carrot, onion, red cabbage, olive oil, salt, pepper, lemon juice, mayo",
+                servings: "varies",
+                time: "15 mins",
+                instructions: [
+                    "Finely shred carrot, onion, and red cabbage.",
+                    "Dress with olive oil, salt, pepper, and lemon juice.",
+                    "Add a little mayo to taste.",
+                    "Toss and serve."
+                ]
+            },
+            {
+                id: 20,
+                title: "Gnocchi by Marie Barbera",
+                mood: ["comfort", "special"],
+                cuisine: ["Italian"],
+                dietary: ["vegetarian"],
+                ingredients: "old red potatoes (2kg), eggs (2), flour, salt, pepper, olive oil",
+                servings: 4,
+                time: "90 mins",
+                instructions: [
+                    "Boil or steam potatoes until tender.",
+                    "Peel off skin while warm.",
+                    "Mash potatoes.",
+                    "Add salt to egg, mix with potato and olive oil.",
+                    "Add flour gradually, kneading on board.",
+                    "Keep adding flour until no longer sticky.",
+                    "Roll into ropes and cut into pieces.",
+                    "Boil until they float, then an additional minute."
+                ]
+            },
+            {
+                id: 21,
+                title: "Minestrone Soup",
+                mood: ["comfort", "warming"],
+                cuisine: ["Italian"],
+                dietary: ["adaptable"],
+                ingredients: "bacon, carrots, onion, chickpeas, peas, kidney beans, butter beans, garlic, stock, chilli",
+                servings: "6+",
+                time: "90 mins",
+                instructions: [
+                    "Render bacon with onion in large pot.",
+                    "Add remaining vegetables and beans.",
+                    "Cover with stock.",
+                    "Add chilli and herbs.",
+                    "Simmer until vegetables are tender.",
+                    "Season to taste and serve."
+                ]
+            },
+            {
+                id: 22,
+                title: "Mushroom Risotto",
+                mood: ["elegant", "comfort"],
+                cuisine: ["Italian"],
+                dietary: ["vegetarian"],
+                ingredients: "dried porcini mushrooms, wild mushrooms, Arborio rice, vermouth or white wine, onion, celery, chicken stock, butter, Parmesan, fresh herbs, lemon",
+                servings: "6",
+                time: "60 mins",
+                instructions: [
+                    "Warm stock over low heat.",
+                    "Warm olive oil, cook softened mushrooms, remove and set aside.",
+                    "Add oil, cook shallots 1 minute.",
+                    "Add rice, coat with oil, about 2 minutes until pale golden.",
+                    "Pour in wine, stir until fully absorbed.",
+                    "Add stock ½ cup at a time, stirring continuously until absorbed.",
+                    "Continue 15-20 minutes until rice is al dente.",
+                    "Remove from heat, stir in mushrooms with liquid, butter, chives, Parmesan.",
+                    "Season and serve."
+                ]
+            },
+            {
+                id: 23,
+                title: "French-Style Chicken Stew",
+                mood: ["comfort", "warming", "classic"],
+                cuisine: ["French"],
+                dietary: [""],
+                ingredients: "chicken maryland, red onion, carrots, mushrooms, white wine, garlic, rosemary, potatoes, broccoli",
+                servings: "4",
+                time: "180 mins",
+                instructions: [
+                    "Cook onions in butter/oil until soft.",
+                    "Brown chicken once, remove.",
+                    "Add garlic in large pieces.",
+                    "Add white wine (about 1 cup).",
+                    "Add carrots and mushrooms.",
+                    "Cook chicken slow for 2-3 hours.",
+                    "Add more carrots and broccoli toward the end."
+                ]
+            },
+            {
+                id: 24,
+                title: "Chicken Soup (Marie's version)",
+                mood: ["healing", "comfort", "warming"],
+                cuisine: [""],
+                dietary: [""],
+                ingredients: "whole chicken or pieces, carrots, leek, celery, salt, pepper",
+                servings: "4-6",
+                time: "210 mins",
+                instructions: [
+                    "Cook chicken pieces in water for 30 minutes, skim off scum.",
+                    "Add vegetables whole in large pieces, salt, and pepper.",
+                    "Cook for 3 hours.",
+                    "Strain and serve, or serve with meat and vegetables."
+                ]
+            },
+            {
+                id: 25,
+                title: "Mussels Pasta (Marie Barbera 2016)",
+                mood: ["elegant", "special", "dinner-party"],
+                cuisine: ["Italian"],
+                dietary: ["seafood"],
+                ingredients: "mussels (2kg), cream (300g), garlic (4), sugar, dried chilli, brandy, diced tomato/puree, basil, parsley, salt, pepper, olive oil",
+                servings: 8,
+                time: "60 mins",
+                instructions: [
+                    "Heat olive oil with garlic, tomato, chilli, sugar.",
+                    "Cook like normal sauce, 15-25 minutes.",
+                    "Put in mussels with lid closed, simmer until open 10-13 minutes.",
+                    "Add some mussel liquid to sauce (3-5 tbsp).",
+                    "Add basil and parsley chopped at end.",
+                    "Add cream at end.",
+                    "Discard any mussels that don't open."
+                ]
+            },
+            {
+                id: 26,
+                title: "Pasta a Vongole",
+                mood: ["elegant", "seafood", "dinner-party"],
+                cuisine: ["Italian"],
+                dietary: ["seafood"],
+                ingredients: "small clams (1kg), fresh flat-leaf parsley, garlic (4 cloves), cherry tomatoes, white wine (250ml), dried spaghetti (400g), sea salt, black pepper, extra virgin olive oil, dried chillies",
+                servings: "4",
+                time: "30 mins",
+                instructions: [
+                    "Boil water for pasta.",
+                    "Sort clams, discard any not tightly closed.",
+                    "Finely slice parsley stalks, roughly chop leaves.",
+                    "Peel and chop garlic, quarter tomatoes.",
+                    "Add pasta to boiling water with salt, cook until al dente.",
+                    "Heat large pan, add oil, garlic, parsley stalks, salt, pepper, crumbled chilli, tomatoes.",
+                    "When garlic starts to color, tip in clams, pour in wine, cover.",
+                    "After 3-4 minutes, clams open; shuffle pan until all open.",
+                    "Drain pasta, add to clams with parsley leaves and more olive oil.",
+                    "Toss 1-2 minutes and serve immediately with bread."
+                ]
+            },
+            {
+                id: 27,
+                title: "Ragu by Zia Banca",
+                mood: ["comfort", "special", "warming"],
+                cuisine: ["Italian"],
+                dietary: [""],
+                ingredients: "red onion (1), mushrooms (oyster/brown/shiitake), carrots (1 pack), celery (small bunch), pork (½ pound), beef (½ pound), Italian crushed tomato (2 cans), bay leaves, salt, pepper, red wine (½ cup), olive oil",
+                servings: "6+",
+                time: "120 mins",
+                instructions: [
+                    "Add olive oil to large pot with onions until soft and caramelised.",
+                    "Add pork and beef, stir 5-10 minutes until cooked through.",
+                    "Add vegetables, stir until soft.",
+                    "Add salt and pepper.",
+                    "Add red wine, cook 5-10 minutes.",
+                    "Add cans of tomatoes.",
+                    "Stir, add bay leaves.",
+                    "Simmer until thick and flavors meld."
+                ]
+            },
+            {
+                id: 28,
+                title: "Best-Ever Homemade Sausage Rolls",
+                mood: ["quick", "appetizer", "party"],
+                cuisine: ["Australian"],
+                dietary: [""],
+                ingredients: "puff pastry (4 sheets), veal mince (500g), sausage mince (500g), brown onion, red onion, carrot, garlic (3 cloves), parsley, tomato sauce, Worcestershire sauce, egg, milk, salt, pepper",
+                servings: "32 pieces",
+                time: "45 mins",
+                instructions: [
+                    "Preheat oven to 220C/200C fan, line trays with baking paper.",
+                    "Thaw pastry.",
+                    "Combine milk and egg.",
+                    "Mix veal, sausage, onions, carrot, garlic, parsley, sauces; season with salt and pepper.",
+                    "Cut pastry sheet in half horizontally.",
+                    "Spoon 1/8 mince mixture down long side.",
+                    "Brush opposite edge with egg mixture.",
+                    "Roll up seam side down, brush top with egg mixture.",
+                    "Cut into 6 pieces.",
+                    "Bake 25-30 minutes until golden."
+                ]
+            },
+            {
+                id: 29,
+                title: "Meat Pie (Kingston 2018)",
+                mood: ["comfort", "special", "warming"],
+                cuisine: [""],
+                dietary: [""],
+                ingredients: "potato (1 medium), pork (½ pound), beef (½ pound), garlic, red onion (½ cup), water (¼ cup), mustard powder, dried thyme, ground cloves, salt, pepper, beer, cornflour, olive oil, pie pastry",
+                servings: "4",
+                time: "120 mins",
+                instructions: [
+                    "Peel and cube potato.",
+                    "Brown pork and beef in oil.",
+                    "Add onion, garlic, herbs, spices.",
+                    "Add beer, water, potato.",
+                    "Simmer until meat is tender and potatoes cooked.",
+                    "Thicken with cornflour slurry if needed.",
+                    "Cool completely.",
+                    "Fill pie shell with shortcrust, top with puff pastry.",
+                    "Bake at 350F until golden."
+                ]
+            },
+            {
+                id: 30,
+                title: "Bone Broth",
+                mood: ["wellness", "healing"],
+                cuisine: [""],
+                dietary: [""],
+                ingredients: "bones (2 lbs), chicken feet, water (1 gallon), apple cider vinegar, onion, carrots, celery, parsley, salt, peppercorns, garlic (optional)",
+                servings: "multiple uses",
+                time: "1800 mins",
+                instructions: [
+                    "Roast bones in oven at 350F for 30 minutes if using raw beef bones.",
+                    "Place bones in large stock pot.",
+                    "Pour cool filtered water and vinegar, let sit 20-30 minutes.",
+                    "Add rough chopped onion, carrots, celery, salt, pepper, herbs.",
+                    "Bring to boil, reduce to simmer.",
+                    "Remove impurities from surface for first 2 hours, checking every 20 minutes.",
+                    "Simmer 30-50 hours, adding water if level drops.",
+                    "During last 30 minutes, add garlic and parsley if using.",
+                    "Cool slightly, strain through fine metal strainer.",
+                    "Store in glass jar in fridge up to 5 days, or freeze."
+                ]
+            },
+            {
+                id: 31,
+                title: "Beef, Mushroom & Guinness Pie",
+                mood: ["comfort", "warming", "special"],
+                cuisine: ["Irish"],
+                dietary: [""],
+                ingredients: "beef (500g), Guinness (1 tin), red onion (1 large), flour (2 tbsp), butter (2 tbsp), portabello mushrooms (3), carrot (1), rosemary, olive oil, salt, pepper, pastry",
+                servings: "6",
+                time: "480 mins",
+                instructions: [
+                    "Season beef with salt and pepper, sear in olive oil until brown on all sides.",
+                    "Add carrots and mushrooms, cook until soft.",
+                    "In another pan, soften onions in butter, add rosemary toward end, mix in flour.",
+                    "Toss all in slow cooker with Guinness, cook 6-8 hours until meat falls apart with fork.",
+                    "Season to taste, pull apart meat slightly, reduce Guinness until thicker gravy.",
+                    "If needed, make beurre manié (butter and flour paste) to thicken.",
+                    "Cool completely.",
+                    "Fill pie tins with shortcrust on bottom, top with puff pastry.",
+                    "Seal and freeze.",
+                    "To reheat, bake 45 minutes at high heat until sauce bubbles and pastry golden."
+                ]
+            },
+            {
+                id: 32,
+                title: "Whole Roasted Cauliflower with Sesame & Ginger",
+                mood: ["elegant", "side", "vegetarian"],
+                cuisine: ["Asian-fusion"],
+                dietary: ["vegan"],
+                ingredients: "large cauliflower head, sesame oil, grape seed oil, brown miso paste, Chinese chili garlic sauce, ginger, green onions, sesame seeds, sea salt",
+                servings: "4",
+                time: "55 mins",
+                instructions: [
+                    "Preheat oven to 425F.",
+                    "Cut leaves and stem off cauliflower so it sits flat.",
+                    "Mix sesame oil, grape seed oil, miso paste, chili garlic sauce, ginger.",
+                    "Rub mixture all over cauliflower with hands.",
+                    "Roast 44-50 minutes until soft and brown.",
+                    "Remove from oven, season with sea salt.",
+                    "Sprinkle green onions and toasted sesame seeds over before serving."
+                ]
+            },
+            {
+                id: 33,
+                title: "Caramelized Soy Chicken with Ramen",
+                mood: ["comfort", "warming", "dinner"],
+                cuisine: ["Japanese"],
+                dietary: [""],
+                ingredients: "chicken thigh (4 pieces), mirin, soy sauce, cayenne pepper, garlic, chicken stock, ginger, spring onions, shiitake mushrooms, ramen noodles, eggs",
+                servings: 4,
+                time: "45 mins",
+                instructions: [
+                    "Mix mirin, dark soy sauce, light soy sauce, cayenne, garlic.",
+                    "Marinate chicken at least 1 hour.",
+                    "Preheat oven to 425F, line baking sheet.",
+                    "Place chicken skin side down, roast 15 minutes.",
+                    "Mix brown sugar and dark soy sauce for glaze.",
+                    "Flip chicken, spoon glaze, cook 10-15 minutes more.",
+                    "Cool and slice.",
+                    "In pot, heat stock, ginger, garlic, spring onions, chili, soy sauce, mirin.",
+                    "Simmer 25 minutes on medium heat.",
+                    "Boil ramen noodles separately, cook 1 minute less than package directions.",
+                    "Strain stock, add mushrooms, simmer 5 minutes.",
+                    "Soft boil eggs 6-6.5 minutes.",
+                    "Assemble bowls with noodles, stock, chicken, eggs, greens, toppings."
+                ]
+            },
+            {
+                id: 34,
+                title: "Sri Lankan Chicken Curry",
+                mood: ["spicy", "aromatic", "warming"],
+                cuisine: ["Sri Lankan"],
+                dietary: [""],
+                ingredients: "coconut oil, onion, garlic (4 cloves), ginger (1 inch), curry leaves or bay leaves, Sri Lankan curry powder, cinnamon stick, salt, cayenne pepper, paprika, chicken (2 lbs), serrano peppers, roma tomatoes (3), brown sugar, apple cider vinegar, coconut milk, water, soy sauce, miso",
+                servings: 6,
+                time: "55 mins",
+                instructions: [
+                    "Heat coconut oil, add onion, garlic, ginger, cook until soft.",
+                    "Add curry powder, chili powder, paprika, cinnamon, curry leaves, mix.",
+                    "Cook few minutes until fragrant.",
+                    "Add chicken, peppers, salt, tomatoes, sugar; cook 10 minutes on medium-high.",
+                    "Add coconut milk, water, vinegar, bring to boil.",
+                    "Lower heat, simmer covered 15-20 minutes.",
+                    "Season with salt to taste.",
+                    "Optional: uncover and simmer 10+ minutes more if you want thicker gravy.",
+                    "Serve with rice or roti."
+                ]
+            },
+            {
+                id: 35,
+                title: "Lamb Stew",
+                mood: ["comfort", "warming", "hearty"],
+                cuisine: [""],
+                dietary: [""],
+                ingredients: "boneless leg of lamb (2 lbs), sea salt, black pepper, all-purpose flour, yellow onion (1 medium), garlic (4 cloves), red wine (1.5 cups), baby Bella mushrooms (1 lb), beef broth (2 cups), Worcestershire sauce, bay leaves, fresh rosemary, red potatoes (1.5 lbs), carrots (3 medium), celery ribs (2), frozen sweet peas (1 cup), parsley, fresh rosemary (garnish)",
+                servings: "6",
+                time: "480 mins",
+                instructions: [
+                    "Toss lamb meat with salt, pepper, flour.",
+                    "Heat skillet, add oil, brown lamb on each side 3-5 minutes; work in batches.",
+                    "Transfer all ingredients to slow cooker except peas.",
+                    "Cover and cook LOW 7-8 hours or HIGH 3-4 hours.",
+                    "Add peas during last hour of cooking.",
+                    "Garnish with fresh parsley and rosemary, serve warm."
+                ]
+            },
+            {
+                id: 36,
+                title: "Eamonn's Moroccan Roasted Vegetable Couscous",
+                mood: ["seasonal", "aromatic", "special"],
+                cuisine: ["Moroccan"],
+                dietary: ["vegan"],
+                ingredients: "pumpkin, zucchini, corn, red onion, garlic, potato, eggplant, carrots, fennel, paprika, butter, parsley, lemon, honey, mint, couscous, cumin, Greek yogurt, chillies, olive oil, salt, pepper",
+                servings: "6",
+                time: "90 mins",
+                instructions: [
+                    "Toss vegetables in olive oil, salt, pepper, paprika, cumin seeds, squeeze of lemon.",
+                    "Spread over oven tray in single layer (don't overload).",
+                    "Roast at 200C until cooked and slightly crispy, turning halfway.",
+                    "Prepare couscous per packet, add chicken stock and olive oil to liquid.",
+                    "When softened, mix through unsalted butter.",
+                    "Make yogurt sauce: Greek yogurt, honey, cumin, lemon, finely chopped chilli, mint, parsley.",
+                    "Cool vegetables slightly, mix gently into couscous.",
+                    "Place on serving platter, spoon yogurt mixture over top."
+                ]
+            },
+            {
+                id: 37,
+                title: "Toor Dhal (Lentil Soup)",
+                mood: ["comfort", "wellness", "warming"],
+                cuisine: ["Indian"],
+                dietary: ["vegan"],
+                ingredients: "toor dhal or red lentils (1 cup), water (4+ cups), turmeric powder (½ tsp), onion (½), tomato (1+), mild chilli, carrot, oil (2 tbsp), cumin seeds (½ tsp), mustard seeds (½ tsp), fenugreek seed (½ tsp), curry leaves (10), garlic (4 pieces), coriander leaves, salt",
+                servings: "4",
+                time: "75 mins",
+                instructions: [
+                    "Wash lentils.",
+                    "Boil with water and turmeric until soft.",
+                    "Add half onion chopped, tomato, chilli, carrot finely sliced.",
+                    "In separate pan, heat oil, add onion and seeds (cumin, mustard, fenugreek).",
+                    "Add curry leaves and chopped garlic, fry until brown.",
+                    "Pour this tempering into soup.",
+                    "Simmer 10+ minutes more.",
+                    "Top with coriander leaves and serve with rice."
+                ]
+            },
+            {
+                id: 38,
+                title: "Broccoli Pasta (Marie Barbera)",
+                mood: ["quick", "simple", "dinner"],
+                cuisine: ["Italian"],
+                dietary: ["vegetarian-adaptable"],
+                ingredients: "broccoli, garlic, anchovies, fresh chilli or chilli flakes, pasta (fusilli), salt, pepper, olive oil",
+                servings: "4",
+                time: "20 mins",
+                instructions: [
+                    "Cook pasta according to package directions.",
+                    "Heat olive oil in pan.",
+                    "Add fresh chilli or flakes, garlic, and anchovies.",
+                    "Fry until fragrant, mashing anchovies.",
+                    "Add broccoli (raw or lightly cooked).",
+                    "Toss with drained pasta.",
+                    "Season with salt and pepper, serve immediately."
+                ]
+            },
+            {
+                id: 39,
+                title: "Whole Roasted Cauliflower with Sesame & Ginger",
+                mood: ["elegant", "vegetarian", "side"],
+                cuisine: ["Asian"],
+                dietary: ["vegan"],
+                ingredients: "large cauliflower head, sesame oil, grapeseed oil, brown miso paste, Chinese chili garlic sauce, ginger (finely grated), green onions, sesame seeds (white and black toasted), sea salt",
+                servings: "4",
+                time: "55 mins",
+                instructions: [
+                    "Preheat oven to 425F.",
+                    "Cut leaves and stem so cauliflower sits flat.",
+                    "Mix sesame oil, grapeseed oil, miso, chili garlic sauce, ginger.",
+                    "Rub all over cauliflower with hands.",
+                    "Roast 44-50 minutes until soft and brown.",
+                    "Season with sea salt.",
+                    "Sprinkle with green onions and toasted sesame seeds before serving."
+                ]
+            },
+            {
+                id: 40,
+                title: "Miso-Marinated Salmon",
+                mood: ["elegant", "healthy", "quick"],
+                cuisine: ["Japanese"],
+                dietary: ["seafood"],
+                ingredients: "salmon fillets, white miso paste, mirin, soy sauce, ginger, sake (optional)",
+                servings: "2",
+                time: "180 mins",
+                instructions: [
+                    "Mix miso paste, mirin, soy sauce, ginger, sake.",
+                    "Coat salmon fillets in marinade.",
+                    "Marinate 2-24 hours in refrigerator.",
+                    "Preheat oven to 400F.",
+                    "Place salmon on parchment paper or in baking dish.",
+                    "Bake 12-15 minutes depending on thickness until cooked through.",
+                    "Serve with steamed vegetables and rice."
+                ]
+            }
+        ];
 
-document.getElementById('recipeModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('recipeModal')) closeModal();
-});
+        const moods = new Set();
+        const cuisines = new Set();
+        const dietaries = new Set();
 
-// ── ADD RECIPE ─────────────────────────────────────────────
-document.getElementById('addRecipeBtn').addEventListener('click', () => {
-  document.getElementById('addRecipeModal').classList.add('active');
-});
+        // Extract unique categories
+        recipes.forEach(r => {
+            if (r.mood) r.mood.forEach(m => moods.add(m));
+            if (r.cuisine) r.cuisine.forEach(c => cuisines.add(c));
+            if (r.dietary) r.dietary.forEach(d => { if (d) dietaries.add(d); });
+        });
 
-function closeForm() {
-  document.getElementById('addRecipeModal').classList.remove('active');
-  document.getElementById('recipeForm').reset();
-}
+        let activeFilters = { mood: [], cuisine: [], dietary: [] };
+        let searchTerm = '';
 
-document.getElementById('recipeForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const nr = {
-    id:       recipes.length + 1,
-    title:    document.getElementById('formTitle').value,
-    mood:     document.getElementById('formMood').value.split(',').map(s=>s.trim()).filter(Boolean),
-    cuisine:  document.getElementById('formCuisine').value.split(',').map(s=>s.trim()).filter(Boolean),
-    dietary:  document.getElementById('formDietary').value.split(',').map(s=>s.trim()).filter(Boolean),
-    ingredients: document.getElementById('formIngredients').value,
-    servings: document.getElementById('formServings').value,
-    time:     document.getElementById('formTime').value,
-    instructions: document.getElementById('formInstructions').value.split('\n').map(s=>s.trim()).filter(Boolean)
-  };
-  recipes.push(nr);
-  nr.mood.forEach(m => moods.add(m));
-  nr.cuisine.forEach(c => cuisines.add(c));
-  nr.dietary.forEach(d => dietaries.add(d));
-  // Rebuild filters
-  document.getElementById('moodFilters').innerHTML = '';
-  document.getElementById('cuisineFilters').innerHTML = '';
-  document.getElementById('dietaryFilters').innerHTML = '';
-  renderFilters();
-  render();
-  closeForm();
-});
+        // Render filter buttons
+        function renderFilters() {
+            const moodContainer = document.getElementById('moodFilters');
+            const cuisineContainer = document.getElementById('cuisineFilters');
+            const dietaryContainer = document.getElementById('dietaryFilters');
 
-// ── SEARCH ─────────────────────────────────────────────────
-document.getElementById('searchInput').addEventListener('input', e => {
-  searchTerm = e.target.value.toLowerCase().trim();
-  render();
-});
+            Array.from(moods).sort().forEach(mood => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.textContent = mood;
+                btn.onclick = () => toggleFilter('mood', mood);
+                moodContainer.appendChild(btn);
+            });
 
-// ── INIT ───────────────────────────────────────────────────
-renderFilters();
-render();
-</script>
+            Array.from(cuisines).sort().forEach(cuisine => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.textContent = cuisine;
+                btn.onclick = () => toggleFilter('cuisine', cuisine);
+                cuisineContainer.appendChild(btn);
+            });
+
+            Array.from(dietaries).sort().forEach(dietary => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.textContent = dietary;
+                btn.onclick = () => toggleFilter('dietary', dietary);
+                dietaryContainer.appendChild(btn);
+            });
+        }
+
+        function toggleFilter(category, value) {
+            const index = activeFilters[category].indexOf(value);
+            if (index > -1) {
+                activeFilters[category].splice(index, 1);
+            } else {
+                activeFilters[category].push(value);
+            }
+            updateDisplay();
+            updateFilterButtons();
+        }
+
+        function updateFilterButtons() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                const text = btn.textContent;
+                if (activeFilters.mood.includes(text) || activeFilters.cuisine.includes(text) || activeFilters.dietary.includes(text)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function filterRecipes() {
+            return recipes.filter(recipe => {
+                const matchesMood = activeFilters.mood.length === 0 || activeFilters.mood.some(m => recipe.mood.includes(m));
+                const matchesCuisine = activeFilters.cuisine.length === 0 || activeFilters.cuisine.some(c => recipe.cuisine.includes(c));
+                const matchesDietary = activeFilters.dietary.length === 0 || activeFilters.dietary.some(d => recipe.dietary.includes(d));
+                const matchesSearch = searchTerm === '' ||
+                    recipe.title.toLowerCase().includes(searchTerm) ||
+                    recipe.ingredients.toLowerCase().includes(searchTerm);
+
+                return matchesMood && matchesCuisine && matchesDietary && matchesSearch;
+            });
+        }
+
+        function renderRecipes() {
+            const grid = document.getElementById('recipesGrid');
+            const emptyState = document.getElementById('emptyState');
+            const filtered = filterRecipes();
+
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.style.display = 'block';
+                document.getElementById('resultCount').textContent = '0';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            document.getElementById('resultCount').textContent = filtered.length;
+
+            filtered.forEach((recipe, index) => {
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.onclick = () => openModal(recipe);
+
+                const tagsHtml = [
+                    ...recipe.mood.map(m => `<span class="tag mood">${m}</span>`),
+                    ...recipe.cuisine.map(c => `<span class="tag cuisine">${c}</span>`)
+                ].join('');
+
+                const ingredientsPreview = recipe.ingredients.split(',').slice(0, 3).join(', ') + (recipe.ingredients.split(',').length > 3 ? '...' : '');
+
+                card.innerHTML = `
+                    <div class="recipe-header">
+                        <div class="recipe-title">${recipe.title}</div>
+                        <div class="recipe-meta">
+                            <span>⏱️ ${recipe.time}</span>
+                            <span>👥 ${recipe.servings}</span>
+                        </div>
+                    </div>
+                    <div class="recipe-body">
+                        <div class="recipe-tags">${tagsHtml}</div>
+                        <div class="ingredients-preview"><strong>Key ingredients:</strong> ${ingredientsPreview}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(recipe) {
+            const ingredientsList = recipe.ingredients.split(',').map(ing => `<li>${ing.trim()}</li>`).join('');
+            const instructionsList = recipe.instructions.map(inst => `<li>${inst}</li>`).join('');
+            const tagsHtml = [
+                ...recipe.mood.map(m => `<span class="tag mood">${m}</span>`),
+                ...recipe.cuisine.map(c => `<span class="tag cuisine">${c}</span>`),
+                ...recipe.dietary.filter(d => d).map(d => `<span class="tag">${d}</span>`)
+            ].join('');
+
+            document.getElementById('modalBody').innerHTML = `
+                <h2>${recipe.title}</h2>
+                <div class="modal-tags">${tagsHtml}</div>
+                <div class="recipe-meta" style="margin-bottom: 1.5rem;">
+                    <span>⏱️ ${recipe.time}</span>
+                    <span>👥 ${recipe.servings}</span>
+                </div>
+                <div class="modal-section">
+                    <h3>Ingredients</h3>
+                    <ul class="ingredients-list">${ingredientsList}</ul>
+                </div>
+                <div class="modal-section">
+                    <h3>Instructions</h3>
+                    <ol class="instructions-list">${instructionsList}</ol>
+                </div>
+            `;
+            document.getElementById('recipeModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('recipeModal').classList.remove('active');
+        }
+
+        function updateDisplay() {
+            renderRecipes();
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            updateDisplay();
+        });
+
+        // Add recipe button
+        document.getElementById('addRecipeBtn').addEventListener('click', () => {
+            document.getElementById('addRecipeModal').classList.add('active');
+        });
+
+        function closeAddRecipeForm() {
+            document.getElementById('addRecipeModal').classList.remove('active');
+            document.getElementById('recipeForm').reset();
+        }
+
+        // Handle recipe form submission
+        document.getElementById('recipeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const newRecipe = {
+                id: recipes.length + 1,
+                title: document.getElementById('formTitle').value,
+                mood: document.getElementById('formMood').value.split(',').map(m => m.trim()),
+                cuisine: document.getElementById('formCuisine').value.split(',').map(c => c.trim()),
+                dietary: document.getElementById('formDietary').value.split(',').map(d => d.trim()).filter(d => d),
+                ingredients: document.getElementById('formIngredients').value,
+                servings: document.getElementById('formServings').value,
+                time: document.getElementById('formTime').value,
+                instructions: document.getElementById('formInstructions').value.split('\n').map(i => i.trim()).filter(i => i)
+            };
+
+            recipes.push(newRecipe);
+
+            // Update filter options
+            if (newRecipe.mood) newRecipe.mood.forEach(m => moods.add(m));
+            if (newRecipe.cuisine) newRecipe.cuisine.forEach(c => cuisines.add(c));
+            if (newRecipe.dietary) newRecipe.dietary.forEach(d => { if (d) dietaries.add(d); });
+
+            // Re-render filters and recipes
+            document.getElementById('moodFilters').innerHTML = '';
+            document.getElementById('cuisineFilters').innerHTML = '';
+            document.getElementById('dietaryFilters').innerHTML = '';
+            renderFilters();
+            updateDisplay();
+
+            closeAddRecipeForm();
+
+            // Visual feedback
+            alert('Recipe added! 🎉');
+        });
+
+        // Close modal on outside click
+        document.getElementById('recipeModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('recipeModal')) {
+                closeModal();
+            }
+        });
+
+        // Initial render
+        renderFilters();
+        renderRecipes();
+    </script>
 </body>
 </html>
