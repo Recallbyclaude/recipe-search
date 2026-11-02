@@ -200,100 +200,195 @@ nav {
   padding-bottom: 0.9rem;
 }
 
-/* ── FEATURED RECIPE ── */
-.featured {
-  padding: 2.5rem 0 1.5rem;
-  text-align: center;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.featured-meta {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.7rem;
-}
-
-.featured-meta span { color: var(--sage); }
-
-.featured-title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2.8rem, 6vw, 5.2rem);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -1px;
-  cursor: pointer;
-  transition: color 0.15s;
-}
-
-.featured-title:hover { color: var(--sage-dark); }
-
-/* ── RECIPE LIST ── */
-.recipe-list {
-  padding: 0 0 4rem;
-}
-
-.recipe-item {
+/* ── RECIPE GRID ── */
+.recipe-grid {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: 1rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid #f0f0f0;
-  cursor: pointer;
-  transition: background 0.1s;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: #d8e8da;
+  padding: 1px 0 4rem;
 }
 
-.recipe-item:hover { background: #fafafa; margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; }
+.recipe-card {
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s;
+  overflow: hidden;
+}
 
-.recipe-item-left {}
+.recipe-card:hover { box-shadow: inset 0 0 0 2px var(--sage); }
 
-.recipe-item-name {
+.recipe-card-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--sage-lt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.recipe-card-img img { width:100%; height:100%; object-fit:cover; }
+
+.recipe-card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sage);
+  font-weight: 700;
+}
+
+.recipe-card-body {
+  padding: 1rem 1.2rem 1.2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card-name {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   font-weight: 900;
   line-height: 1.2;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+  flex: 1;
 }
 
-.recipe-item-tags {
+.recipe-card-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
-  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .recipe-tag {
-  font-size: 0.58rem;
+  font-size: 0.55rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #fff;
+  background: var(--sage);
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
 }
 
-.recipe-tag::after { content: '·'; margin-left: 0.4rem; }
-.recipe-tag:last-child::after { content: ''; }
-
-.recipe-item-right {
-  text-align: right;
-  white-space: nowrap;
-}
-
-.recipe-item-time {
-  font-size: 0.62rem;
+.recipe-card-meta {
+  font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--muted);
 }
 
-.recipe-item-serves {
-  font-size: 0.58rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #bbb;
+/* ── CONTRIBUTOR ROWS ── */
+.contributor-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e8f0e9;
+  gap: 1rem;
+}
+
+.contributor-row-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.contributor-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--sage-lt);
+  border: 1px solid var(--sage);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700;
+  color: var(--sage-dark);
+  flex-shrink: 0;
+}
+
+.contributor-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 900;
+  margin-bottom: 0.1rem;
+}
+
+.contributor-count {
+  font-size: 0.58rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+}
+
+.contributor-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.c-btn {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.58rem; letter-spacing: 1.5px;
+  text-transform: uppercase; font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #ddd;
+  background: #fff; color: var(--muted);
+  cursor: pointer; transition: all 0.15s;
+}
+
+.c-btn:hover { background: var(--sage); color: #fff; border-color: var(--sage); }
+.c-btn.del:hover { background: #c0392b; border-color: #c0392b; }
+
+/* ── ADD RECIPE TABS ── */
+.add-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.add-tab {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #ddd;
+  background: #fff; color: var(--muted);
+  cursor: pointer; transition: all 0.15s;
+}
+
+.add-tab.active { background: var(--sage); color: #fff; border-color: var(--sage); }
+
+.add-paste-area {
+  width: 100%;
+  min-height: 90px;
+  border: 1.5px dashed #ccc;
+  padding: 0.8rem;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.82rem;
+  color: var(--text);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s;
+  background: #f9fdf9;
+}
+
+.add-paste-area:focus { border-color: var(--sage); }
+
+.add-tag-section {
+  border-top: 1px solid #f0f0f0;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.add-tag-label {
+  font-size: 0.55rem; letter-spacing: 2.5px;
+  text-transform: uppercase; font-weight: 700;
+  color: var(--muted); margin-bottom: 0.9rem;
 }
 
 /* ── EMPTY STATE ── */
@@ -556,7 +651,7 @@ nav {
 
 <!-- HEADER -->
 <header>
-  <h1>Recall Recipes</h1>
+  <h1 onclick="resetToFront()" style="cursor:pointer;">Recall Recipes</h1>
   <p>A Community Table &middot; By Paul Barbera</p>
 </header>
 
@@ -604,14 +699,8 @@ nav {
     <div class="results-count" id="resultsCount">0 of 0 Recipes</div>
   </div>
 
-  <!-- FEATURED -->
-  <div class="featured" id="featuredSection">
-    <div class="featured-meta" id="featuredMeta"></div>
-    <div class="featured-title" id="featuredTitle" onclick="openFeatured()"></div>
-  </div>
-
-  <!-- LIST -->
-  <div class="recipe-list" id="recipeList"></div>
+  <!-- GRID -->
+  <div class="recipe-grid" id="recipeList"></div>
 
   <div class="empty-state" id="emptyState" style="display:none">
     <h3>No recipes found</h3>
@@ -623,10 +712,10 @@ nav {
 <!-- CONTRIBUTORS VIEW -->
 <div class="main" id="contributorsView" style="display:none">
   <div style="display:flex; align-items:center; justify-content:space-between; padding:1.4rem 0 1rem; border-bottom:1px solid #e0e0e0;">
-    <div class="results-count">Contributors</div>
+    <div class="results-count" id="contributorCount"></div>
     <button class="nav-add" onclick="openAddContributor()">+ Add Contributor</button>
   </div>
-  <div id="contributorGrid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; padding:1.5rem 0 4rem;"></div>
+  <div id="contributorGrid" style="padding:0.5rem 0 4rem;"></div>
 </div>
 
 <!-- RECIPE MODAL -->
@@ -657,51 +746,88 @@ nav {
 
 <!-- ADD RECIPE MODAL -->
 <div class="form-modal" id="addRecipeModal">
-  <div class="form-box">
+  <div class="form-box" style="max-width:640px;">
     <button class="form-close" onclick="closeForm()">×</button>
-    <h2>Add New Recipe</h2>
+    <h2>Add Recipe</h2>
+
+    <!-- STEP 1: Paste source -->
+    <div id="addStep1">
+      <div class="add-tabs">
+        <button class="add-tab active" onclick="setAddMode('link',this)">🔗 Paste Link</button>
+        <button class="add-tab" onclick="setAddMode('text',this)">📝 Paste Text</button>
+        <button class="add-tab" onclick="setAddMode('photo',this)">📷 Add Photo</button>
+      </div>
+      <div id="addInputLink">
+        <textarea class="add-paste-area" id="formSourceLink" placeholder="Paste a recipe URL here…&#10;e.g. https://www.seriouseats.com/…" rows="3"></textarea>
+      </div>
+      <div id="addInputText" style="display:none">
+        <textarea class="add-paste-area" id="formSourceText" placeholder="Paste the full recipe text here — ingredients, steps, whatever you have. You can tidy it up after." rows="6"></textarea>
+      </div>
+      <div id="addInputPhoto" style="display:none">
+        <div style="border:1.5px dashed #ccc;padding:1.5rem;text-align:center;background:#f9fdf9;cursor:pointer;" onclick="document.getElementById('formPhotoFile').click()">
+          <div style="font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Click to choose photo</div>
+          <div id="photoLabel" style="font-size:0.75rem;color:#bbb;">No photo selected</div>
+          <input type="file" id="formPhotoFile" accept="image/*" style="display:none" onchange="handlePhotoSelect(this)">
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Tag it -->
     <form id="recipeForm">
-      <div class="form-group">
-        <label>Recipe Title</label>
-        <input type="text" id="formTitle" placeholder="e.g., Tempura Udon" required>
-      </div>
-      <div class="form-group">
-        <label>Contributor</label>
-        <select id="formContributor" style="width:100%;background:#fff;border:1px solid #ddd;padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;color:#000;outline:none;"></select>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Servings</label>
-          <input type="text" id="formServings" placeholder="e.g., 4" required>
+      <div class="add-tag-section">
+        <div class="add-tag-label">Tag It</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="formTitle" placeholder="e.g., Tempura Udon" required>
+          </div>
+          <div class="form-group">
+            <label>Contributor</label>
+            <select id="formContributor" style="width:100%;background:#fff;border:1px solid #ddd;padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;color:#000;outline:none;"></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cuisine</label>
+            <input type="text" id="formCuisine" placeholder="e.g., Japanese, Italian">
+          </div>
+          <div class="form-group">
+            <label>Mood</label>
+            <input type="text" id="formMood" placeholder="e.g., comfort, quick">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Dietary</label>
+            <input type="text" id="formDietary" placeholder="e.g., vegan, seafood">
+          </div>
+          <div class="form-group">
+            <label>From (source person)</label>
+            <input type="text" id="formFrom" placeholder="e.g., Mum, Eamonn">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Time</label>
+            <input type="text" id="formTime" placeholder="e.g., 45 mins">
+          </div>
+          <div class="form-group">
+            <label>Servings</label>
+            <input type="text" id="formServings" placeholder="e.g., 4">
+          </div>
         </div>
         <div class="form-group">
-          <label>Time</label>
-          <input type="text" id="formTime" placeholder="e.g., 45 mins" required>
+          <label>Ingredients (comma-separated)</label>
+          <textarea id="formIngredients" placeholder="olive oil, garlic, lemon…"></textarea>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Mood (comma-separated)</label>
-        <input type="text" id="formMood" placeholder="e.g., comfort, quick" required>
-      </div>
-      <div class="form-group">
-        <label>Cuisine (comma-separated)</label>
-        <input type="text" id="formCuisine" placeholder="e.g., Japanese, Italian" required>
-      </div>
-      <div class="form-group">
-        <label>Dietary (comma-separated)</label>
-        <input type="text" id="formDietary" placeholder="e.g., vegan, seafood">
-      </div>
-      <div class="form-group">
-        <label>Ingredients (comma-separated)</label>
-        <textarea id="formIngredients" placeholder="e.g., olive oil, garlic…" required></textarea>
-      </div>
-      <div class="form-group">
-        <label>Instructions (one per line)</label>
-        <textarea id="formInstructions" placeholder="Step one&#10;Step two…" required></textarea>
+        <div class="form-group">
+          <label>Instructions (one per line)</label>
+          <textarea id="formInstructions" placeholder="Step one&#10;Step two…"></textarea>
+        </div>
       </div>
       <div class="form-btns">
         <button type="button" class="form-btn cancel" onclick="closeForm()">Cancel</button>
-        <button type="submit" class="form-btn submit">Add Recipe</button>
+        <button type="submit" class="form-btn submit">Save Recipe</button>
       </div>
     </form>
   </div>
@@ -838,45 +964,28 @@ function render() {
     `${rows.length} of ${total} Recipe${total !== 1 ? 's' : ''}`;
 
   if (!rows.length) {
-    document.getElementById('featuredSection').style.display = 'none';
     document.getElementById('recipeList').innerHTML = '';
     document.getElementById('emptyState').style.display = 'block';
     return;
   }
 
   document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('featuredSection').style.display = 'block';
 
-  // Featured = first result
-  const feat = rows[0];
-  featuredRecipeId = feat.id;
-  const moodLabel = (feat.mood||[]).filter(Boolean)[0] || '';
-  const cuisineLabel = (feat.cuisine||[]).filter(Boolean)[0] || '';
-  const meta = [cuisineLabel, moodLabel, feat.time, `Serves ${feat.servings}`].filter(Boolean).join(' · ').toUpperCase();
-  document.getElementById('featuredMeta').innerHTML = meta.replace(moodLabel.toUpperCase(), `<span>${moodLabel.toUpperCase()}</span>`);
-  document.getElementById('featuredTitle').textContent = feat.title;
-
-  // Remaining list
   const list = document.getElementById('recipeList');
-  list.innerHTML = rows.slice(1).map(r => {
-    const tags = [...(r.mood||[]), ...(r.cuisine||[])].filter(Boolean).slice(0,4);
-    return `<div class="recipe-item" onclick="openModal(${r.id})">
-      <div class="recipe-item-left">
-        <div class="recipe-item-name">${r.title}</div>
-        <div class="recipe-item-tags">
-          ${tags.map(t => `<span class="recipe-tag">${t}</span>`).join('')}
-        </div>
-      </div>
-      <div class="recipe-item-right">
-        <div class="recipe-item-time">${r.time}</div>
-        <div class="recipe-item-serves">Serves ${r.servings}</div>
+  list.innerHTML = rows.map(r => {
+    const tags = [...(r.mood||[]), ...(r.cuisine||[])].filter(Boolean).slice(0,3);
+    const imgHtml = r.photo
+      ? `<img src="${r.photo}" alt="${r.title}">`
+      : `<div class="recipe-card-img-placeholder">No image yet</div>`;
+    return `<div class="recipe-card" onclick="openModal(${r.id})">
+      <div class="recipe-card-img">${imgHtml}</div>
+      <div class="recipe-card-body">
+        <div class="recipe-card-name">${r.title}</div>
+        <div class="recipe-card-tags">${tags.map(t=>`<span class="recipe-tag">${t}</span>`).join('')}</div>
+        <div class="recipe-card-meta">${[r.time, r.servings ? `Serves ${r.servings}` : ''].filter(Boolean).join(' · ')}</div>
       </div>
     </div>`;
   }).join('');
-}
-
-function openFeatured() {
-  if (featuredRecipeId) openModal(featuredRecipeId);
 }
 
 // ── MODAL ────────────────────────────────────────────────────────────
@@ -911,7 +1020,28 @@ document.getElementById('recipeModal').addEventListener('click', e => {
   if (e.target === document.getElementById('recipeModal')) closeModal();
 });
 
-// ── ADD RECIPE ────────────────────────────────────────────────────────
+// ── ADD RECIPE TAB SWITCHER ───────────────────────────────────────────
+let addMode = 'link';
+function setAddMode(mode, btn) {
+  addMode = mode;
+  document.querySelectorAll('.add-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('addInputLink').style.display  = mode === 'link'  ? '' : 'none';
+  document.getElementById('addInputText').style.display  = mode === 'text'  ? '' : 'none';
+  document.getElementById('addInputPhoto').style.display = mode === 'photo' ? '' : 'none';
+}
+
+let pendingPhoto = null;
+function handlePhotoSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('photoLabel').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => { pendingPhoto = e.target.result; };
+  reader.readAsDataURL(file);
+}
+
+// ── ADD RECIPE MODAL ──────────────────────────────────────────────────
 document.getElementById('navAddBtn').addEventListener('click', () => {
   document.getElementById('addRecipeModal').classList.add('active');
 });
@@ -919,22 +1049,31 @@ document.getElementById('navAddBtn').addEventListener('click', () => {
 function closeForm() {
   document.getElementById('addRecipeModal').classList.remove('active');
   document.getElementById('recipeForm').reset();
+  document.getElementById('formSourceLink').value = '';
+  document.getElementById('formSourceText').value = '';
+  document.getElementById('photoLabel').textContent = 'No photo selected';
+  pendingPhoto = null;
 }
 
 document.getElementById('recipeForm').addEventListener('submit', e => {
   e.preventDefault();
+  const sourceLink = document.getElementById('formSourceLink').value.trim();
+  const sourceText = document.getElementById('formSourceText').value.trim();
   recipes.push({
     id:          recipes.length + 1,
     title:       document.getElementById('formTitle').value,
     contributor: document.getElementById('formContributor').value || 'Paul Barbera',
-    from:        '',
+    from:        document.getElementById('formFrom').value.trim(),
     mood:        document.getElementById('formMood').value.split(',').map(s=>s.trim()).filter(Boolean),
     cuisine:     document.getElementById('formCuisine').value.split(',').map(s=>s.trim()).filter(Boolean),
     dietary:     document.getElementById('formDietary').value.split(',').map(s=>s.trim()).filter(Boolean),
     ingredients: document.getElementById('formIngredients').value,
     servings:    document.getElementById('formServings').value,
     time:        document.getElementById('formTime').value,
-    instructions:document.getElementById('formInstructions').value.split('\n').map(s=>s.trim()).filter(Boolean)
+    instructions:document.getElementById('formInstructions').value.split('\n').map(s=>s.trim()).filter(Boolean),
+    sourceLink:  sourceLink || null,
+    sourceText:  sourceText || null,
+    photo:       pendingPhoto || null
   });
   buildFilters();
   render();
@@ -967,18 +1106,50 @@ document.getElementById('contributorForm').addEventListener('submit', e => {
   closeAddContributor();
 });
 
-// ── CONTRIBUTOR GRID ─────────────────────────────────────────────────
+// ── CONTRIBUTOR ROWS ─────────────────────────────────────────────────
 function renderContributorGrid() {
   const grid = document.getElementById('contributorGrid');
-  grid.innerHTML = contributors.map(name => {
+  const total = contributors.length;
+  document.getElementById('contributorCount').textContent =
+    `${total} Contributor${total !== 1 ? 's' : ''}`;
+
+  grid.innerHTML = contributors.map((name, idx) => {
     const count = recipes.filter(r => r.contributor === name).length;
     const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
-    return `<div style="border:1px solid #ddd;padding:1.4rem;background:#fff;cursor:pointer;" onclick="filterByContributor('${name}')">
-      <div style="width:44px;height:44px;border-radius:50%;background:var(--sage-lt);border:1px solid var(--sage);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--sage-dark);margin-bottom:0.8rem;">${initials}</div>
-      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:900;margin-bottom:0.2rem;">${name}</div>
-      <div style="font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${count} Recipe${count !== 1 ? 's' : ''}</div>
+    const shareUrl = encodeURIComponent(window.location.href + '?contributor=' + encodeURIComponent(name));
+    return `<div class="contributor-row">
+      <div class="contributor-row-left">
+        <div class="contributor-avatar">${initials}</div>
+        <div>
+          <div class="contributor-name">${name}</div>
+          <div class="contributor-count">${count} Recipe${count !== 1 ? 's' : ''}</div>
+        </div>
+      </div>
+      <div class="contributor-actions">
+        <button class="c-btn" onclick="filterByContributor('${name}')">View Recipes</button>
+        <button class="c-btn" onclick="shareContributor('${name}')">Share Link</button>
+        <button class="c-btn del" onclick="deleteContributor(${idx})">Delete</button>
+      </div>
     </div>`;
   }).join('');
+}
+
+function shareContributor(name) {
+  const url = window.location.origin + window.location.pathname + '?contributor=' + encodeURIComponent(name);
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => alert('Link copied: ' + url));
+  } else {
+    prompt('Copy this link:', url);
+  }
+}
+
+function deleteContributor(idx) {
+  const name = contributors[idx];
+  if (!confirm(`Remove "${name}" as a contributor? Their recipes will stay but won't be linked to them.`)) return;
+  contributors.splice(idx, 1);
+  buildFilters();
+  renderContributorGrid();
+  populateContributorSelect();
 }
 
 function filterByContributor(name) {
@@ -996,35 +1167,37 @@ function populateContributorSelect() {
 
 // ── VIEW SWITCHER ─────────────────────────────────────────────────────
 function showView(v) {
-  const recipesView  = document.getElementById('main') || document.querySelector('.main');
-  const contribView  = document.getElementById('contributorsView');
-  const searchWrap   = document.querySelector('.search-wrap');
-  const filtersEl    = document.getElementById('filtersSection');
-  const resultsBar   = document.querySelector('.results-bar');
-  const featuredEl   = document.getElementById('featuredSection');
-  const listEl       = document.getElementById('recipeList');
-  const emptyEl      = document.getElementById('emptyState');
+  const contribView = document.getElementById('contributorsView');
+  const mainView    = document.querySelector('.main');
+  const searchWrap  = document.querySelector('.search-wrap');
+  const filtersEl   = document.getElementById('filtersSection');
+  const resultsBar  = document.querySelector('.results-bar');
+  const listEl      = document.getElementById('recipeList');
+  const emptyEl     = document.getElementById('emptyState');
 
   if (v === 'contributors') {
-    searchWrap.style.display   = 'none';
-    filtersEl.style.display    = 'none';
-    resultsBar.style.display   = 'none';
-    featuredEl.style.display   = 'none';
-    listEl.style.display       = 'none';
-    emptyEl.style.display      = 'none';
-    contribView.style.display  = 'block';
+    mainView.style.display    = 'none';
+    contribView.style.display = 'block';
     renderContributorGrid();
     document.getElementById('navContributors').style.color = 'var(--sage)';
     document.getElementById('navRecipes').style.color      = '';
   } else {
-    searchWrap.style.display   = '';
-    filtersEl.style.display    = '';
-    resultsBar.style.display   = '';
-    contribView.style.display  = 'none';
+    mainView.style.display    = '';
+    contribView.style.display = 'none';
     render();
     document.getElementById('navRecipes').style.color      = 'var(--sage)';
     document.getElementById('navContributors').style.color = '';
   }
+}
+
+// ── RESET TO FRONT ────────────────────────────────────────────────────
+function resetToFront() {
+  Object.keys(activeFilters).forEach(k => activeFilters[k] = []);
+  searchTerm = '';
+  document.getElementById('searchInput').value = '';
+  showView('recipes');
+  buildFilters();
+  render();
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────
