@@ -9,13 +9,13 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
-  --sage:      #1875AD;
-  --sage-dark: #145E8A;
-  --sage-lt:   #E4F0F8;
-  --text:      #1875AD;
-  --muted:     #7AAAC8;
-  --border:    #D0E4EE;
-  --bg:        #F6F6F6;
+  --sage:      #D9552B;
+  --sage-dark: #B9471F;
+  --sage-lt:   #ECE8E0;
+  --text:      #1C1B19;
+  --muted:     #8C8A84;
+  --border:    #E6E2DA;
+  --bg:        #F7F4EE;
 }
 
 body {
@@ -102,7 +102,7 @@ nav {
 /* ── SEARCH ── */
 .search-wrap {
   padding: 1.6rem 0 0.8rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border);
 }
 
 .search-wrap input {
@@ -123,7 +123,7 @@ nav {
 /* ── FILTER ROWS ── */
 .filters {
   padding: 1.2rem 0 0.6rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
@@ -158,7 +158,7 @@ nav {
   font-weight: 400;
   color: var(--text);
   background: var(--bg);
-  border: 1px solid #bbb;
+  border: 1px solid var(--muted);
   border-radius: 2px;
   padding: 0.28rem 0.75rem;
   cursor: pointer;
@@ -169,14 +169,14 @@ nav {
 
 .pill:hover {
   background: var(--sage-lt);
-  border-color: var(--sage);
-  color: var(--sage-dark);
+  border-color: var(--text);
+  color: var(--text);
 }
 
 .pill.active {
-  background: var(--sage);
-  border-color: var(--sage);
-  color: #fff;
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
 }
 
 .pill.all-pill.active {
@@ -188,7 +188,7 @@ nav {
 /* ── RESULTS BAR ── */
 .results-bar {
   padding: 0.9rem 0 0;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 0;
 }
 
@@ -335,7 +335,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 0;
-  border-bottom: 1px solid #E8E8E8;
+  border-bottom: 1px solid var(--border);
   gap: 1rem;
 }
 
@@ -378,7 +378,7 @@ nav {
   font-size: 0.58rem; letter-spacing: 1.5px;
   text-transform: uppercase; font-weight: 700;
   padding: 0.3rem 0.7rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   background: var(--bg); color: var(--muted);
   cursor: pointer; transition: all 0.15s;
 }
@@ -397,7 +397,7 @@ nav {
   font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 400;
   padding: 0.4rem 0.9rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   background: var(--bg); color: var(--muted);
   cursor: pointer; transition: all 0.15s;
 }
@@ -407,7 +407,7 @@ nav {
 .add-paste-area {
   width: 100%;
   min-height: 90px;
-  border: 1.5px dashed #ccc;
+  border: 1.5px dashed var(--border);
   padding: 0.8rem;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.82rem;
@@ -421,7 +421,7 @@ nav {
 .add-paste-area:focus { border-color: var(--sage); }
 
 .add-tag-section {
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border);
   margin-top: 1rem;
   padding-top: 1rem;
 }
@@ -450,7 +450,7 @@ nav {
   font-size: 0.7rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #bbb;
+  color: var(--muted);
 }
 
 /* ── MODAL ── */
@@ -468,7 +468,7 @@ nav {
 
 .modal-box {
   background: var(--bg);
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   max-width: 640px;
   width: 100%;
   max-height: 88vh;
@@ -487,7 +487,7 @@ nav {
   position: absolute;
   top: 1.2rem; right: 1.2rem;
   background: none;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   width: 28px; height: 28px;
   cursor: pointer;
   font-size: 1.1rem;
@@ -525,7 +525,7 @@ nav {
   color: var(--muted);
   margin-bottom: 1.2rem;
   padding-bottom: 1.2rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
 }
 
 .modal-pills {
@@ -539,7 +539,7 @@ nav {
   font-size: 0.6rem;
   font-weight: 400;
   padding: 0.2rem 0.6rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 2px;
   color: var(--muted);
 }
@@ -554,7 +554,7 @@ nav {
   color: var(--muted);
   margin-bottom: 0.8rem;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
 }
 
 .ingredients-list { list-style: none; }
@@ -610,7 +610,7 @@ nav {
 
 .form-box {
   background: var(--bg);
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   max-width: 600px;
   width: 100%;
   padding: 2.5rem;
@@ -621,7 +621,7 @@ nav {
 .form-close {
   position: absolute;
   top: 1.2rem; right: 1.2rem;
-  background: none; border: 1px solid #ddd;
+  background: none; border: 1px solid var(--border);
   width: 28px; height: 28px;
   cursor: pointer; font-size: 1.1rem;
   color: var(--muted);
@@ -649,7 +649,7 @@ nav {
 .form-group textarea {
   width: 100%;
   background: var(--bg);
-  border: 1px solid #E0E0E0;
+  border: 1px solid var(--border);
   padding: 0.55rem 0.75rem;
   font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.82rem;
@@ -670,7 +670,7 @@ nav {
   flex: 1; padding: 0.6rem;
   font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 400;
-  border: 1px solid #ddd; cursor: pointer; transition: all 0.15s;
+  border: 1px solid var(--border); cursor: pointer; transition: all 0.15s;
 }
 
 .form-btn.submit { background: var(--sage); color: #fff; border-color: var(--sage); }
@@ -761,7 +761,7 @@ nav {
 
 <!-- CONTRIBUTORS VIEW -->
 <div class="main" id="contributorsView" style="display:none">
-  <div style="display:flex; align-items:center; justify-content:space-between; padding:1.4rem 0 1rem; border-bottom:1px solid #e0e0e0;">
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:1.4rem 0 1rem; border-bottom:1px solid var(--border);">
     <div class="results-count" id="contributorCount"></div>
     <button class="nav-add" onclick="openAddContributor()">+ Add Contributor</button>
   </div>
@@ -829,7 +829,7 @@ nav {
           </div>
           <div class="form-group">
             <label>Contributor</label>
-            <select id="formContributor" style="width:100%;background:var(--bg);border:1px solid #E0E0E0;padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;color:var(--text);outline:none;"></select>
+            <select id="formContributor" style="width:100%;background:var(--bg);border:1px solid var(--border);padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;color:var(--text);outline:none;"></select>
           </div>
         </div>
         <div class="form-row">
@@ -1418,14 +1418,14 @@ function showView(v) {
     mainView.style.display    = 'none';
     contribView.style.display = 'block';
     renderContributorGrid();
-    document.getElementById('navContributors').style.color = 'var(--sage)';
-    document.getElementById('navRecipes').style.color      = '';
+    document.getElementById('navContributors').style.textDecoration = 'underline';
+    document.getElementById('navRecipes').style.textDecoration      = '';
   } else {
     mainView.style.display    = '';
     contribView.style.display = 'none';
     render();
-    document.getElementById('navRecipes').style.color      = 'var(--sage)';
-    document.getElementById('navContributors').style.color = '';
+    document.getElementById('navRecipes').style.textDecoration      = 'underline';
+    document.getElementById('navContributors').style.textDecoration = '';
   }
 }
 
