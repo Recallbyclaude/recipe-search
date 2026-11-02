@@ -813,12 +813,20 @@ nav {
         <textarea class="add-paste-area" id="formSourceText" placeholder="Paste the full recipe text here — ingredients, steps, whatever you have." rows="6"></textarea>
       </div>
       <div class="autofill-row">
-        <button type="button" class="form-btn submit" id="autofillBtn" onclick="autofill()">Auto-fill</button>
+        <button type="button" class="form-btn submit" id="autofillBtn" onclick="autofillWithFallback()">Auto-fill</button>
         <span class="autofill-status" id="autofillStatus">Fills in the form below. Or just type it in yourself.</span>
       </div>
     </div>
 
-    <!-- STEP 2: Tag it -->
+    
+<div id="autofillFallback" style="display:none;margin-top:0.8rem;padding:0.8rem;border:1.5px dashed var(--border);">
+  <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.6rem;">Can’t auto-read that link — what’s the dish called?</p>
+  <div style="display:flex;gap:0.5rem;align-items:center;">
+    <input type="text" id="dishNameInput" placeholder="e.g. Pad Thai, Risotto…" style="flex:1;border:1px solid var(--border);padding:0.45rem 0.7rem;font-family:inherit;font-size:0.82rem;background:var(--bg);color:var(--text);outline:none;">
+    <button type="button" class="form-btn submit" id="dishSearchBtn" onclick="searchByDishName()" style="flex:0;padding:0.5rem 1rem;">Find Recipe</button>
+  </div>
+</div>
+<!-- STEP 2: Tag it -->
     <form id="recipeForm">
       <div class="add-tag-section">
         <div class="add-tag-label">Tag It</div>
@@ -1444,6 +1452,71 @@ populateContributorSelect();
 buildFilters();
 render();
 loadWeather();
+
+// ── SOCIAL MEDIA FALLBACK ────────────────────────────────────────────
+function isSocialUrl(url) {
+  return /instagram\.com|tiktok\.com|youtube\.com|youtu\.be/i.test(url);
+}
+
+function autofillWithFallback() {
+  const link = document.getElementById('formSourceLink');
+  const url = (link && link.value.trim()) || '';
+  const isLinkMode = document.getElementById('addInputLink').style.display !== 'none';
+  if (isLinkMode && isSocialUrl(url)) {
+    document.getElementById('autofillFallback').style.display = 'block';
+    document.getElementById('autofillStatus').textContent = "Can’t auto-scrape social media — enter the dish name below.";
+    setTimeout(() => document.getElementById('dishNameInput').focus(), 100);
+    return;
+  }
+  autofill();
+}
+
+async function searchByDishName() {
+  const dishInput = document.getElementById('dishNameInput');
+  const dish = dishInput ? dishInput.value.trim() : '';
+  if (!dish) { dishInput && dishInput.focus(); return; }
+  const btn = document.getElementById('dishSearchBtn');
+  const status = document.getElementById('autofillStatus');
+  btn.disabled = true; btn.textContent = 'Searching…';
+  status.textContent = 'Looking up "' + dish + '" in recipe database…';
+  try {
+    const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + encodeURIComponent(dish));
+    const data = await res.json();
+    if (!data.meals || !data.meals.length) {
+      status.textContent = 'No results for "' + dish + '" — try a different spelling.';
+      btn.disabled = false; btn.textContent = 'Find Recipe'; return;
+    }
+    const meal = data.meals[0];
+    const ings = [];
+    for (let i = 1; i <= 20; i++) {
+      const ing = (meal['strIngredient' + i] || '').trim();
+      const meas = (meal['strMeasure' + i] || '').trim();
+      if (ing) ings.push(meas ? meas + ' ' + ing : ing);
+    }
+    const steps = (meal.strInstructions || '')
+      .split(/\r?\n+/)
+      .map(s => s.replace(/^\s*\d+[\.)] */, '').trim())
+      .filter(s => s.length > 5);
+    document.getElementById('formTitle').value = meal.strMeal || dish;
+    document.getElementById('formCuisine').value = meal.strArea || '';
+    document.getElementById('formIngredients').value = ings.join(', ');
+    const instrEl = document.getElementById('formInstructions');
+    instrEl.value = '[Unverified — best match from TheMealDB, not the original post]\n' + steps.join('\n');
+    if (!document.getElementById('formMood').value) document.getElementById('formMood').value = 'unverified';
+    status.textContent = '✓ Filled from TheMealDB: "' + meal.strMeal + '" — not the original recipe, edit as needed.';
+    document.getElementById('autofillFallback').style.display = 'none';
+  } catch(err) {
+    status.textContent = 'Search failed — fill in manually.';
+  }
+  btn.disabled = false; btn.textContent = 'Find Recipe';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'dishNameInput') {
+    e.preventDefault(); searchByDishName();
+  }
+});
+
 </script>
 </body>
 </html>
