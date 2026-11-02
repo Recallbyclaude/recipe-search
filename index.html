@@ -4,22 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recall Recipes — Paul's Kitchen</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,400;1,700&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
-  --sage:      #6B8F71;
-  --sage-dark: #4A6850;
-  --sage-lt:   #E8F0E9;
-  --text:      #000000;
-  --muted:     #666666;
-  --border:    #d0d0d0;
-  --bg:        #E8F0E9;
+  --sage:      #1A1A1A;
+  --sage-dark: #000000;
+  --sage-lt:   #F2F2F0;
+  --text:      #1A1A1A;
+  --muted:     #888888;
+  --border:    #E0E0E0;
+  --bg:        #FFFFFF;
 }
 
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
@@ -34,9 +34,9 @@ header {
 }
 
 header h1 {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 4.2rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: -1px;
   line-height: 1;
   margin-bottom: 0.55rem;
@@ -46,8 +46,8 @@ header p {
   font-size: 0.65rem;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--text);
-  font-weight: 400;
+  color: var(--muted);
+  font-weight: 300;
 }
 
 /* ── NAV ── */
@@ -109,7 +109,7 @@ nav {
   width: 100%;
   border: none;
   outline: none;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.7rem;
   font-style: italic;
   font-weight: 400;
@@ -152,13 +152,13 @@ nav {
 }
 
 .pill {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 400;
   color: var(--text);
   background: var(--bg);
   border: 1px solid #bbb;
-  border-radius: 20px;
+  border-radius: 2px;
   padding: 0.28rem 0.75rem;
   cursor: pointer;
   white-space: nowrap;
@@ -203,9 +203,9 @@ nav {
 /* ── RECIPE GRID ── */
 .recipe-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
-  background: #d8e8da;
+  background: #E8E8E8;
   padding: 1px 0 4rem;
 }
 
@@ -218,11 +218,11 @@ nav {
   overflow: hidden;
 }
 
-.recipe-card:hover { box-shadow: inset 0 0 0 2px var(--sage); }
+.recipe-card:hover { background: #FAFAFA; }
 
 .recipe-card-img {
   width: 100%;
-  aspect-ratio: 16/9;
+  aspect-ratio: 4/3;
   background: var(--sage-lt);
   display: flex;
   align-items: center;
@@ -242,8 +242,8 @@ nav {
   font-size: 0.55rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--sage);
-  font-weight: 700;
+  color: #BBBBBB;
+  font-weight: 400;
 }
 
 .recipe-card-body {
@@ -254,9 +254,9 @@ nav {
 }
 
 .recipe-card-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.05rem;
-  font-weight: 900;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
   line-height: 1.2;
   margin-bottom: 0.5rem;
   flex: 1;
@@ -277,7 +277,7 @@ nav {
   color: #fff;
   background: var(--sage);
   padding: 0.15rem 0.5rem;
-  border-radius: 20px;
+  border-radius: 2px;
 }
 
 .recipe-card-meta {
@@ -294,7 +294,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 0;
-  border-bottom: 1px solid #e8f0e9;
+  border-bottom: 1px solid #E8E8E8;
   gap: 1rem;
 }
 
@@ -316,8 +316,8 @@ nav {
 }
 
 .contributor-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem; font-weight: 900;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 600;
   margin-bottom: 0.1rem;
 }
 
@@ -333,7 +333,7 @@ nav {
 }
 
 .c-btn {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.58rem; letter-spacing: 1.5px;
   text-transform: uppercase; font-weight: 700;
   padding: 0.3rem 0.7rem;
@@ -353,8 +353,8 @@ nav {
 }
 
 .add-tab {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+  font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 400;
   padding: 0.4rem 0.9rem;
   border: 1px solid #ddd;
   background: #fff; color: var(--muted);
@@ -374,7 +374,7 @@ nav {
   outline: none;
   resize: vertical;
   transition: border-color 0.15s;
-  background: #f9fdf9;
+  background: #FAFAFA;
 }
 
 .add-paste-area:focus { border-color: var(--sage); }
@@ -398,7 +398,7 @@ nav {
 }
 
 .empty-state h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 1.4rem;
   font-style: italic;
   font-weight: 400;
@@ -468,9 +468,9 @@ nav {
 }
 
 .modal-box h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 2rem;
-  font-weight: 900;
+  font-weight: 600;
   line-height: 1.1;
   margin-bottom: 0.8rem;
 }
@@ -500,7 +500,7 @@ nav {
   font-weight: 400;
   padding: 0.2rem 0.6rem;
   border: 1px solid #ddd;
-  border-radius: 20px;
+  border-radius: 2px;
   color: var(--muted);
 }
 
@@ -592,8 +592,8 @@ nav {
 .form-close:hover { background: var(--sage); color: #fff; border-color: var(--sage); }
 
 .form-box h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem; font-weight: 900;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem; font-weight: 600;
   margin-bottom: 1.5rem;
 }
 
@@ -608,10 +608,10 @@ nav {
 .form-group input,
 .form-group textarea {
   width: 100%;
-  background: var(--bg);
-  border: 1px solid #ddd;
+  background: #FAFAFA;
+  border: 1px solid #E0E0E0;
   padding: 0.55rem 0.75rem;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.82rem;
   color: var(--text);
   outline: none;
@@ -628,22 +628,24 @@ nav {
 
 .form-btn {
   flex: 1; padding: 0.6rem;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+  font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 400;
   border: 1px solid #ddd; cursor: pointer; transition: all 0.15s;
 }
 
 .form-btn.submit { background: var(--sage); color: #fff; border-color: var(--sage); }
 .form-btn.submit:hover { background: var(--sage-dark); border-color: var(--sage-dark); }
-.form-btn.cancel { background: var(--bg); color: var(--muted); }
+.form-btn.cancel { background: #fff; color: var(--muted); }
 .form-btn.cancel:hover { background: var(--text); color: #fff; border-color: var(--text); }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .recipe-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
   header h1 { font-size: 2.6rem; }
   .filter-row { flex-direction: column; gap: 0.4rem; }
   .filter-row-label { min-width: unset; }
-  .recipe-item { grid-template-columns: 1fr; }
-  .recipe-item-right { text-align: left; }
+  .recipe-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
