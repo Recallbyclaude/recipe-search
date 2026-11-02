@@ -562,8 +562,8 @@ nav {
 
 <!-- NAV -->
 <nav>
-  <button class="nav-link" onclick="showView('recipes')">Recipes</button>
-  <button class="nav-link" onclick="showView('contributors')">Contributors</button>
+  <button class="nav-link" id="navRecipes" onclick="showView('recipes')">Recipes</button>
+  <button class="nav-link" id="navContributors" onclick="showView('contributors')">Contributors</button>
   <button class="nav-add" id="navAddBtn">+ Add Recipe</button>
 </nav>
 
@@ -620,11 +620,38 @@ nav {
 
 </div>
 
+<!-- CONTRIBUTORS VIEW -->
+<div class="main" id="contributorsView" style="display:none">
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:1.4rem 0 1rem; border-bottom:1px solid #e0e0e0;">
+    <div class="results-count">Contributors</div>
+    <button class="nav-add" onclick="openAddContributor()">+ Add Contributor</button>
+  </div>
+  <div id="contributorGrid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; padding:1.5rem 0 4rem;"></div>
+</div>
+
 <!-- RECIPE MODAL -->
 <div class="modal" id="recipeModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">×</button>
     <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ADD CONTRIBUTOR MODAL -->
+<div class="form-modal" id="addContributorModal">
+  <div class="form-box">
+    <button class="form-close" onclick="closeAddContributor()">×</button>
+    <h2>Add Contributor</h2>
+    <form id="contributorForm">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="formContributorName" placeholder="e.g., Queenie Chan" required>
+      </div>
+      <div class="form-btns">
+        <button type="button" class="form-btn cancel" onclick="closeAddContributor()">Cancel</button>
+        <button type="submit" class="form-btn submit">Add Contributor</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -637,6 +664,10 @@ nav {
       <div class="form-group">
         <label>Recipe Title</label>
         <input type="text" id="formTitle" placeholder="e.g., Tempura Udon" required>
+      </div>
+      <div class="form-group">
+        <label>Contributor</label>
+        <select id="formContributor" style="width:100%;background:#fff;border:1px solid #ddd;padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;color:#000;outline:none;"></select>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -721,6 +752,9 @@ const recipes = [
   { id:40, title:"Bone Broth Ramen",                      contributor:"Paul Barbera", from:"",           mood:["comfort","warming","slow"],            cuisine:["Japanese"],              dietary:[],                        time:"45 mins", servings:4,             ingredients:"chicken thigh, mirin, soy sauce, cayenne, garlic, chicken stock, ginger, spring onions, shiitake mushrooms, ramen noodles, eggs",                                   instructions:["Marinate chicken in mirin, soy sauce, cayenne, garlic for at least 1 hour.","Roast chicken at 425°F for 15 minutes, glaze, cook 10-15 minutes more.","Simmer stock with garlic, ginger, spring onions, chili, soy sauce, mirin for 25 minutes.","Cook ramen noodles separately.","Strain stock, add mushrooms, simmer 5 minutes.","Soft boil eggs 6-6.5 minutes.","Assemble bowls with noodles, stock, chicken, eggs, greens, and toppings."] }
 ];
 
+// ── CONTRIBUTORS ────────────────────────────────────────────────────
+let contributors = ["Paul Barbera","Queenie Chan","Chris Tag","Jenny NG","Sam Surkosky"];
+
 // ── STATE ───────────────────────────────────────────────────────────
 const activeFilters = { contributor:[], from:[], cuisine:[], mood:[], dietary:[] };
 let searchTerm = '';
@@ -734,7 +768,10 @@ function countOf(field, val) {
 }
 
 function allValues(field) {
-  if (field === 'contributor' || field === 'from') {
+  if (field === 'contributor') {
+    return [...contributors];
+  }
+  if (field === 'from') {
     const s = new Set(recipes.map(r => r[field]).filter(Boolean));
     return Array.from(s).sort();
   }
@@ -889,7 +926,7 @@ document.getElementById('recipeForm').addEventListener('submit', e => {
   recipes.push({
     id:          recipes.length + 1,
     title:       document.getElementById('formTitle').value,
-    contributor: 'Paul Barbera',
+    contributor: document.getElementById('formContributor').value || 'Paul Barbera',
     from:        '',
     mood:        document.getElementById('formMood').value.split(',').map(s=>s.trim()).filter(Boolean),
     cuisine:     document.getElementById('formCuisine').value.split(',').map(s=>s.trim()).filter(Boolean),
@@ -910,8 +947,88 @@ document.getElementById('searchInput').addEventListener('input', e => {
   render();
 });
 
+// ── CONTRIBUTOR MODAL ────────────────────────────────────────────────
+function openAddContributor() {
+  document.getElementById('addContributorModal').classList.add('active');
+}
+function closeAddContributor() {
+  document.getElementById('addContributorModal').classList.remove('active');
+  document.getElementById('contributorForm').reset();
+}
+document.getElementById('contributorForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = document.getElementById('formContributorName').value.trim();
+  if (name && !contributors.includes(name)) {
+    contributors.push(name);
+    buildFilters();
+    renderContributorGrid();
+    populateContributorSelect();
+  }
+  closeAddContributor();
+});
+
+// ── CONTRIBUTOR GRID ─────────────────────────────────────────────────
+function renderContributorGrid() {
+  const grid = document.getElementById('contributorGrid');
+  grid.innerHTML = contributors.map(name => {
+    const count = recipes.filter(r => r.contributor === name).length;
+    const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+    return `<div style="border:1px solid #ddd;padding:1.4rem;background:#fff;cursor:pointer;" onclick="filterByContributor('${name}')">
+      <div style="width:44px;height:44px;border-radius:50%;background:var(--sage-lt);border:1px solid var(--sage);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--sage-dark);margin-bottom:0.8rem;">${initials}</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:900;margin-bottom:0.2rem;">${name}</div>
+      <div style="font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${count} Recipe${count !== 1 ? 's' : ''}</div>
+    </div>`;
+  }).join('');
+}
+
+function filterByContributor(name) {
+  showView('recipes');
+  activeFilters.contributor = [name];
+  buildFilters();
+  render();
+}
+
+// ── CONTRIBUTOR SELECT ────────────────────────────────────────────────
+function populateContributorSelect() {
+  const sel = document.getElementById('formContributor');
+  sel.innerHTML = contributors.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+// ── VIEW SWITCHER ─────────────────────────────────────────────────────
+function showView(v) {
+  const recipesView  = document.getElementById('main') || document.querySelector('.main');
+  const contribView  = document.getElementById('contributorsView');
+  const searchWrap   = document.querySelector('.search-wrap');
+  const filtersEl    = document.getElementById('filtersSection');
+  const resultsBar   = document.querySelector('.results-bar');
+  const featuredEl   = document.getElementById('featuredSection');
+  const listEl       = document.getElementById('recipeList');
+  const emptyEl      = document.getElementById('emptyState');
+
+  if (v === 'contributors') {
+    searchWrap.style.display   = 'none';
+    filtersEl.style.display    = 'none';
+    resultsBar.style.display   = 'none';
+    featuredEl.style.display   = 'none';
+    listEl.style.display       = 'none';
+    emptyEl.style.display      = 'none';
+    contribView.style.display  = 'block';
+    renderContributorGrid();
+    document.getElementById('navContributors').style.color = 'var(--sage)';
+    document.getElementById('navRecipes').style.color      = '';
+  } else {
+    searchWrap.style.display   = '';
+    filtersEl.style.display    = '';
+    resultsBar.style.display   = '';
+    contribView.style.display  = 'none';
+    render();
+    document.getElementById('navRecipes').style.color      = 'var(--sage)';
+    document.getElementById('navContributors').style.color = '';
+  }
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────
-function showView(v) { /* placeholder for future views */ }
+populateContributorSelect();
 buildFilters();
 render();
 </script>
