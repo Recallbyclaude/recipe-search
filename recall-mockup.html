@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recall Recipes — Mockup (paulbarbera.com aesthetic)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  /* ─────────── MOCKUP LABEL ─────────── */
+  .mockup-label {
+    background: #1A1A1A;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    text-align: center;
+  }
+
+  /* ─────────── RESET & BASE ─────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #FFFFFF;
+    --text:    #1A1A1A;
+    --muted:   #888888;
+    --border:  #E0E0E0;
+    --active:  #1A1A1A;
+    --card-bg: #FFFFFF;
+    --grid-gap: #EBEBEB;
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─────────── HEADER ─────────── */
+  header {
+    text-align: center;
+    padding: 3.5rem 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    letter-spacing: -0.01em;
+    color: var(--text);
+    cursor: pointer;
+    line-height: 1.1;
+  }
+
+  header p {
+    margin-top: 0.55rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ─────────── NAV ─────────── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-link {
+    background: none;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 1rem 1.6rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--text); border-bottom-color: var(--text); }
+
+  .nav-divider {
+    width: 1px;
+    height: 14px;
+    background: var(--border);
+  }
+
+  .nav-add {
+    background: none;
+    border: 1px solid var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.45rem 1.1rem;
+    margin-left: 1.2rem;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-add:hover { background: var(--text); color: #fff; }
+
+  /* ─────────── SEARCH BAR ─────────── */
+  .search-bar {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--text);
+    background: transparent;
+    letter-spacing: 0.02em;
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+  .search-icon { color: var(--muted); font-size: 0.9rem; }
+
+  /* ─────────── FILTERS ─────────── */
+  .filters {
+    border-bottom: 1px solid var(--border);
+  }
+  .filter-row {
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 1.5rem;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-row:last-child { border-bottom: none; }
+  .filter-label {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    min-width: 80px;
+    font-weight: 400;
+  }
+  .pill {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 400;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .pill:hover { border-color: var(--text); }
+  .pill.active {
+    background: var(--text);
+    border-color: var(--text);
+    color: #fff;
+  }
+  .pill-count {
+    opacity: 0.45;
+    font-size: 0.6rem;
+    margin-left: 3px;
+  }
+
+  /* ─────────── RESULTS BAR ─────────── */
+  .results-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .results-count {
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ─────────── RECIPE GRID ─────────── */
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--grid-gap);
+  }
+
+  .recipe-card {
+    background: var(--card-bg);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.12s;
+  }
+  .recipe-card:hover { background: #FAFAF8; }
+
+  .recipe-card-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: #F2F2F0;
+  }
+  .recipe-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.95);
+    transition: transform 0.3s;
+  }
+  .recipe-card:hover .recipe-card-img img { transform: scale(1.02); }
+
+  .recipe-card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #BBBBBB;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .recipe-card-body {
+    padding: 0.9rem 1rem 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .recipe-card-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    line-height: 1.2;
+    color: var(--text);
+  }
+
+  .recipe-card-meta {
+    font-size: 0.63rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 0.15rem;
+  }
+
+  .recipe-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+
+  .recipe-card-tag {
+    font-size: 0.58rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.15rem 0.45rem;
+  }
+
+  /* ─────────── COMPARISON PANEL ─────────── */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .compare-col {
+    padding: 2rem 1.5rem;
+    border-right: 1px solid var(--border);
+  }
+  .compare-col:last-child { border-right: none; }
+  .compare-label {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .swatch-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  .swatch {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+  }
+  .swatch-info { font-size: 0.72rem; color: var(--muted); font-family: 'DM Sans', sans-serif; }
+  .swatch-name { font-size: 0.8rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<div class="mockup-label">— Mockup · Recall Recipes × Paul Barbera aesthetic — fonts & colours only · layout unchanged —</div>
+
+<!-- NEW DESIGN -->
+<header>
+  <h1>Recall Recipes</h1>
+  <p>A Community Table &nbsp;·&nbsp; By Paul Barbera</p>
+</header>
+
+<nav>
+  <button class="nav-link active">Recipes</button>
+  <div class="nav-divider"></div>
+  <button class="nav-link">Contributors</button>
+  <button class="nav-add">+ Add Recipe</button>
+</nav>
+
+<div class="search-bar">
+  <span class="search-icon">↳</span>
+  <input type="text" placeholder="Search recipes, ingredients…">
+</div>
+
+<div class="filters">
+  <div class="filter-row">
+    <span class="filter-label">Contributor</span>
+    <button class="pill active">Paul Barbera <span class="pill-count">12</span></button>
+    <button class="pill">Queenie Chan <span class="pill-count">8</span></button>
+    <button class="pill">Chris Tag <span class="pill-count">5</span></button>
+    <button class="pill">Jenny NG <span class="pill-count">6</span></button>
+    <button class="pill">Sam Surkosky <span class="pill-count">4</span></button>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Cuisine</span>
+    <button class="pill">Japanese <span class="pill-count">7</span></button>
+    <button class="pill">Italian <span class="pill-count">9</span></button>
+    <button class="pill">Vietnamese <span class="pill-count">4</span></button>
+    <button class="pill">Middle Eastern <span class="pill-count">3</span></button>
+    <button class="pill active">Australian <span class="pill-count">5</span></button>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Mood</span>
+    <button class="pill">Weeknight <span class="pill-count">14</span></button>
+    <button class="pill">Weekend <span class="pill-count">8</span></button>
+    <button class="pill">Comfort <span class="pill-count">11</span></button>
+    <button class="pill">Elegant <span class="pill-count">6</span></button>
+  </div>
+</div>
+
+<div class="results-bar">
+  <span class="results-count">17 recipes</span>
+</div>
+
+<!-- RECIPE GRID -->
+<div class="recipe-grid">
+
+  <div class="recipe-card">
+    <div class="recipe-card-img">
+      <img src="images/middle-eastern-roast-chicken-couscous.jpg" alt="Roast Chicken" onerror="this.parentNode.innerHTML='<div class=&quot;recipe-card-img-placeholder&quot;>No image yet</div>'">
+    </div>
+    <div class="recipe-card-body">
+      <div class="recipe-card-title">Middle Eastern Roast Chicken</div>
+      <div class="recipe-card-meta">Paul Barbera &nbsp;·&nbsp; 90 min</div>
+      <div class="recipe-card-tags">
+        <span class="recipe-card-tag">Middle Eastern</span>
+        <span class="recipe-card-tag">Weekend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe-card">
+    <div class="recipe-card-img">
+      <img src="images/shiitake-cremini-mushroom-risotto.jpg" alt="Mushroom Risotto" onerror="this.parentNode.innerHTML='<div class=&quot;recipe-card-img-placeholder&quot;>No image yet</div>'">
+    </div>
+    <div class="recipe-card-body">
+      <div class="recipe-card-title">Mushroom Risotto</div>
+      <div class="recipe-card-meta">Paul Barbera &nbsp;·&nbsp; 45 min</div>
+      <div class="recipe-card-tags">
+        <span class="recipe-card-tag">Italian</span>
+        <span class="recipe-card-tag">Comfort</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe-card">
+    <div class="recipe-card-img">
+      <img src="images/vietnamese-summer-rolls.jpg" alt="Summer Rolls" onerror="this.parentNode.innerHTML='<div class=&quot;recipe-card-img-placeholder&quot;>No image yet</div>'">
+    </div>
+    <div class="recipe-card-body">
+      <div class="recipe-card-title">Vietnamese Summer Rolls</div>
+      <div class="recipe-card-meta">Queenie Chan &nbsp;·&nbsp; 30 min</div>
+      <div class="recipe-card-tags">
+        <span class="recipe-card-tag">Vietnamese</span>
+        <span class="recipe-card-tag">Light</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe-card">
+    <div class="recipe-card-img">
+      <img src="images/kimchi-gyoza-nabe.jpg" alt="Kimchi Gyoza Nabe" onerror="this.parentNode.innerHTML='<div class=&quot;recipe-card-img-placeholder&quot;>No image yet</div>'">
+    </div>
+    <div class="recipe-card-body">
+      <div class="recipe-card-title">Kimchi Gyoza Nabe</div>
+      <div class="recipe-card-meta">Jenny NG &nbsp;·&nbsp; 35 min</div>
+      <div class="recipe-card-tags">
+        <span class="recipe-card-tag">Japanese</span>
+        <span class="recipe-card-tag">Weeknight</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe-card">
+    <div class="recipe-card-img">
+      <img src="images/pasta-alle-vongole.jpg" alt="Pasta a Vongole" onerror="this.parentNode.innerHTML='<div class=&quot;recipe-card-img-placeholder&quot;>No image yet</div>'">
+    </div>
+    <div class="recipe-card-body">
+      <div class="recipe-card-title">Pasta a Vongole</div>
+      <div class="recipe-card-meta">Paul Barbera &nbsp;·&nbsp; 25 min</div>
+      <div class="recipe-card-tags">
+        <span class="recipe-card-tag">Italian</span>
+        <span class="recipe-card-tag">Elegant</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe-card">
+    <div class="recipe-card-img">
+      <img src="images/sri-lankan-chicken-curry.jpg" alt="Sri Lankan Curry" onerror="this.parentNode.innerHTML='<div class=&quot;recipe-card-img-placeholder&quot;>No image yet</div>'">
+    </div>
+    <div class="recipe-card-body">
+      <div class="recipe-card-title">Sri Lankan Chicken Curry</div>
+      <div class="recipe-card-meta">Sam Surkosky &nbsp;·&nbsp; 60 min</div>
+      <div class="recipe-card-tags">
+        <span class="recipe-card-tag">Sri Lankan</span>
+        <span class="recipe-card-tag">Comfort</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- COMPARISON: CURRENT vs NEW -->
+<div style="padding: 3rem 1.5rem 1rem; border-top: 1px solid #E0E0E0; margin-top: 3rem;">
+  <p style="font-family:'DM Sans',sans-serif; font-size:0.6rem; letter-spacing:3px; text-transform:uppercase; color:#888; margin-bottom:2rem;">Design comparison — what changes</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+
+    <!-- CURRENT -->
+    <div>
+      <p style="font-family:'DM Sans',sans-serif; font-size:0.6rem; letter-spacing:2px; text-transform:uppercase; color:#888; margin-bottom:1rem;">Current</p>
+
+      <div style="display:flex; gap:0.5rem; margin-bottom:0.6rem; align-items:center;">
+        <div style="width:28px;height:28px;background:#E8F0E9;border:1px solid #ccc;flex-shrink:0;"></div>
+        <span style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:#444;">#E8F0E9 — sage green background</span>
+      </div>
+      <div style="display:flex; gap:0.5rem; margin-bottom:0.6rem; align-items:center;">
+        <div style="width:28px;height:28px;background:#6B8F71;flex-shrink:0;"></div>
+        <span style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:#444;">#6B8F71 — sage green accent</span>
+      </div>
+      <div style="display:flex; gap:0.5rem; margin-bottom:1rem; align-items:center;">
+        <div style="width:100px;height:28px;background:#E8F0E9;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Playfair Display',serif;font-size:0.8rem;color:#000;">Recall</span>
+        </div>
+        <span style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:#444;">Playfair Display heading</span>
+      </div>
+      <div style="display:flex; gap:0.5rem; align-items:center;">
+        <div style="width:100px;height:28px;background:#fff;border:1px solid #6B8F71;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:0.65rem;color:#6B8F71;font-family:sans-serif;text-transform:uppercase;letter-spacing:1px;">Filter</span>
+        </div>
+        <span style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:#444;">Sage-border pills</span>
+      </div>
+    </div>
+
+    <!-- NEW -->
+    <div>
+      <p style="font-family:'DM Sans',sans-serif; font-size:0.6rem; letter-spacing:2px; text-transform:uppercase; color:#888; margin-bottom:1rem;">New (this mockup)</p>
+
+      <div style="display:flex; gap:0.5rem; margin-bottom:0.6rem; align-items:center;">
+        <div style="width:28px;height:28px;background:#FFFFFF;border:1px solid #ccc;flex-shrink:0;"></div>
+        <span style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:#444;">#FFFFFF — clean white</span>
+      </div>
+      <div style="display:flex; gap:0.5rem; margin-bottom:0.6rem; align-items:center;">
+        <div style="width:28px;height:28px;background:#1A1A1A;flex-shrink:0;"></div>
+        <span style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:#444;">#1A1A1A — near-black accent</span>
+      </div>
+      <div style="display:flex; gap:0.5rem; margin-bottom:1rem; align-items:center;">
+        <div style="width:100px;height:28px;background:#fff;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;font-weight:600;color:#1a1a1a;">Recall</span>
+        </div>
+        <span style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:#444;">Cormorant Garamond heading</span>
+      </div>
+      <div style="display:flex; gap:0.5rem; align-items:center;">
+        <div style="width:100px;height:28px;background:#1a1a1a;border:1px solid #1a1a1a;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:0.65rem;color:#fff;font-family:'DM Sans',sans-serif;text-transform:uppercase;letter-spacing:1.5px;">Filter</span>
+        </div>
+        <span style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:#444;">Black filled pills (active)</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="padding:1.5rem; text-align:center; font-size:0.65rem; letter-spacing:2px; text-transform:uppercase; color:#aaa; font-family:'DM Sans',sans-serif; border-top:1px solid #E0E0E0; margin-top:2rem;">
+  Mockup only — if approved, fonts & colours will be applied to the live site
+</div>
+
+</body>
+</html>
