@@ -319,6 +319,19 @@ nav {
 .modal-source { font-size: 0.75rem; margin-top: 1.4rem; }
 .modal-source a { color: var(--sage); }
 .modal-actions { margin-top: 1.6rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.shop-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; }
+.shop-btn {
+  font-family: inherit; font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;
+  padding: 0.5rem 0.9rem; border: 1px solid var(--text); background: var(--text); color: var(--bg); cursor: pointer;
+}
+.shop-btn:hover { background: var(--sage); border-color: var(--sage); }
+.shop-btn.ghost { background: transparent; color: var(--text); }
+.shop-btn.ghost:hover { background: var(--sage-lt); }
+.shop-note { font-size: 0.72rem; color: var(--muted); }
+.shop-note a { color: var(--sage); }
+.ingredients-list li label { display: flex; gap: 0.6rem; align-items: flex-start; cursor: pointer; }
+.ingredients-list li input { margin-top: 0.3rem; accent-color: var(--text); }
+.ingredients-list li input:checked + span { text-decoration: line-through; color: var(--muted); }
 
 /* add-recipe extras */
 .autofill-row { display: flex; align-items: center; gap: 1rem; margin-top: 0.8rem; }
@@ -776,6 +789,14 @@ nav {
   </div>
 </div>
 
+<!-- REMINDERS SETUP MODAL -->
+<div class="form-modal" id="setupModal">
+  <div class="form-box">
+    <button class="form-close" onclick="closeSetup()">×</button>
+    <div id="setupBody" style="font-size:0.9rem;line-height:1.6"></div>
+  </div>
+</div>
+
 <!-- ADD CONTRIBUTOR MODAL -->
 <div class="form-modal" id="addContributorModal">
   <div class="form-box">
@@ -813,20 +834,12 @@ nav {
         <textarea class="add-paste-area" id="formSourceText" placeholder="Paste the full recipe text here — ingredients, steps, whatever you have." rows="6"></textarea>
       </div>
       <div class="autofill-row">
-        <button type="button" class="form-btn submit" id="autofillBtn" onclick="autofillWithFallback()">Auto-fill</button>
+        <button type="button" class="form-btn submit" id="autofillBtn" onclick="autofill()">Auto-fill</button>
         <span class="autofill-status" id="autofillStatus">Fills in the form below. Or just type it in yourself.</span>
       </div>
     </div>
 
-    
-<div id="autofillFallback" style="display:none;margin-top:0.8rem;padding:0.8rem;border:1.5px dashed var(--border);">
-  <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.6rem;">Can’t auto-read that link — what’s the dish called?</p>
-  <div style="display:flex;gap:0.5rem;align-items:center;">
-    <input type="text" id="dishNameInput" placeholder="e.g. Pad Thai, Risotto…" style="flex:1;border:1px solid var(--border);padding:0.45rem 0.7rem;font-family:inherit;font-size:0.82rem;background:var(--bg);color:var(--text);outline:none;">
-    <button type="button" class="form-btn submit" id="dishSearchBtn" onclick="searchByDishName()" style="flex:0;padding:0.5rem 1rem;">Find Recipe</button>
-  </div>
-</div>
-<!-- STEP 2: Tag it -->
+    <!-- STEP 2: Tag it -->
     <form id="recipeForm">
       <div class="add-tag-section">
         <div class="add-tag-label">Tag It</div>
@@ -1159,6 +1172,8 @@ function openModal(id) {
   const allTags = [...(r.mood||[]), ...(r.cuisine||[]), ...(r.dietary||[])].filter(Boolean);
   const ingr = Array.isArray(r.ingredients) ? r.ingredients : String(r.ingredients||'').split(',');
   const steps = Array.isArray(r.instructions) ? r.instructions : String(r.instructions||'').split('\n');
+  const ingrClean = ingr.map(i => String(i).trim()).filter(Boolean);
+  const ticked = new Set(lsGet('recall.ticked.' + r.id, []));
   document.getElementById('modalBody').innerHTML = `
     ${r.photo ? `<img class="modal-photo" src="${esc(r.photo)}" alt="">` : ''}
     ${cuisineStr ? `<div class="modal-cuisine">${esc(cuisineStr)}</div>` : ''}
@@ -1171,7 +1186,12 @@ function openModal(id) {
     <div class="modal-pills">${allTags.map(t=>`<span class="modal-pill">${esc(t)}</span>`).join('')}</div>
     <div class="modal-section" style="clear:both">
       <h3>Ingredients</h3>
-      <ul class="ingredients-list">${ingr.map(i=>i.trim()).filter(Boolean).map(i=>`<li>${esc(i)}</li>`).join('')}</ul>
+      <ul class="ingredients-list">${ingrClean.map((i,k)=>`<li><label><input type="checkbox" ${ticked.has(i)?'checked':''} onchange="tickIngredient(${r.id}, this)"><span>${esc(i)}</span></label></li>`).join('')}</ul>
+      <div class="shop-row">
+        <button class="shop-btn" onclick="sendToReminders(${r.id})">Send to Reminders</button>
+        <button class="shop-btn ghost" onclick="copyShoppingList(${r.id}, this)">Copy list</button>
+        <span class="shop-note" id="shopNote">${isApple() ? '' : 'Reminders works on iPhone, iPad and Mac.'} <a href="#" onclick="openSetup(); return false;">Set up</a></span>
+      </div>
     </div>
     <div class="modal-section">
       <h3>Method</h3>
@@ -1184,6 +1204,64 @@ function openModal(id) {
 }
 
 function closeModal() { document.getElementById('recipeModal').classList.remove('active'); }
+
+// ── SHOPPING LIST → APPLE REMINDERS ──────────────────────────────────
+// Opens the "Recall Groceries" Shortcut on iPhone/iPad/Mac with the ingredients as input.
+// The Shortcut adds each line to a Reminders list. One-time install via the Set up link.
+const SHORTCUT_NAME = 'Recall Groceries';
+const SHORTCUT_ICLOUD = ''; // optional: paste an iCloud share link here to offer one-tap install
+
+function isApple() { return /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent) && !/Android/.test(navigator.userAgent); }
+
+function ingredientLines(r) {
+  const ingr = Array.isArray(r.ingredients) ? r.ingredients : String(r.ingredients||'').split(',');
+  return ingr.map(i => String(i).trim()).filter(Boolean);
+}
+
+function tickIngredient(id, box) {
+  const key = 'recall.ticked.' + id;
+  const set = new Set(lsGet(key, []));
+  const name = box.nextElementSibling.textContent;
+  box.checked ? set.add(name) : set.delete(name);
+  lsSet(key, [...set]);
+}
+
+function sendToReminders(id) {
+  const r = recipes.find(x => x.id === id);
+  if (!r) return;
+  const text = ingredientLines(r).join('\n');
+  if (!isApple()) { copyShoppingList(id); return; }
+  if (!localStorage.getItem('recall.shortcutInstalled')) { openSetup(id); return; }
+  location.href = 'shortcuts://run-shortcut?name=' + encodeURIComponent(SHORTCUT_NAME) + '&input=text&text=' + encodeURIComponent(text);
+}
+
+async function copyShoppingList(id, btn) {
+  const r = recipes.find(x => x.id === id);
+  if (!r) return;
+  const text = ingredientLines(r).join('\n');
+  try { await navigator.clipboard.writeText(text); } catch (e) { prompt('Copy your list:', text); return; }
+  if (btn) { const old = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = old, 1500); }
+}
+
+function openSetup(id) {
+  const after = id ? `<p style="margin-top:1rem"><button class="shop-btn" onclick="localStorage.setItem('recall.shortcutInstalled','1'); closeSetup(); sendToReminders(${id})">Done — send this recipe</button></p>` : '';
+  document.getElementById('setupBody').innerHTML = `
+    <h2>Send to Reminders</h2>
+    <p>Tap <em>Send to Reminders</em> on any recipe and every ingredient lands in a <strong>Groceries</strong> list on your iPhone as a tickable item. It needs a small Shortcut, once.</p>
+    ${SHORTCUT_ICLOUD ? `<p><a class="shop-btn" style="display:inline-block;text-decoration:none" href="${SHORTCUT_ICLOUD}">Get the Shortcut</a></p>` : `
+    <ol class="instructions-list" style="margin-top:0.8rem">
+      <li>Open the <strong>Shortcuts</strong> app and tap <strong>+</strong>.</li>
+      <li>Name it exactly <strong>${SHORTCUT_NAME}</strong>.</li>
+      <li>Add the action <strong>Split Text</strong>: split <em>Shortcut Input</em> by <em>New Lines</em>.</li>
+      <li>Add <strong>Add New Reminder</strong>: the reminder is <em>Split Text</em>, the list is <strong>Groceries</strong> (create it in Reminders first).</li>
+      <li>Tap <strong>Done</strong>. That is it.</li>
+    </ol>`}
+    <p class="shop-note" style="margin-top:1rem">On Android or Windows, use <em>Copy list</em> and paste into any to-do app.</p>
+    ${after}
+  `;
+  document.getElementById('setupModal').classList.add('active');
+}
+function closeSetup() { document.getElementById('setupModal').classList.remove('active'); }
 
 document.getElementById('recipeModal').addEventListener('click', e => {
   if (e.target === document.getElementById('recipeModal')) closeModal();
@@ -1452,71 +1530,6 @@ populateContributorSelect();
 buildFilters();
 render();
 loadWeather();
-
-// ── SOCIAL MEDIA FALLBACK ────────────────────────────────────────────
-function isSocialUrl(url) {
-  return /instagram\.com|tiktok\.com|youtube\.com|youtu\.be/i.test(url);
-}
-
-function autofillWithFallback() {
-  const link = document.getElementById('formSourceLink');
-  const url = (link && link.value.trim()) || '';
-  const isLinkMode = document.getElementById('addInputLink').style.display !== 'none';
-  if (isLinkMode && isSocialUrl(url)) {
-    document.getElementById('autofillFallback').style.display = 'block';
-    document.getElementById('autofillStatus').textContent = "Can’t auto-scrape social media — enter the dish name below.";
-    setTimeout(() => document.getElementById('dishNameInput').focus(), 100);
-    return;
-  }
-  autofill();
-}
-
-async function searchByDishName() {
-  const dishInput = document.getElementById('dishNameInput');
-  const dish = dishInput ? dishInput.value.trim() : '';
-  if (!dish) { dishInput && dishInput.focus(); return; }
-  const btn = document.getElementById('dishSearchBtn');
-  const status = document.getElementById('autofillStatus');
-  btn.disabled = true; btn.textContent = 'Searching…';
-  status.textContent = 'Looking up "' + dish + '" in recipe database…';
-  try {
-    const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + encodeURIComponent(dish));
-    const data = await res.json();
-    if (!data.meals || !data.meals.length) {
-      status.textContent = 'No results for "' + dish + '" — try a different spelling.';
-      btn.disabled = false; btn.textContent = 'Find Recipe'; return;
-    }
-    const meal = data.meals[0];
-    const ings = [];
-    for (let i = 1; i <= 20; i++) {
-      const ing = (meal['strIngredient' + i] || '').trim();
-      const meas = (meal['strMeasure' + i] || '').trim();
-      if (ing) ings.push(meas ? meas + ' ' + ing : ing);
-    }
-    const steps = (meal.strInstructions || '')
-      .split(/\r?\n+/)
-      .map(s => s.replace(/^\s*\d+[\.)] */, '').trim())
-      .filter(s => s.length > 5);
-    document.getElementById('formTitle').value = meal.strMeal || dish;
-    document.getElementById('formCuisine').value = meal.strArea || '';
-    document.getElementById('formIngredients').value = ings.join(', ');
-    const instrEl = document.getElementById('formInstructions');
-    instrEl.value = '[Unverified — best match from TheMealDB, not the original post]\n' + steps.join('\n');
-    if (!document.getElementById('formMood').value) document.getElementById('formMood').value = 'unverified';
-    status.textContent = '✓ Filled from TheMealDB: "' + meal.strMeal + '" — not the original recipe, edit as needed.';
-    document.getElementById('autofillFallback').style.display = 'none';
-  } catch(err) {
-    status.textContent = 'Search failed — fill in manually.';
-  }
-  btn.disabled = false; btn.textContent = 'Find Recipe';
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'dishNameInput') {
-    e.preventDefault(); searchByDishName();
-  }
-});
-
 </script>
 </body>
 </html>
